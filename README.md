@@ -7,7 +7,7 @@ Projeto iniciado com Yarn.
 Linguagem utilizada: Inglês
 
 Nome dos Bancos de Dados:
-OneHealth_Database 
+onehealth_database 
 
 Nomeação das variaveis:
 CamelCase
