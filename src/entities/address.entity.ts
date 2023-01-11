@@ -14,7 +14,7 @@ class Address {
   @Column({ length: 5 })
   number: string;
 
-  @Column({ length: 20 })
+  @Column({ length: 50 })
   city: string;
 
   @Column({ length: 2 })

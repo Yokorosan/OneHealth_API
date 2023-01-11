@@ -17,7 +17,7 @@ class Diagnostic {
   description: string;
 
   @ManyToOne(() => Users, (user) => user.diagnostic)
-  pacient: Users;
+  user: Users;
 
   @ManyToOne(() => UsersMedic, (userMedic) => userMedic.diagnostic)
   medic: UsersMedic;

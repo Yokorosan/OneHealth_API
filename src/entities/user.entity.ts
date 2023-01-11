@@ -27,7 +27,7 @@ class Users {
   @Column({ length: 100 })
   email: string;
 
-  @Column({ length: 20 })
+  @Column({ length: 100 })
   password: string;
 
   @Column({ length: 15 })
@@ -71,7 +71,7 @@ class Users {
   )
   appointment: ScheduledAppointment[];
 
-  @OneToMany(() => Diagnostic, (diagnostic) => diagnostic.pacient, {
+  @OneToMany(() => Diagnostic, (diagnostic) => diagnostic.user, {
     onDelete: "CASCADE",
   })
   diagnostic: Diagnostic[];
