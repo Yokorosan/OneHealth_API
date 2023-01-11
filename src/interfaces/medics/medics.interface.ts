@@ -1,4 +1,4 @@
-export interface IDoctorRequest {
+export interface IMedicRequest {
   name: string;
   email: string;
   password: string;
@@ -15,7 +15,7 @@ export interface IDoctorRequest {
   isAdm?: boolean;
 }
 
-export interface IDoctor {
+export interface IMedic {
   id: string;
   name: string;
   email: string;

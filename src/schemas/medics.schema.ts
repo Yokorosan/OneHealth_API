@@ -1,8 +1,8 @@
 import * as yup from "yup";
 import { SchemaOf } from "yup";
-import { IDoctor } from "../interfaces/doctors/doctors.interface";
+import { IMedic } from "../interfaces/medics/medics.interface";
 
-export const doctorWhitoutPassSchema = yup.object().shape({
+export const MedicWhitoutPassSchema = yup.object().shape({
   id: yup.string().notRequired(),
   name: yup.string().notRequired(),
   email: yup.string().notRequired(),

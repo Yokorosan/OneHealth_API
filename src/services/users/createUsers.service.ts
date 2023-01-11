@@ -1,11 +1,9 @@
 import AppDataSource from "../../data-source";
 import { Users } from "../../entities/user.entity";
-import { IUserRequest } from "../../interfaces/user.interface";
+import { IUserRequest } from "../../interfaces/users/user.interface";
 
-  export  const  createUserService = async (body:IUserRequest) => {
-    const userRepo = AppDataSource.getRepository(Users);
-    const user = userRepo.create(body);
-    return await userRepo.save(user);
-
-    };
-    
+export const createUserService = async (body: IUserRequest) => {
+  const userRepo = AppDataSource.getRepository(Users);
+  const user = userRepo.create(body);
+  return await userRepo.save(user);
+};
