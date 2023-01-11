@@ -3,14 +3,14 @@ import AppDataSource from "../../data-source";
 import { UsersMedic } from "../../entities/usermedic.entity";
 import { AppError } from "../../errors/AppError";
 
-export const ensureDoctorNoRepeat = async (
+export const ensureMedicNoRepeatMiddleware = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  const doctorsRepository = AppDataSource.getRepository(UsersMedic);
+  const medicsRepository = AppDataSource.getRepository(UsersMedic);
 
-  const alredyExists = await doctorsRepository.findOneBy({
+  const alredyExists = await medicsRepository.findOneBy({
     email: req.body.email,
   });
 

@@ -7,6 +7,7 @@ declare global {
         id: string;
         isAdm: boolean;
         isActive: boolean;
+        isMedic: boolean;
       };
     }
   }

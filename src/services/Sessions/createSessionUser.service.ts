@@ -2,7 +2,7 @@ import { compare } from "bcryptjs";
 import AppDataSource from "../../data-source";
 import { UsersMedic } from "../../entities/usermedic.entity";
 import { AppError } from "../../errors/AppError";
-import { IUserLogin } from "../../interfaces/user.interface";
+import { IUserLogin } from "../../interfaces/users/user.interface";
 import jwt from "jsonwebtoken";
 import { Users } from "../../entities/user.entity";
 
@@ -38,6 +38,7 @@ const createSessionUserService = async ({
       {
         isAdm: user.isAdm,
         isActive: user.isActive,
+        isMedic: false,
       },
       process.env.SECRET_KEY!,
       {
@@ -52,10 +53,11 @@ const createSessionUserService = async ({
       throw new AppError("Email or password invalid", 403);
     }
 
-    const token = jwt.sign(
+    token = jwt.sign(
       {
         isAdm: false,
         isActive: userMedic.isActive,
+        isMedic: true,
       },
       process.env.SECRET_KEY!,
       {
