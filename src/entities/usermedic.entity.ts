@@ -28,7 +28,7 @@ class UsersMedic {
   @Column({ length: 100 })
   email: string;
 
-  @Column({ length: 20 })
+  @Column({ length: 100 })
   password: string;
 
   @Column({ length: 15 })
