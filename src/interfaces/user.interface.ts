@@ -1,3 +1,7 @@
+export interface IUserLogin {
+  email: string;
+  password: string;
+}
 
 export interface IAddressRequest {
     district: string
@@ -16,3 +20,4 @@ export interface IUserRequest {
     isAdm?: boolean
     address?:IAddressRequest
 }
+
