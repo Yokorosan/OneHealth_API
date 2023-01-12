@@ -1,9 +1,10 @@
 import AppDataSource from "../../data-source";
 import { UsersMedic } from "../../entities/usermedic.entity";
 import {
-  IMedic,
+  IMedicResponse,
   IMedicRequest,
 } from "../../interfaces/medics/medics.interface";
+import { MedicWhitoutPassSchema } from "../../schemas/medics.schema";
 
 export const createMedicService = async (data: any) => {
   const medicRepository = AppDataSource.getRepository(UsersMedic);
@@ -12,5 +13,10 @@ export const createMedicService = async (data: any) => {
 
   await medicRepository.save(createdMedic);
 
-  return createdMedic;
+  const medicWhitoutPass = await MedicWhitoutPassSchema.validate(createdMedic, {
+    abortEarly: false,
+    stripUnknown: true,
+  });
+
+  return medicWhitoutPass;
 };

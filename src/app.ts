@@ -5,7 +5,7 @@ import handleError from "./errors/handleError";
 
 import { sessionRoutes } from "./routers/session.routes";
 import usersRouter from "./routers/users.routes";
-import MedicsRoutes from "./routers/medics.routes";
+import medicsRoutes from "./routers/medics.routes";
 import addressRoutes from "./routers/address.routes";
 
 
@@ -13,7 +13,7 @@ const app = express();
 app.use(express.json());
 
 app.use("/users", usersRouter)
-app.use("/medics", MedicsRoutes);
+app.use("/medics", medicsRoutes);
 app.use("/address", addressRoutes);
 app.use("/login", sessionRoutes);
 
