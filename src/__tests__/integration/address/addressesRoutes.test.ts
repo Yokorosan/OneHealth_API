@@ -220,9 +220,6 @@ describe("Address route tests", () => {
       email: mockedUserMedicLogin.email,
     });
 
-    console.log(userLoginResponse);
-    console.log(medic);
-
     const response = await request(app)
       .patch(`${baseUrl2}/${medic?.address}`)
       .set("Authorization", `Bearer ${userLoginResponse.body.token}`)

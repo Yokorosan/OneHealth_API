@@ -7,6 +7,7 @@ import {
   mockedUserAdmin,
   mockedUserAdminLogin,
   mockedUserMedicLogin,
+  mockedUserMedicLoginChanged,
 } from "../../mocks";
 
 describe("/medics", () => {
@@ -56,40 +57,35 @@ describe("/medics", () => {
       .post("/login")
       .send(mockedUserMedicLogin);
 
-    const findUserMedicToBeDeleted = await request(app)
-      .get("/medics")
+    const findUserMedicToBeEdited = await request(app)
+      .get("/medics/profile")
       .set("Authorization", `Bearer ${userMedicLoginResponse.body.token}`);
 
-    console.log(findUserMedicToBeDeleted.body);
-
     const response = await request(app)
-      .patch(`/medics/${findUserMedicToBeDeleted.body.id}`)
+      .patch(`/medics/${findUserMedicToBeEdited.body.id}`)
       .send(newValues)
       .set("Authorization", `Bearer ${userMedicLoginResponse.body.token}`);
 
-    const userMadicUpdated = await request(app)
-      .get("/medics")
-      .set("Authorization", userMedicLoginResponse.body.token);
-
     expect(response.status).toBe(200);
-    expect(userMadicUpdated.body[0].name).toEqual("Darth Vader");
-    expect(userMadicUpdated.body[0].email).toEqual("vader@kenzie.com.br");
+    expect(response.body.name).toEqual("Darth Vader");
+    expect(response.body.email).toEqual("vader@kenzie.com.br");
+    expect(response.body).not.toHaveProperty("password");
   });
 
   test("DELETE /medics/:id  - Must be able to delete a medic user", async () => {
     const userMedicLoginResponse = await request(app)
       .post("/login")
-      .send(mockedUserMedicLogin);
+      .send(mockedUserMedicLoginChanged);
 
     const findUserMedicToBeDeleted = await request(app)
-      .get("/medics")
+      .get("/medics/profile")
       .set("Authorization", `Bearer ${userMedicLoginResponse.body.token}`);
 
     const response = await request(app)
-      .delete(`/medics/${findUserMedicToBeDeleted.body[0].id}`)
+      .delete(`/medics/${findUserMedicToBeDeleted.body.id}`)
       .set("Authorization", `Bearer ${userMedicLoginResponse.body.token}`);
 
-    await request(app).post("/user").send(mockedUserAdmin);
+    await request(app).post("/users").send(mockedUserAdmin);
 
     const userAdminLoginResponse = await request(app)
       .post("/login")
@@ -98,8 +94,6 @@ describe("/medics", () => {
     const findUserMedic = await request(app)
       .get("/medics")
       .set("Authorization", `Bearer ${userAdminLoginResponse.body.token}`);
-
-    console.log(findUserMedic.body);
 
     expect(response.status).toBe(204);
     expect(findUserMedic.body[0].isActive).toBe(false);

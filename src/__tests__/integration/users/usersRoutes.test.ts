@@ -99,6 +99,130 @@ describe("/users", () => {
     expect(response.body[1].isActive).toBe(false);
   });
 
+  test("PATCH /users/:id - Should not be able to edit without authorization", async () => {
+    const response = await request(app).patch(
+      "/users/91da6c72-8a48-458c-9cd3-48ff730b3215"
+    );
+
+    expect(response.body).toHaveProperty("message");
+    expect(response.status).toBe(401);
+  });
+
+  test("PATCH /users/:id - Should not be able to change another user without being admin", async () => {
+    const userLoginResponse = await request(app)
+      .post("/login")
+      .send(mockedUser);
+
+    const userAdminLoginResponse = await request(app)
+      .post("/login")
+      .send(mockedUserAdminLogin);
+
+    const userAdminId = await request(app)
+      .get("/users/profile")
+      .set("Authorization", `Bearer ${userAdminLoginResponse.body.token}`);
+
+    const response = await request(app)
+      .patch(`/users/${userAdminId.body.id}`)
+      .send({ name: "Caroline" })
+      .set("Authorization", `Bearer ${userLoginResponse.body.token}`);
+
+    expect(response.status).toBe(403);
+    expect(response.body).toHaveProperty("message");
+  });
+
+  test("PATCH /users/:id - Should not be able to edit isActive, isAdm or Id", async () => {
+    const userLoginResponse = await request(app)
+      .post("/login")
+      .send(mockedUser);
+
+    const userId = await request(app)
+      .get("/users/profile")
+      .set("Authorization", `Bearer ${userLoginResponse.body.token}`);
+
+    const response = await request(app)
+      .patch(`/users/${userId.body.id}`)
+      .send({ isActive: false, isAdm: true, id: "salsicha" })
+      .set("Authorization", `Bearer ${userLoginResponse.body.token}`);
+
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty("message");
+  });
+
+  test("PATCH /users/:id - should not be able to edit email to an alredy existing email", async () => {
+    const userLoginResponse = await request(app)
+      .post("/login")
+      .send(mockedUser);
+
+    const userId = await request(app)
+      .get("/users/profile")
+      .set("Authorization", `Bearer ${userLoginResponse.body.token}`);
+
+    const response = await request(app)
+      .patch(`/users/${userId.body.id}`)
+      .send({ email: "mikhail@kenzie.com.br" })
+      .set("Authorization", `Bearer ${userLoginResponse.body.token}`);
+
+    expect(response.status).toBe(409);
+    expect(response.body).toHaveProperty("message");
+  });
+
+  test("PATCH /users/:id - Admin should be able to edit user", async () => {
+    const userLoginResponse = await request(app)
+      .post("/login")
+      .send(mockedUser);
+
+    const userId = await request(app)
+      .get("/users/profile")
+      .set("Authorization", `Bearer ${userLoginResponse.body.token}`);
+
+    const userAdminLoginResponse = await request(app)
+      .post("/login")
+      .send(mockedUserAdminLogin);
+
+    const response = await request(app)
+      .patch(`/users/${userId.body.id}`)
+      .send({ name: "Mikhail" })
+      .set("Authorization", `Bearer ${userAdminLoginResponse.body.token}`);
+
+    expect(response.status).toBe(200);
+    expect(response.body.name).toEqual("Mikhail");
+  });
+
+  test("PATCH /users/:id - should be able to edit user", async () => {
+    const userLoginResponse = await request(app)
+      .post("/login")
+      .send(mockedUser);
+
+    const userId = await request(app)
+      .get("/users/profile")
+      .set("Authorization", `Bearer ${userLoginResponse.body.token}`);
+
+    const response = await request(app)
+      .patch(`/users/${userId.body.id}`)
+      .send({ name: "Caroline" })
+      .set("Authorization", `Bearer ${userLoginResponse.body.token}`);
+
+    expect(response.status).toBe(200);
+    expect(response.body.name).toEqual("Caroline");
+  });
+
+  test("DELETE /users/:id - Should not be able to delete a user without Authorization", async () => {
+    const userAdminLoginResponse = await request(app)
+      .post("/login")
+      .send(mockedUserAdminLogin);
+
+    const findUserToBeDeleted = await request(app)
+      .get("/users")
+      .set("Authorization", `Bearer ${userAdminLoginResponse.body.token}`);
+
+    const response = await request(app).delete(
+      `/users/${findUserToBeDeleted.body[0].id}`
+    );
+
+    expect(response.body).toHaveProperty("message");
+    expect(response.status).toBe(401);
+  });
+
   test("DELETE /users/:id - Should be able to soft delete a user", async () => {
     const userAdminLoginResponse = await request(app)
       .post("/login")
@@ -111,6 +235,7 @@ describe("/users", () => {
     const response = await request(app)
       .delete(`/users/${findUserToBeDeleted.body[0].id}`)
       .set("Authorization", `Bearer ${userAdminLoginResponse.body.token}`);
+
     const findUser = await request(app)
       .get("/users")
       .set("Authorization", `Bearer ${userAdminLoginResponse.body.token}`);
