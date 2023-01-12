@@ -1,13 +1,15 @@
 import { DataSource } from "typeorm";
 import request from "supertest";
 import app from "../../../app";
-import AppDataSource from "../../../data-source";
 import {
+  mockedDeletedUser,
+  mockedDeletedUserLogin,
   mockedUser,
   mockedUserAdmin,
   mockedUserAdminLogin,
   mockedUserLogin,
-} from "../../mock";
+} from "../../mocks";
+import AppDataSource from "../../../data-source";
 
 describe("/users", () => {
   let connection: DataSource;
@@ -52,11 +54,13 @@ describe("/users", () => {
     expect(response.status).toBe(409);
   });
 
-  test("GET /users - Must be able to list all registered non medic users", async () => {
+  test("GET /users - Must be able to list all registered Active non medic users", async () => {
     await request(app).post("/users").send(mockedUserAdmin);
+
     const adminLoginResponse = await request(app)
       .post("/login")
       .send(mockedUserAdminLogin);
+
     const response = await request(app)
       .get("/users")
       .set("Authorization", `Bearer ${adminLoginResponse.body.token}`);
@@ -84,20 +88,41 @@ describe("/users", () => {
     expect(response.status).toBe(403);
   });
 
+  test("GET /users - Should be able to list all registered Active and Not Active  Non Medic Users", async () => {
+    await request(app).post("/users").send(mockedDeletedUser);
+    const newUserLoginResponse = await request(app)
+      .post("/login")
+      .send(mockedDeletedUserLogin);
+    const findUserToBeDeleted = await request(app)
+      .get("/users")
+      .set("Authorization", `Bearer ${newUserLoginResponse.body.token}`);
+    await request(app).delete(`/users/${findUserToBeDeleted.body[0].id}`);
+
+    const userAdminLoginResponse = await request(app)
+      .post("/login")
+      .send(mockedUserAdminLogin);
+    const response = await request(app)
+      .get("/users")
+      .set("Authorization", `Bearer ${userAdminLoginResponse.body.token}`);
+
+    expect(response.body).toHaveLength(3);
+    expect(response.body[0]).not.toHaveProperty("password");
+  });
+
   test("DELETE /users/:id - Should be able to soft delete a user", async () => {
-    const userAdmingLoginResponse = await request(app)
+    const userAdminLoginResponse = await request(app)
       .post("/login")
       .send(mockedUserAdminLogin);
     const findUserToBeDeleted = await request(app)
       .get("/users")
-      .set("Authorization", `Bearer ${userAdmingLoginResponse.body.token}`);
+      .set("Authorization", `Bearer ${userAdminLoginResponse.body.token}`);
 
     const response = await request(app).delete(
       `/users/${findUserToBeDeleted.body[0].id}`
     );
     const findUser = await request(app)
       .get("/users")
-      .set("Authorization", `Bearer ${userAdmingLoginResponse.body.token}`);
+      .set("Authorization", `Bearer ${userAdminLoginResponse.body.token}`);
 
     expect(response.status).toBe(204);
     expect(findUser.body[0].isActive).toBe(false);

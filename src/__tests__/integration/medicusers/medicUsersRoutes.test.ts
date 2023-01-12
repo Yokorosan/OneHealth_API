@@ -2,7 +2,7 @@ import { DataSource } from "typeorm";
 import request from "supertest";
 import app from "../../../app";
 import AppDataSource from "../../../data-source";
-import { mockedMedic } from "../../mock";
+import { mockedMedic } from "../../mocks";
 
 describe("/medics", () => {
   let connection: DataSource;

@@ -13,6 +13,13 @@ export const mockedUser = {
   phone: "(19)99999-0000",
 };
 
+export const mockedDeletedUser = {
+  name: "Yokoro",
+  email: "yokoro@kenzie.com.br",
+  password: "123eE&456",
+  phone: "(18)99999-9999",
+};
+
 export const mockedMedic = {
   name: "Berrylium",
   email: "berryl@kenzie.com.br",
@@ -51,5 +58,10 @@ export const mockedUserLogin = {
 
 export const mockedUserAdminLogin = {
   email: "mikhail@kenzie.com.br",
+  password: "123eE&456",
+};
+
+export const mockedDeletedUserLogin = {
+  email: "yokoro@kenzie.com.br",
   password: "123eE&456",
 };
