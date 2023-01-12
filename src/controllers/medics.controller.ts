@@ -1,12 +1,14 @@
 import { Request, Response } from "express";
-import { IMedicUpdate } from "../interfaces/medics/medics.interface";
+import { IMedicRequest } from "../interfaces/medics/medics.interface";
 import { createMedicService } from "../services/medics/createMedic.service";
 import deleteUserMedicService from "../services/medics/deleteUserMedic.service";
 import { listMedicsService } from "../services/medics/listMedic.service";
 import updateUserMedicService from "../services/medics/updateUserMedic.service";
 
 const createMedicController = async (req: Request, res: Response) => {
-  const newMedic = await createMedicService(req.body);
+  const medicData: IMedicRequest = req.body;
+
+  const newMedic = await createMedicService(medicData);
 
   return res.status(201).json(newMedic);
 };

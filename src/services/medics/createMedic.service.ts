@@ -6,7 +6,9 @@ import {
 } from "../../interfaces/medics/medics.interface";
 import { MedicWhitoutPassSchema } from "../../schemas/medics.schema";
 
-export const createMedicService = async (data: any) => {
+export const createMedicService = async (
+  data: any
+): Promise<IMedicResponse> => {
   const medicRepository = AppDataSource.getRepository(UsersMedic);
 
   const createdMedic = medicRepository.create(data);

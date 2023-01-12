@@ -4,6 +4,7 @@ export interface IMedicRequest {
   password: string;
   phone: string;
   isWhatsApp: boolean;
+  isActive?: boolean;
   address: {
     district: string;
     zipCode: string;
@@ -34,7 +35,6 @@ export interface IMedicResponse {
   isActive?: boolean;
   createdAt?: Date;
   updatedAt?: Date;
-  deletedAt?: Date | null;
 }
 
 export interface IMedicUpdate {
