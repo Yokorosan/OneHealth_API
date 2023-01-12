@@ -14,11 +14,13 @@ import { ensureUserDataIsValidMiddleware } from "../middlewares/users/ensureUser
 import { ensureUserIdIsValidMiddelware } from "../middlewares/users/ensureUserIdIsValid.middelware";
 import { ensureUserIsAdmMiddleware } from "../middlewares/users/ensureUserIsAdm.middleware";
 import { ensureUsersNoRepeatMiddleware } from "../middlewares/users/ensureUserNoRepeatMiddleware";
-import { UpdateUserSchema, UsersWhitoutPassSchema } from "../schemas/users.shemas";
+import {
+  UpdateUserSchema,
+  UsersWhitoutPassSchema,
+} from "../schemas/users.shemas";
 
 const usersRouter = Router();
 
-<<<<<<< HEAD
 usersRouter.post(
   "",
   ensureUserDataIsValidMiddleware(UsersWhitoutPassSchema),
@@ -31,6 +33,7 @@ usersRouter.patch(
   ensureAuthMiddleware,
   ensureUserIdIsValidMiddelware,
   ensureUserIsAdmOrIsYourOwnIdMiddlware,
+  ensureUsercorrectDataForUpdateMiddleware(UpdateUserSchema),
   updateUserController
 );
 usersRouter.get(
@@ -39,13 +42,6 @@ usersRouter.get(
   ensureUserIsAdmMiddleware,
   getUsersController
 );
-=======
-usersRouter.post("", ensureUserDataIsValidMiddleware(UsersWhitoutPassSchema), ensureUsersNoRepeatMiddleware, createUserController);
-usersRouter.patch("/:id",  ensureUsercorrectDataForUpdateMiddleware(UpdateUserSchema), updateUserController)
-usersRouter.get("", ensureAuthMiddleware, ensureUserIsAdmMiddleware, getUsersController)
-usersRouter.get("/profile", ensureAuthMiddleware, getUserProfileController)
-usersRouter.delete("/:id", ensureUserIdIsValidMiddelware, softDeleteUserController)
->>>>>>> 8c90d89eec150a75cd080b69fe012cc5721b334b
 
 usersRouter.get("/profile", ensureAuthMiddleware, getUserProfileController);
 
