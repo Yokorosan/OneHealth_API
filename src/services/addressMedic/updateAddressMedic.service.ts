@@ -8,13 +8,14 @@ const updateAddressMedicService = async (
   addressMedicData: IAddressRequest,
   idAddressMedic: string
 ) => {
-  const addressMedicSerializer = await addressRequestSchema.validate(
-    addressMedicData,
-    {
+  try {
+    await addressRequestSchema.validate(addressMedicData, {
       stripUnknown: true,
       abortEarly: false,
-    }
-  );
+    });
+  } catch {
+    throw new AppError("invalid fields", 403);
+  }
 
   const addressMedicRepository = AppDataSource.getRepository(UserAddress);
 
@@ -28,7 +29,7 @@ const updateAddressMedicService = async (
 
   const updateAddressMedic = addressMedicRepository.create({
     ...addressMedic,
-    ...addressMedicSerializer,
+    ...addressMedicData,
   });
 
   await addressMedicRepository.save(updateAddressMedic);

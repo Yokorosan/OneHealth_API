@@ -8,13 +8,15 @@ export const ensureUserIsAdmOrIsYourOwnIdMiddlware = (
 ) => {
   const isAdm = req.user.isAdm;
 
-  const userMedicToDeleteOrEditId = req.params.id;
+  const userToBeDeleteOrEditId = req.params.id;
 
   const userThatMakesTheRequestId = req.user.id;
 
-  if (!isAdm && userThatMakesTheRequestId !== userMedicToDeleteOrEditId) {
+  if (!isAdm && userThatMakesTheRequestId !== userToBeDeleteOrEditId) {
     throw new AppError("Missing admin authorization", 403);
   }
 
   return next();
 };
+
+export default ensureUserIsAdmOrIsYourOwnIdMiddlware;
