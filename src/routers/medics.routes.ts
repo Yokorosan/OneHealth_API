@@ -3,6 +3,7 @@ import {
   createMedicController,
   deleteMedicController,
   listMedicsController,
+  retrieveMedicDataController,
   updateMedicController,
 } from "../controllers/medics.controller";
 import { ensureAddressNoRepeatMiddleware } from "../middlewares/medics/ensureAddressNoRepeat.middleware";
@@ -28,6 +29,7 @@ medicsRoutes.post(
 );
 
 medicsRoutes.get("", ensureAuthMiddleware, listMedicsController);
+medicsRoutes.get("/profile", ensureAuthMiddleware, retrieveMedicDataController);
 medicsRoutes.patch(
   "/:id",
   ensureAuthMiddleware,
