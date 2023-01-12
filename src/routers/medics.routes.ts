@@ -7,7 +7,7 @@ import {
 } from "../controllers/medics.controller";
 import { ensureAddressNoRepeatMiddleware } from "../middlewares/medics/ensureAddressNoRepeat.middleware";
 import { ensureMedicNoRepeatMiddleware } from "../middlewares/medics/ensureMedicsNoRepeat.middleware";
-import { ensureUserIsAdmOrIsYourOwnIdMiddlware } from "../middlewares/medics/ensureUserIsAdmOrIsYourOwnId.middleware";
+import ensureUserIsAdmOrIsYourOwnIdMiddlware from "../middlewares/medics/ensureUserIsAdmOrIsYourOwnId.middleware";
 import { ensureValidData } from "../middlewares/medics/ensureValidData.middleware";
 import { verifySpecialityMiddleware } from "../middlewares/medics/verifySpeciality.middleware";
 import { ensureUsersNoRepeatMiddleware } from "../middlewares/users/ensureUserNoRepeatMiddleware";

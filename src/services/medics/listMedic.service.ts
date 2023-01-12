@@ -3,7 +3,6 @@ import { UsersMedic } from "../../entities/usermedic.entity";
 import { AppError } from "../../errors/AppError";
 
 export const listMedicsService = async () => {
-  //isAdm, isUser
   const medicRepository = AppDataSource.getRepository(UsersMedic);
 
   // let allMedics = []
