@@ -3,6 +3,7 @@ export interface IMedicRequest {
   email: string;
   password: string;
   phone: string;
+  isAdm?: boolean;
   isWhatsApp: boolean;
   isActive?: boolean;
   address: {
@@ -13,7 +14,6 @@ export interface IMedicRequest {
     state: string;
   };
   speciality: string;
-  isAdm?: boolean;
 }
 
 export interface IMedicResponse {

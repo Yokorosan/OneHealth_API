@@ -1,9 +1,6 @@
 import AppDataSource from "../../data-source";
 import { UsersMedic } from "../../entities/usermedic.entity";
-import {
-  IMedicResponse,
-  IMedicRequest,
-} from "../../interfaces/medics/medics.interface";
+import { IMedicResponse } from "../../interfaces/medics/medics.interface";
 import { MedicWhitoutPassSchema } from "../../schemas/medics.schema";
 
 export const createMedicService = async (
