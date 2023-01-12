@@ -14,7 +14,7 @@ const updateAddressService = async (
       abortEarly: false,
     });
   } catch {
-    throw new AppError("invalid fields", 404);
+    throw new AppError("invalid fields", 403);
   }
 
   const addressRepository = AppDataSource.getRepository(Address);
