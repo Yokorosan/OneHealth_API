@@ -48,3 +48,7 @@ export const UsersWhitoutPassSchemaResponse: SchemaOf<IUserResponse> = yup
       })
       .notRequired(),
   });
+
+export const GetUsersSchema: SchemaOf<IUserResponse[]> = yup
+  .array()
+  .of(UsersWhitoutPassSchemaResponse);

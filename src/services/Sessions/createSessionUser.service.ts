@@ -10,10 +10,10 @@ const createSessionUserService = async ({
   email,
   password,
 }: IUserLogin): Promise<string> => {
-  let token = "";
-
   const userRepository = AppDataSource.getRepository(Users);
   const userMedicRepository = AppDataSource.getRepository(UsersMedic);
+
+  let token = "";
 
   const user = await userRepository.findOneBy({
     email: email,
@@ -32,13 +32,13 @@ const createSessionUserService = async ({
 
     token = jwt.sign(
       {
-        isAdm: user?.isAdm,
-        isActive: user?.isActive,
+        isAdm: user.isAdm,
+        isActive: user.isActive,
         isMedic: false,
       },
       process.env.SECRET_KEY!,
       {
-        subject: user?.id,
+        subject: user.id,
         expiresIn: "24h",
       }
     );
@@ -52,12 +52,12 @@ const createSessionUserService = async ({
     token = jwt.sign(
       {
         isAdm: false,
-        isActive: userMedic?.isActive,
+        isActive: userMedic.isActive,
         isMedic: true,
       },
       process.env.SECRET_KEY!,
       {
-        subject: userMedic?.id,
+        subject: userMedic.id,
         expiresIn: "24h",
       }
     );

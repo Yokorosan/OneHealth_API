@@ -15,7 +15,7 @@ export const ensureUsersNoRepeatMiddleware = async (
   });
 
   if (alredyExists) {
-    throw new AppError("Email is already in use!", 400);
+    throw new AppError("Email is already in use!", 409);
   }
 
   return next();
