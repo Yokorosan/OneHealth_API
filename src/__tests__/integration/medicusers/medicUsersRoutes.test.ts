@@ -54,15 +54,18 @@ describe("/medics", () => {
 
     const userMedicLoginResponse = await request(app)
       .post("/login")
-      .send(mockedMedic);
+      .send(mockedUserMedicLogin);
 
     const findUserMedicToBeDeleted = await request(app)
       .get("/medics")
       .set("Authorization", `Bearer ${userMedicLoginResponse.body.token}`);
 
+    console.log(findUserMedicToBeDeleted.body);
+
     const response = await request(app)
       .patch(`/medics/${findUserMedicToBeDeleted.body.id}`)
-      .send(newValues);
+      .send(newValues)
+      .set("Authorization", `Bearer ${userMedicLoginResponse.body.token}`);
 
     const userMadicUpdated = await request(app)
       .get("/medics")
@@ -74,8 +77,6 @@ describe("/medics", () => {
   });
 
   test("DELETE /medics/:id  - Must be able to delete a medic user", async () => {
-    await request(app).post("/medics").send(mockedMedic);
-
     const userMedicLoginResponse = await request(app)
       .post("/login")
       .send(mockedUserMedicLogin);
@@ -101,6 +102,6 @@ describe("/medics", () => {
     console.log(findUserMedic.body);
 
     expect(response.status).toBe(204);
-    // expect(findUserMedic.body[0].isActive).toBe(false);
+    expect(findUserMedic.body[0].isActive).toBe(false);
   });
 });

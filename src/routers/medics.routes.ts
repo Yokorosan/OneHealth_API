@@ -9,6 +9,10 @@ import { ensureAddressNoRepeatMiddleware } from "../middlewares/medics/ensureAdd
 import { ensureMedicNoRepeatMiddleware } from "../middlewares/medics/ensureMedicsNoRepeat.middleware";
 import { ensureValidData } from "../middlewares/medics/ensureValidData.middleware";
 import { verifySpecialityMiddleware } from "../middlewares/medics/verifySpeciality.middleware";
+import ensureUserIsAdmOrIsYourOwnIdMiddlware from "../middlewares/sessions/ensureUserIsAdmOrIsYourOwnId.middleware";
+import ensureAuthMiddleware from "../middlewares/sessions/esureAuth.middleware";
+import { ensureUsersNoRepeatMiddleware } from "../middlewares/users/ensureUserNoRepeatMiddleware";
+
 import { MedicsRequestSchema } from "../schemas/medics.schema";
 
 const medicsRoutes = Router();
@@ -17,12 +21,24 @@ medicsRoutes.post(
   "",
   ensureValidData(MedicsRequestSchema),
   ensureMedicNoRepeatMiddleware,
+  ensureUsersNoRepeatMiddleware,
   ensureAddressNoRepeatMiddleware,
   verifySpecialityMiddleware,
   createMedicController
 );
-medicsRoutes.get("", listMedicsController);
-medicsRoutes.patch("/:id", updateMedicController);
-medicsRoutes.delete("/:id", deleteMedicController);
+
+medicsRoutes.get("", ensureAuthMiddleware, listMedicsController);
+medicsRoutes.patch(
+  "/:id",
+  ensureAuthMiddleware,
+  ensureUserIsAdmOrIsYourOwnIdMiddlware,
+  updateMedicController
+);
+medicsRoutes.delete(
+  "/:id",
+  ensureAuthMiddleware,
+  ensureUserIsAdmOrIsYourOwnIdMiddlware,
+  deleteMedicController
+);
 
 export default medicsRoutes;
