@@ -13,7 +13,7 @@ const ensureTypeUserMiddleware = async (
   const userRepository = AppDataSource.getRepository(Users);
   const userMedicRepository = AppDataSource.getRepository(UsersMedic);
   const reqBody: IUserLogin = request.body;
-
+  console.log(request.body);
   const userPatient = await userRepository.find({
     withDeleted: true,
     where: {
@@ -21,7 +21,7 @@ const ensureTypeUserMiddleware = async (
       isActive: false,
     },
   });
-
+  console.log(userPatient);
   const userMedic = await userMedicRepository.find({
     withDeleted: true,
     where: {
@@ -29,7 +29,7 @@ const ensureTypeUserMiddleware = async (
       isActive: false,
     },
   });
-
+  console.log(userMedic);
   if (userPatient.length > 0 || userMedic.length > 0) {
     throw new AppError("User or password not found redux", 400);
   }
