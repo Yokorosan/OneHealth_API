@@ -6,19 +6,15 @@ export const listMedicsService = async () => {
   //isAdm, isUser
   const medicRepository = AppDataSource.getRepository(UsersMedic);
 
+  // let allMedics = []
+
   // if (isAdm) {
-  //   const allMedics = await medicRepository.find({
+  //   allMedics = await medicRepository.find({
   //     withDeleted: true,
   //   });
-
-  //   return allMedics;
+  // } else {
+  //   allMedics = await medicRepository.find();
   // }
 
-  // if (isUser) {
-  //   const activeMedics = await medicRepository.find();
-
-  //   return activeMedics;
-  // }
-
-  throw new AppError("Access denied!", 403);
+  // return allMedics;
 };
