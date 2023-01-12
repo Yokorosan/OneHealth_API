@@ -23,6 +23,14 @@ export interface IUserRequest {
   address?: IAddressRequest;
 }
 
+export interface IUserUpdateRequest {
+  name?: string;
+  email?: string;
+  password?: string;
+  phone?: string;
+  address?: IAddressRequest;
+}
+
 export interface IUserResponse {
   id?: string
   name?: string
