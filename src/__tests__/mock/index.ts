@@ -1,3 +1,5 @@
+import { IAddressRequest } from "../../interfaces/users/user.interface";
+
 export const mockedUserAdmin = {
   name: "Mikhail",
   email: "mikhail@kenzie.com.br",
@@ -52,4 +54,12 @@ export const mockedUserLogin = {
 export const mockedUserAdminLogin = {
   email: "mikhail@kenzie.com.br",
   password: "123eE&456",
+};
+
+export const mockedAddressRequest: IAddressRequest = {
+  district: "Rua Bartolomeu Rodriguês",
+  zipCode: "05818032",
+  number: "1250",
+  city: "São Paulo",
+  state: "SP",
 };
