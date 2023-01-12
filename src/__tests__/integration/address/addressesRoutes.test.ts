@@ -3,7 +3,7 @@ import { DataSource } from "typeorm";
 import app from "../../../app";
 import AppDataSource from "../../../data-source";
 import { Users } from "../../../entities/user.entity";
-import { mockedAddressRequest, mockedUserAdminLogin } from "../../mock";
+import { mockedAddressRequest, mockedUserAdminLogin } from "../../mocks";
 
 describe("Create address route tests", () => {
   let connection: DataSource;

@@ -1,12 +1,13 @@
 import { DataSource } from "typeorm";
 import path from "path";
 import "dotenv/config";
+import "reflect-metadata";
 
 const AppDataSource = new DataSource(
   process.env.NODE_ENV === "test"
     ? {
         type: "sqlite",
-        database: ":memory",
+        database: ":memory:",
         synchronize: true,
         entities: ["src/entities/*.ts"],
       }

@@ -12,9 +12,9 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { Address } from "./address.entity";
 import { ScheduledAppointment } from "./appoitments.entity";
 import { Diagnostic } from "./diagnostic.entity";
+import { UserAddress } from "./useraddress.entity";
 
 @Entity("user")
 class Users {
@@ -54,13 +54,13 @@ class Users {
     this.password = hashSync(this.password, 10);
   }
 
-  @OneToOne(() => Address, {
+  @OneToOne(() => UserAddress, {
     nullable: true,
     cascade: true,
     onDelete: "CASCADE",
   })
   @JoinColumn()
-  address: Address;
+  address: UserAddress;
 
   @OneToMany(
     () => ScheduledAppointment,
