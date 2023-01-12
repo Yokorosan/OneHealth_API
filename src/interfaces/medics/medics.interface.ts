@@ -29,7 +29,6 @@ export interface IMedicResponse {
     state: string;
   };
   speciality?: string;
-  isAdm?: boolean;
   isActive?: boolean;
   createdAt?: Date;
   updatedAt?: Date;

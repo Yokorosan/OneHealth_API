@@ -14,8 +14,7 @@ const createMedicController = async (req: Request, res: Response) => {
 };
 
 const listMedicsController = async (req: Request, res: Response) => {
-  const medics = await listMedicsService();
-  //req.user.isAdm, req.user.isUser
+  const medics = await listMedicsService(req.user.isAdm, req.user.isMedic);
 
   return res.status(200).json(medics);
 };
