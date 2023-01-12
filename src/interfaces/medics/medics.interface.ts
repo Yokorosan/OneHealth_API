@@ -3,9 +3,7 @@ export interface IMedicRequest {
   email: string;
   password: string;
   phone: string;
-  isAdm?: boolean;
-  isWhatsApp: boolean;
-  isActive?: boolean;
+  isWhatsApp?: boolean;
   address: {
     district: string;
     zipCode: string;

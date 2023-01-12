@@ -10,8 +10,7 @@ export const MedicsRequestSchema: SchemaOf<IMedicRequest> = yup.object().shape({
   email: yup.string().required(),
   password: yup.string().required(),
   phone: yup.string().required(),
-  isWhatsApp: yup.boolean().required(),
-  isActive: yup.boolean().notRequired(),
+  isWhatsApp: yup.boolean().notRequired(),
   address: yup
     .object()
     .shape({
