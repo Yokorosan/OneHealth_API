@@ -37,11 +37,6 @@ export const mockedMedic = {
   },
 };
 
-export const mockedUserMedicLogin = {
-  email: "berryl@kenzie.com.br",
-  password: "123t&R456",
-};
-
 export const mockedMedicNoWhats = {
   name: "Cardinal",
   email: "card@kenzie.com.br",
@@ -70,6 +65,11 @@ export const mockedUserAdminLogin = {
 
 export const mockedUserMedicLogin = {
   email: "berryl@kenzie.com.br",
+  password: "123t&R456",
+};
+
+export const mockedUserMedicLoginChanged = {
+  email: "vader@kenzie.com.br",
   password: "123t&R456",
 };
 

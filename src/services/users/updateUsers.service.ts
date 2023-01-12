@@ -12,6 +12,7 @@ export const updateUserService = async (
 ): Promise<IUserResponse> => {
   const userRepo = AppDataSource.getRepository(Users);
   const user = await userRepo.findOneBy({ id: userId });
+
   const newUser = userRepo.create({ ...user, ...body });
   await userRepo.update(userId, body);
   return await UsersWhitoutPassSchemaResponse.validate(newUser, {
