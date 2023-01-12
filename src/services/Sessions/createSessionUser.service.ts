@@ -9,11 +9,7 @@ import { Users } from "../../entities/user.entity";
 const createSessionUserService = async ({
   email,
   password,
-  isPatient,
-  isMedic,
 }: IUserLogin): Promise<string> => {
-  let token = "";
-
   const userRepository = AppDataSource.getRepository(Users);
   const userMedicRepository = AppDataSource.getRepository(UsersMedic);
 
@@ -25,8 +21,14 @@ const createSessionUserService = async ({
     email: email,
   });
 
-  if (isPatient) {
-    const passwordMatch = await compare(password, user?.password!);
+  if (!user && !userMedic) {
+    throw new AppError("Email or password invalid", 400);
+  }
+
+  let token = "";
+
+  if (user && !userMedic) {
+    const passwordMatch = await compare(password, user.password);
 
     if (!passwordMatch) {
       throw new AppError("Email or password invalid", 403);
@@ -34,18 +36,18 @@ const createSessionUserService = async ({
 
     token = jwt.sign(
       {
-        isAdm: user?.isAdm,
-        isActive: user?.isActive,
+        isAdm: user.isAdm,
+        isActive: user.isActive,
         isMedic: false,
       },
       process.env.SECRET_KEY!,
       {
-        subject: user?.id,
+        subject: user.id,
         expiresIn: "24h",
       }
     );
-  } else if (isMedic) {
-    const passwordMatch = await compare(password, user?.password!);
+  } else if (!user && userMedic) {
+    const passwordMatch = await compare(password, userMedic.password);
 
     if (!passwordMatch) {
       throw new AppError("Email or password invalid", 403);
@@ -54,12 +56,12 @@ const createSessionUserService = async ({
     token = jwt.sign(
       {
         isAdm: false,
-        isActive: userMedic?.isActive,
+        isActive: userMedic.isActive,
         isMedic: true,
       },
       process.env.SECRET_KEY!,
       {
-        subject: userMedic?.id,
+        subject: userMedic.id,
         expiresIn: "24h",
       }
     );
