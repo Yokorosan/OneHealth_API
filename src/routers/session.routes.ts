@@ -5,4 +5,4 @@ const sessionRoutes = Router();
 
 sessionRoutes.post("", createSessionController);
 
-export { sessionRoutes };
+export default sessionRoutes;
