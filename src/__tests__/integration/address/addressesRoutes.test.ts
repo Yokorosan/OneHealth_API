@@ -3,9 +3,15 @@ import { DataSource } from "typeorm";
 import app from "../../../app";
 import AppDataSource from "../../../data-source";
 import { Users } from "../../../entities/user.entity";
-import { mockedAddressRequest, mockedUserAdminLogin } from "../../mocks";
+import {
+  mockedAddressRequest,
+  mockedUser,
+  mockedUserAdmin,
+  mockedUserAdminLogin,
+  mockedUserLogin,
+} from "../../mocks";
 
-describe("Create address route tests", () => {
+describe("Address route tests", () => {
   let connection: DataSource;
   const baseUrl: string = "/address";
 
@@ -17,6 +23,9 @@ describe("Create address route tests", () => {
       .catch((err) => {
         console.error("Error during Data Source Initialization", err);
       });
+
+    await request(app).post("/users").send(mockedUser);
+    await request(app).post("/users").send(mockedUserAdmin);
   });
 
   afterAll(async () => {
@@ -35,7 +44,7 @@ describe("Create address route tests", () => {
   test("POST /address - Must be able to create a adress", async () => {
     const userLoginResponse = await request(app)
       .post("/login")
-      .send(mockedUserAdminLogin);
+      .send(mockedUserLogin);
 
     const reponse = await request(app)
       .post(baseUrl)
@@ -57,7 +66,7 @@ describe("Create address route tests", () => {
       .send(mockedUserAdminLogin);
 
     const response = await request(app).patch(
-      `${baseUrl}/:id${adminLoginResponse.body[0].address}`
+      `${baseUrl}/${adminLoginResponse.body.address}`
     );
 
     expect(response.body).toHaveProperty("message");
@@ -67,29 +76,28 @@ describe("Create address route tests", () => {
   test("PATCH /address/:id - Should not be able to update id field value", async () => {
     const userLoginResponse = await request(app)
       .post("/login")
-      .send({ mockedUserAdminLogin });
+      .send(mockedUserAdminLogin);
 
-    const userRepository = AppDataSource.getRepository(Users);
-
-    const seachUser = await userRepository.findOneBy({
-      email: userLoginResponse.body.email,
-    });
+    const address = await request(app)
+      .post(baseUrl)
+      .set("Authorization", `Bearer ${userLoginResponse.body.token}`)
+      .send(mockedAddressRequest);
 
     const response = await request(app)
-      .patch(`${baseUrl}/${seachUser?.address}`)
+      .patch(`${baseUrl}/${address.body.id}`)
       .set("Authorization", `Bearer ${userLoginResponse.body.token}`)
       .send({
         id: "13970660-5dbe-423a-9a9d-5c23b37943cf",
       });
 
     expect(response.body).toHaveProperty("message");
-    expect(response.status).toBe(401);
+    expect(response.status).toBe(404);
   });
 
-  test("PATCH /address/:id - Should not be able to update id field value", async () => {
+  test("PATCH /address/:id - Must not be able to update address with invalid id", async () => {
     const userLoginResponse = await request(app)
       .post("/login")
-      .send({ mockedUserAdminLogin });
+      .send(mockedUserAdminLogin);
 
     const response = await request(app)
       .patch(`${baseUrl}/:13970660-5dbe-423a-9a9d-5c23b37943cf`)
@@ -109,16 +117,15 @@ describe("Create address route tests", () => {
   test("PATCH /address/:id - Should be able to update address", async () => {
     const userLoginResponse = await request(app)
       .post("/login")
-      .send({ mockedUserAdminLogin });
+      .send(mockedUserLogin);
 
-    const userRepository = AppDataSource.getRepository(Users);
-
-    const seachUser = await userRepository.findOneBy({
-      email: userLoginResponse.body.email,
-    });
+    const address = await request(app)
+      .post(baseUrl)
+      .set("Authorization", `Bearer ${userLoginResponse.body.token}`)
+      .send(mockedAddressRequest);
 
     const response = await request(app)
-      .patch(`${baseUrl}/:${seachUser?.address}`)
+      .patch(`${baseUrl}/${address.body.id}`)
       .set("Authorization", `Bearer ${userLoginResponse.body.token}`)
       .send({
         district: "Rua José Vicente",
