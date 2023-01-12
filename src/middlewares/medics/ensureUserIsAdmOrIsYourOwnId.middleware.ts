@@ -6,9 +6,8 @@ export const ensureUserIsAdmOrIsYourOwnIdMiddlware = (
   res: Response,
   next: NextFunction
 ) => {
-  console.log(req.user);
   const isAdm = req.user.isAdm;
-  console.log(isAdm);
+
   const userMedicToDeleteOrEditId = req.params.id;
 
   const userThatMakesTheRequestId = req.user.id;
