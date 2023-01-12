@@ -11,7 +11,7 @@ const ensureAuthMiddleware = async (
   let token = req.headers.authorization;
 
   if (!token) {
-    throw new AppError("Invalid Token!", 401);
+    throw new AppError("Invalid Token! Redux", 401);
   }
 
   token = token.split(" ")[1];

@@ -7,6 +7,7 @@ import {
   updateUserController,
 } from "../controllers/users.controller";
 import { ensureMedicNoRepeatMiddleware } from "../middlewares/medics/ensureMedicsNoRepeat.middleware";
+import { ensureEmailIsUniqueMiddleware } from "../middlewares/sessions/ensureEmailIsUnique.middleware";
 import ensureUserIsAdmOrIsYourOwnIdMiddlware from "../middlewares/sessions/ensureUserIsAdmOrIsYourOwnId.middleware";
 import ensureAuthMiddleware from "../middlewares/sessions/esureAuth.middleware";
 import { ensureUsercorrectDataForUpdateMiddleware } from "../middlewares/users/ensureUsercorrectDataForUpdate.middleware";
@@ -34,6 +35,7 @@ usersRouter.patch(
   ensureUserIdIsValidMiddelware,
   ensureUserIsAdmOrIsYourOwnIdMiddlware,
   ensureUsercorrectDataForUpdateMiddleware(UpdateUserSchema),
+  ensureEmailIsUniqueMiddleware,
   updateUserController
 );
 usersRouter.get(
