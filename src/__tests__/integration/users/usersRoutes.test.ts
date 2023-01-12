@@ -54,21 +54,6 @@ describe("/users", () => {
     expect(response.status).toBe(409);
   });
 
-  test("GET /users - Must be able to list all registered Active non medic users", async () => {
-    await request(app).post("/users").send(mockedUserAdmin);
-
-    const adminLoginResponse = await request(app)
-      .post("/login")
-      .send(mockedUserAdminLogin);
-
-    const response = await request(app)
-      .get("/users")
-      .set("Authorization", `Bearer ${adminLoginResponse.body.token}`);
-
-    expect(response.body).toHaveLength(2);
-    expect(response.body[0]).not.toHaveProperty("password");
-  });
-
   test("GET /users - Should not be able to list any kind of user without Authorization", async () => {
     const response = await request(app).get("/users");
 
@@ -88,11 +73,13 @@ describe("/users", () => {
     expect(response.status).toBe(403);
   });
 
-  test("GET /users - Should be able to list all registered Active and Not Active  Non Medic Users", async () => {
+  test("GET /users - Should be able to list all registered Active and Not Active Non Medic Users", async () => {
     await request(app).post("/users").send(mockedDeletedUser);
+
     const newUserLoginResponse = await request(app)
       .post("/login")
       .send(mockedDeletedUserLogin);
+
     const findUserToBeDeleted = await request(app)
       .get("/users")
       .set("Authorization", `Bearer ${newUserLoginResponse.body.token}`);
@@ -101,6 +88,7 @@ describe("/users", () => {
     const userAdminLoginResponse = await request(app)
       .post("/login")
       .send(mockedUserAdminLogin);
+
     const response = await request(app)
       .get("/users")
       .set("Authorization", `Bearer ${userAdminLoginResponse.body.token}`);

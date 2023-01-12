@@ -11,7 +11,7 @@ const createSessionController = async (
 
   const token = await createSessionUserService(bodyRequest);
 
-  return response.json(token);
+  return response.json({ token: token });
 };
 
 export { createSessionController };

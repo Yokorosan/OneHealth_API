@@ -7,6 +7,7 @@ import {
   DeleteDateColumn,
   Entity,
   JoinColumn,
+  ManyToOne,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -63,10 +64,9 @@ class UsersMedic {
   @JoinColumn()
   address: Address;
 
-  @OneToOne(() => Speciality, {
+  @ManyToOne(() => Speciality, {
     nullable: false,
   })
-  @JoinColumn()
   speciality: Speciality;
 
   @OneToMany(
