@@ -13,6 +13,8 @@ const createSessionUserService = async ({
   const userRepository = AppDataSource.getRepository(Users);
   const userMedicRepository = AppDataSource.getRepository(UsersMedic);
 
+  let token = "";
+
   const user = await userRepository.findOneBy({
     email: email,
   });
@@ -21,14 +23,8 @@ const createSessionUserService = async ({
     email: email,
   });
 
-  if (!user && !userMedic) {
-    throw new AppError("Email or password invalid", 400);
-  }
-
-  let token = "";
-
-  if (user && !userMedic) {
-    const passwordMatch = await compare(password, user.password);
+  if (user !== null && userMedic === null) {
+    const passwordMatch = await compare(password, user?.password!);
 
     if (!passwordMatch) {
       throw new AppError("Email or password invalid", 403);
@@ -46,8 +42,8 @@ const createSessionUserService = async ({
         expiresIn: "24h",
       }
     );
-  } else if (!user && userMedic) {
-    const passwordMatch = await compare(password, userMedic.password);
+  } else if (user === null && userMedic !== null) {
+    const passwordMatch = await compare(password, userMedic?.password!);
 
     if (!passwordMatch) {
       throw new AppError("Email or password invalid", 403);
@@ -65,6 +61,8 @@ const createSessionUserService = async ({
         expiresIn: "24h",
       }
     );
+  } else {
+    throw new AppError("Email or password invalid", 403);
   }
   return token;
 };

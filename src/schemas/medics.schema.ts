@@ -10,7 +10,7 @@ export const MedicsRequestSchema: SchemaOf<IMedicRequest> = yup.object().shape({
   email: yup.string().required(),
   password: yup.string().required(),
   phone: yup.string().required(),
-  isWhatsApp: yup.boolean().required(),
+  isWhatsApp: yup.boolean().notRequired(),
   address: yup
     .object()
     .shape({
@@ -49,5 +49,4 @@ export const MedicWhitoutPassSchema: SchemaOf<IMedicResponse> = yup
     isActive: yup.boolean().notRequired(),
     createdAt: yup.date().notRequired(),
     updatedAt: yup.date().notRequired(),
-    deletedAt: yup.date().notRequired(),
   });

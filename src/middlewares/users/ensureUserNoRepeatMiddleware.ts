@@ -9,6 +9,7 @@ export const ensureUsersNoRepeatMiddleware = async (
   next: NextFunction
 ) => {
   const usersRepository = AppDataSource.getRepository(Users);
+
   const alredyExists = await usersRepository.findOneBy({
     email: req.body.email,
   });
