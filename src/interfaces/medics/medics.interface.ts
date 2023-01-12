@@ -11,17 +11,17 @@ export interface IMedicRequest {
     city: string;
     state: string;
   };
-  specialityId: string;
+  speciality: string;
   isAdm?: boolean;
 }
 
-export interface IMedic {
-  id: string;
-  name: string;
-  email: string;
-  phone: string;
-  isWhatsApp: boolean;
-  address: {
+export interface IMedicResponse {
+  id?: string;
+  name?: string;
+  email?: string;
+  phone?: string;
+  isWhatsApp?: boolean;
+  address?: {
     id: string;
     district: string;
     zipCode: string;
@@ -29,9 +29,26 @@ export interface IMedic {
     city: string;
     state: string;
   };
-  specialityId: string;
-  isAdm: boolean;
-  isActive: boolean;
-  createdAt: Date;
-  updatedAt: Date;
+  speciality?: string;
+  isAdm?: boolean;
+  isActive?: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
+  deletedAt?: Date | null;
+}
+
+export interface IMedicUpdate {
+  name?: string;
+  email?: string;
+  password?: string;
+  phone?: string;
+  isWhatsApp?: boolean;
+  address?: {
+    district?: string;
+    zipCode?: string;
+    number?: string;
+    city?: string;
+    state?: string;
+  };
+  speciality?: string;
 }
