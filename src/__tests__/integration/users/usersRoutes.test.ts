@@ -3,7 +3,6 @@ import request from "supertest";
 import app from "../../../app";
 import {
   mockedDeletedUser,
-  mockedDeletedUserLogin,
   mockedUser,
   mockedUserAdmin,
   mockedUserAdminLogin,
@@ -65,6 +64,7 @@ describe("/users", () => {
     const userLoginResponse = await request(app)
       .post("/login")
       .send(mockedUserLogin);
+
     const response = await request(app)
       .get("/users")
       .set("Authorization", `Bearer ${userLoginResponse.body.token}`);
@@ -76,18 +76,19 @@ describe("/users", () => {
   test("GET /users - Should be able to list all registered Active and Not Active Non Medic Users", async () => {
     await request(app).post("/users").send(mockedDeletedUser);
 
-    const newUserLoginResponse = await request(app)
-      .post("/login")
-      .send(mockedDeletedUserLogin);
-
-    const findUserToBeDeleted = await request(app)
-      .get("/users")
-      .set("Authorization", `Bearer ${newUserLoginResponse.body.token}`);
-    await request(app).delete(`/users/${findUserToBeDeleted.body[0].id}`);
+    await request(app).post("/users").send(mockedUserAdmin);
 
     const userAdminLoginResponse = await request(app)
       .post("/login")
       .send(mockedUserAdminLogin);
+
+    const findUserToBeDeleted = await request(app)
+      .get("/users")
+      .set("Authorization", `Bearer ${userAdminLoginResponse.body.token}`);
+
+    await request(app)
+      .delete(`/users/${findUserToBeDeleted.body[1].id}`)
+      .set("Authorization", `Bearer ${userAdminLoginResponse.body.token}`);
 
     const response = await request(app)
       .get("/users")
@@ -95,19 +96,21 @@ describe("/users", () => {
 
     expect(response.body).toHaveLength(3);
     expect(response.body[0]).not.toHaveProperty("password");
+    expect(response.body[1].isActive).toBe(false);
   });
 
   test("DELETE /users/:id - Should be able to soft delete a user", async () => {
     const userAdminLoginResponse = await request(app)
       .post("/login")
       .send(mockedUserAdminLogin);
+
     const findUserToBeDeleted = await request(app)
       .get("/users")
       .set("Authorization", `Bearer ${userAdminLoginResponse.body.token}`);
 
-    const response = await request(app).delete(
-      `/users/${findUserToBeDeleted.body[0].id}`
-    );
+    const response = await request(app)
+      .delete(`/users/${findUserToBeDeleted.body[0].id}`)
+      .set("Authorization", `Bearer ${userAdminLoginResponse.body.token}`);
     const findUser = await request(app)
       .get("/users")
       .set("Authorization", `Bearer ${userAdminLoginResponse.body.token}`);
