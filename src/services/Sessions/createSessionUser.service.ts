@@ -9,8 +9,6 @@ import { Users } from "../../entities/user.entity";
 const createSessionUserService = async ({
   email,
   password,
-  isPatient,
-  isMedic,
 }: IUserLogin): Promise<string> => {
   let token = "";
 
@@ -25,7 +23,7 @@ const createSessionUserService = async ({
     email: email,
   });
 
-  if (isPatient) {
+  if (user !== null && userMedic === null) {
     const passwordMatch = await compare(password, user?.password!);
 
     if (!passwordMatch) {
@@ -44,8 +42,8 @@ const createSessionUserService = async ({
         expiresIn: "24h",
       }
     );
-  } else if (isMedic) {
-    const passwordMatch = await compare(password, user?.password!);
+  } else if (user === null && userMedic !== null) {
+    const passwordMatch = await compare(password, userMedic?.password!);
 
     if (!passwordMatch) {
       throw new AppError("Email or password invalid", 403);
@@ -63,6 +61,8 @@ const createSessionUserService = async ({
         expiresIn: "24h",
       }
     );
+  } else {
+    throw new AppError("Email or password invalid", 403);
   }
   return token;
 };

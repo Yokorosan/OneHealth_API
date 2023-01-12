@@ -10,7 +10,7 @@ export const ensureUserIdIsValidMiddelware = async (
 ) => {
   const usersRepository = AppDataSource.getRepository(Users);
   const findUser = await usersRepository.findOneBy({ id: req.params.id });
-  
+
   if (!findUser) {
     throw new AppError("User not found", 404);
   }

@@ -1,4 +1,4 @@
-import e, { NextFunction, Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import AppDataSource from "../../data-source";
 import { Users } from "../../entities/user.entity";
 import { UsersMedic } from "../../entities/usermedic.entity";
@@ -14,26 +14,24 @@ const ensureTypeUserMiddleware = async (
   const userMedicRepository = AppDataSource.getRepository(UsersMedic);
   const reqBody: IUserLogin = request.body;
 
-  const userPatient = await userRepository.exist({
+  const userPatient = await userRepository.find({
+    withDeleted: true,
     where: {
       email: reqBody.email,
+      isActive: false,
     },
   });
 
-  const userMedic = await userMedicRepository.exist({
+  const userMedic = await userMedicRepository.find({
+    withDeleted: true,
     where: {
       email: reqBody.email,
+      isActive: false,
     },
   });
 
-  if (!userPatient && !userMedic) {
-    throw new AppError("User or password not found", 404);
-  } else {
-    request.body = {
-      ...reqBody,
-      isPatient: userPatient,
-      isMedic: userMedic,
-    };
+  if (userPatient.length > 0 || userMedic.length > 0) {
+    throw new AppError("User or password not found redux", 400);
   }
 
   return next();
