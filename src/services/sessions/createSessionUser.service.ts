@@ -18,7 +18,6 @@ const createSessionUserService = async ({
   const user = await userRepository.findOneBy({
     email: email,
   });
-
   const userMedic = await userMedicRepository.findOneBy({
     email: email,
   });
