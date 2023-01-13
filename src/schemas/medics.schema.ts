@@ -10,7 +10,7 @@ export const MedicsRequestSchema: SchemaOf<IMedicRequest> = yup.object().shape({
   email: yup.string().required(),
   password: yup.string().required(),
   phone: yup.string().required(),
-  isWhatsApp: yup.boolean().required(),
+  isWhatsApp: yup.boolean().notRequired(),
   address: yup
     .object()
     .shape({
@@ -22,7 +22,7 @@ export const MedicsRequestSchema: SchemaOf<IMedicRequest> = yup.object().shape({
     })
     .required(),
   speciality: yup.string().required(),
-  isAdm: yup.boolean().notRequired(),
+  // isAdm: yup.boolean().notRequired(),
 });
 
 export const MedicWhitoutPassSchema: SchemaOf<IMedicResponse> = yup
@@ -45,9 +45,8 @@ export const MedicWhitoutPassSchema: SchemaOf<IMedicResponse> = yup
       })
       .notRequired(),
     speciality: yup.string().notRequired(),
-    isAdm: yup.boolean().notRequired(),
+    // isAdm: yup.boolean().notRequired(),
     isActive: yup.boolean().notRequired(),
     createdAt: yup.date().notRequired(),
     updatedAt: yup.date().notRequired(),
-    deletedAt: yup.date().notRequired(),
   });

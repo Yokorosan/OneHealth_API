@@ -3,6 +3,7 @@ import { updateUserService } from "../services/users/updateUsers.service";
 import { createUserService } from "../services/users/createUsers.service";
 import { softDeleteUserService } from "../services/users/softDeleteUsers.service";
 import { getUsersService } from "../services/users/getUsers.service";
+import { getUserProfileService } from "../services/users/getUserProfile.service";
 
 export const createUserController = async (req: Request, res: Response) => {
   const createUser = await createUserService(req.body);
@@ -19,6 +20,14 @@ export const getUsersController = async (req: Request, res: Response) => {
  const getUsers = await getUsersService();
   return res.status(200).json(getUsers)
 }
+
+
+
+export const getUserProfileController = async (req: Request, res: Response) => {
+  const getUser = await getUserProfileService(req.user.id);
+   return res.status(200).json(getUser)
+ }
+
 
 export const softDeleteUserController = async (req: Request, res: Response) => {
    await softDeleteUserService(req.params.id);

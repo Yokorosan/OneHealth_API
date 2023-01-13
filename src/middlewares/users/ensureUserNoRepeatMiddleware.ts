@@ -9,13 +9,12 @@ export const ensureUsersNoRepeatMiddleware = async (
   next: NextFunction
 ) => {
   const usersRepository = AppDataSource.getRepository(Users);
-
   const alredyExists = await usersRepository.findOneBy({
     email: req.body.email,
   });
 
   if (alredyExists) {
-    throw new AppError("Email is already in use!", 400);
+    throw new AppError("Email is already in use!", 409);
   }
 
   return next();
