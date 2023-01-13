@@ -219,7 +219,7 @@ describe("Address route tests", () => {
     const medic = await addressMedicRepository.findOneBy({
       email: mockedUserMedicLogin.email,
     });
-
+    console.log();
     const response = await request(app)
       .patch(`${baseUrl2}/${medic?.address}`)
       .set("Authorization", `Bearer ${userLoginResponse.body.token}`)
