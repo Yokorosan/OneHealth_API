@@ -15,16 +15,14 @@ export const updateMedicService = async (
 
   const updateMedic = medicRepository.create({
     ...foundMedic,
-    ...userMedicData
+    ...userMedicData,
   });
-
-  console.log(userMedicId)
 
   await medicRepository.update(userMedicId, userMedicData);
 
   const medicWhitoutPass = await MedicWhitoutPassSchema.validate(updateMedic, {
     stripUnknown: true,
-    abortEarly: false
+    abortEarly: false,
   });
 
   return medicWhitoutPass;
