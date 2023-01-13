@@ -25,7 +25,7 @@ const createSessionUserService = async ({
 
   if (user !== null && userMedic === null) {
     const passwordMatch = await compare(password, user?.password!);
-
+   
     if (!passwordMatch) {
       throw new AppError("Email or password invalid", 403);
     }
@@ -44,6 +44,7 @@ const createSessionUserService = async ({
     );
   } else if (user === null && userMedic !== null) {
     const passwordMatch = await compare(password, userMedic?.password!);
+    console.log(password, userMedic?.password!)
     if (!passwordMatch) {
       throw new AppError("Email or password invalid", 403);
     }

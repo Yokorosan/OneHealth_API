@@ -3,6 +3,8 @@ import request from "supertest";
 import app from "../../../app";
 import AppDataSource from "../../../data-source";
 import {
+  mockedDeletedUserLogin,
+  mockedDeletedUserMedic,
   mockedMedic,
   mockedUserAdmin,
   mockedUserAdminLogin,
@@ -73,6 +75,7 @@ describe("/medics", () => {
   });
 
   test("DELETE /medics/:id  - Must be able to delete a medic user", async () => {
+    
     const userMedicLoginResponse = await request(app)
       .post("/login")
       .send(mockedUserMedicLoginChanged);
@@ -94,6 +97,8 @@ describe("/medics", () => {
     const findUserMedic = await request(app)
       .get("/medics")
       .set("Authorization", `Bearer ${userAdminLoginResponse.body.token}`);
+
+      console.log(findUserMedic.body)
 
     expect(response.status).toBe(204);
     expect(findUserMedic.body[0].isActive).toBe(false);

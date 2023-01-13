@@ -22,6 +22,21 @@ export const mockedDeletedUser = {
   phone: "(18)99999-9999",
 };
 
+export const mockedDeletedUserMedic = {
+  name: "Yokoro",
+  email: "yokoro@kenzie.com.br",
+  password: "123eE&456",
+  phone: "(18)99999-9999",
+  speciality: "Clinico Geral",
+  address: {
+    district: "Rua Gavião Pomba",
+    zipCode: "10.1010-101",
+    number: "234",
+    city: "Campinas",
+    state: "SP",
+  },
+};
+
 export const mockedMedic = {
   name: "Berrylium",
   email: "berryl@kenzie.com.br",
@@ -60,7 +75,7 @@ export const mockedUserLogin = {
 
 export const mockedUserAdminLogin = {
   email: "mikhail@kenzie.com.br",
-  password: "123eE&456",
+  password: "123eE&456"
 };
 
 export const mockedUserMedicLogin = {
@@ -71,6 +86,12 @@ export const mockedUserMedicLogin = {
 export const mockedUserMedicLoginChanged = {
   email: "vader@kenzie.com.br",
   password: "123t&R456",
+};
+
+
+export const mockedUserMedicLoginToDelete = {
+  email: "yokoro@kenzie.com.br",
+  password: "123eE&456",
 };
 
 export const mockedDeletedUserLogin = {

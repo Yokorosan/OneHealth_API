@@ -11,6 +11,7 @@ export const listMedicsService = async (isAdm: boolean, isMedic: boolean) => {
     allMedics = await medicRepository.find({
       withDeleted: true,
     });
+    return allMedics
   }
 
   if (!isMedic) {
