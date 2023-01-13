@@ -34,6 +34,11 @@ export interface IMedicResponse {
   updatedAt?: Date;
 }
 
+export interface ISpeciality {
+  id?: string;
+  name: string;
+}
+
 export interface IMedicUpdate {
   name?: string;
   email?: string;
@@ -47,5 +52,5 @@ export interface IMedicUpdate {
     city?: string;
     state?: string;
   };
-  speciality?: string;
+  speciality?: ISpeciality;
 }
