@@ -1,6 +1,5 @@
 import AppDataSource from "../../data-source";
 import { Address } from "../../entities/address.entity";
-import { UserAddress } from "../../entities/useraddress.entity";
 import { AppError } from "../../errors/AppError";
 import { IAddressRequest } from "../../interfaces/address.interface";
 import { addressRequestSchema } from "../../schemas/address.schema";

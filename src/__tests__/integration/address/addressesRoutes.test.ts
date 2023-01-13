@@ -1,7 +1,8 @@
 import request from "supertest";
-import { DataSource } from "typeorm";
+import { DataSource, Repository } from "typeorm";
 import app from "../../../app";
 import AppDataSource from "../../../data-source";
+import { Address } from "../../../entities/address.entity";
 import { UsersMedic } from "../../../entities/usermedic.entity";
 import {
   mockedAddressRequest,
@@ -17,6 +18,9 @@ describe("Address route tests", () => {
   let connection: DataSource;
   const baseUrl: string = "/address";
   const baseUrl2: string = "/address_medic";
+  const addressRepo: Repository<Address> = AppDataSource.getRepository(Address);
+  const medicRepo: Repository<UsersMedic> =
+    AppDataSource.getRepository(UsersMedic);
 
   beforeAll(async () => {
     await AppDataSource.initialize()
@@ -29,7 +33,14 @@ describe("Address route tests", () => {
 
     await request(app).post("/users").send(mockedUser);
     await request(app).post("/users").send(mockedUserAdmin);
-    await request(app).post("/medics").send(mockedMedic);
+  });
+
+  beforeEach(async () => {
+    const addresses = await addressRepo.find();
+    await addressRepo.remove(addresses);
+
+    const medics = await medicRepo.find();
+    await medicRepo.remove(medics);
   });
 
   afterAll(async () => {
@@ -149,12 +160,11 @@ describe("Address route tests", () => {
   });
 
   test("PATCH /address_medic/:id - Must not be able to update doctor address without authentication", async () => {
-    const userLoginResponse = await request(app)
-      .post("/login")
-      .send(mockedUserMedicLogin);
+    const createMedic = await request(app).post("/medics").send(mockedMedic);
+    await request(app).post("/login").send(mockedUserMedicLogin);
 
     const response = await request(app).patch(
-      `${baseUrl2}/${userLoginResponse.body.address}`
+      `${baseUrl2}/${createMedic.body.address.id}`
     );
 
     expect(response.body).toHaveProperty("message");
@@ -162,18 +172,13 @@ describe("Address route tests", () => {
   });
 
   test("PATCH /address_medic/:id - Should not be able to update id field value", async () => {
+    const createMedic = await request(app).post("/medics").send(mockedMedic);
     const userLoginResponse = await request(app)
       .post("/login")
       .send(mockedUserMedicLogin);
 
-    const addressMedicRepository = AppDataSource.getRepository(UsersMedic);
-
-    const addressMedic = await addressMedicRepository.findOneBy({
-      email: mockedUserMedicLogin.email,
-    });
-
     const response = await request(app)
-      .patch(`${baseUrl2}/${addressMedic?.address}`)
+      .patch(`${baseUrl2}/${createMedic.body.address.id}`)
       .set("Authorization", `Bearer ${userLoginResponse.body.token}`)
       .send({
         id: "13970660-5dbe-423a-9a9d-5c23b37943cf",
@@ -184,15 +189,10 @@ describe("Address route tests", () => {
   });
 
   test("PATCH /address_medic/:id - Should not be able to update doctor address with invalid id", async () => {
+    await request(app).post("/medics").send(mockedMedic);
     const userLoginResponse = await request(app)
       .post("/login")
       .send(mockedUserMedicLogin);
-
-    const addressMedicRepository = AppDataSource.getRepository(UsersMedic);
-
-    await addressMedicRepository.findOneBy({
-      email: mockedUserMedicLogin.email,
-    });
 
     const response = await request(app)
       .patch(`${baseUrl2}/:13970660-5dbe-423a-9a9d-5c23b37943cf`)
@@ -210,18 +210,13 @@ describe("Address route tests", () => {
   });
 
   test("PATCH /address_medic/:id - Should be able to update address", async () => {
+    const createMedic = await request(app).post("/medics").send(mockedMedic);
     const userLoginResponse = await request(app)
       .post("/login")
       .send(mockedUserMedicLogin);
 
-    const addressMedicRepository = AppDataSource.getRepository(UsersMedic);
-
-    const medic = await addressMedicRepository.findOneBy({
-      email: mockedUserMedicLogin.email,
-    });
-    console.log();
     const response = await request(app)
-      .patch(`${baseUrl2}/${medic?.address}`)
+      .patch(`${baseUrl2}/${createMedic.body.address.id}`)
       .set("Authorization", `Bearer ${userLoginResponse.body.token}`)
       .send({
         district: "Rua José Vicente",
