@@ -1,7 +1,7 @@
 import AppDataSource from "../../data-source";
-import { Address } from "../../entities/address.entity";
-import { IAddressRequest } from "../../interfaces/address.interface";
+import { UserAddress } from "../../entities/useraddress.entity";
 import { addressRequestSchema } from "../../schemas/address.schema";
+import { IAddressRequest } from "../../interfaces/address.interface";
 
 const createAddressService = async (addressData: IAddressRequest) => {
   const addressSerializer = await addressRequestSchema.validate(addressData, {
@@ -9,7 +9,7 @@ const createAddressService = async (addressData: IAddressRequest) => {
     abortEarly: false,
   });
 
-  const addressRepository = AppDataSource.getRepository(Address);
+  const addressRepository = AppDataSource.getRepository(UserAddress);
 
   const createAddress = addressRepository.create(addressSerializer);
 
