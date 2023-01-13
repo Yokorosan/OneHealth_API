@@ -1,5 +1,5 @@
 import AppDataSource from "../../data-source";
-import { UserAddress } from "../../entities/useraddress.entity";
+import { Address } from "../../entities/address.entity";
 import { AppError } from "../../errors/AppError";
 import { IAddressRequest } from "../../interfaces/address.interface";
 import { addressRequestSchema } from "../../schemas/address.schema";
@@ -17,7 +17,7 @@ const updateAddressMedicService = async (
     throw new AppError("invalid fields", 403);
   }
 
-  const addressMedicRepository = AppDataSource.getRepository(UserAddress);
+  const addressMedicRepository = AppDataSource.getRepository(Address);
 
   const addressMedic = await addressMedicRepository.findOneBy({
     id: idAddressMedic,

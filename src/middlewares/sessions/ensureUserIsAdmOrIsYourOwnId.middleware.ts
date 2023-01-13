@@ -13,7 +13,7 @@ export const ensureUserIsAdmOrIsYourOwnIdMiddlware = (
   const userThatMakesTheRequestId = req.user.id;
 
   if (!isAdm && userThatMakesTheRequestId !== userToBeDeleteOrEditId) {
-    throw new AppError("Missing admin authorization", 403);
+    throw new AppError("Missing Admin authorization", 403);
   }
 
   return next();

@@ -8,10 +8,10 @@ export const deleteMedicService = async (userMedicId: string) => {
     id: userMedicId,
   });
 
-  const deleteUserMedic = await userMedicRepository.softRemove(userMedic!);
+  await userMedicRepository.softRemove(userMedic!);
 
   const userMedicDeleted = await userMedicRepository.save({
-    ...deleteUserMedic,
+    ...userMedic,
     isActive: false,
   });
 

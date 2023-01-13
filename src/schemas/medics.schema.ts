@@ -3,6 +3,7 @@ import { SchemaOf } from "yup";
 import {
   IMedicResponse,
   IMedicRequest,
+  IMedicProfileResponse,
 } from "../interfaces/medics/medics.interface";
 
 export const MedicsRequestSchema: SchemaOf<IMedicRequest> = yup.object().shape({
@@ -45,6 +46,35 @@ export const MedicWhitoutPassSchema: SchemaOf<IMedicResponse> = yup
       })
       .notRequired(),
     speciality: yup.string().notRequired(),
+    // isAdm: yup.boolean().notRequired(),
+    isActive: yup.boolean().notRequired(),
+    createdAt: yup.date().notRequired(),
+    updatedAt: yup.date().notRequired()
+  });
+
+  export const MedicProfileWhitoutPassSchema: SchemaOf<IMedicProfileResponse> = yup
+  .object()
+  .shape({
+    id: yup.string().notRequired(),
+    name: yup.string().notRequired(),
+    email: yup.string().notRequired(),
+    phone: yup.string().notRequired(),
+    isWhatsApp: yup.boolean().notRequired(),
+    address: yup
+      .object()
+      .shape({
+        id: yup.string().notRequired(),
+        district: yup.string().notRequired(),
+        zipCode: yup.string().notRequired(),
+        number: yup.string().notRequired(),
+        city: yup.string().notRequired(),
+        state: yup.string().notRequired(),
+      })
+      .notRequired(),
+    speciality: yup.object().shape({
+      id:yup.string().notRequired(),
+      name:yup.string().notRequired()
+    }).notRequired(),
     // isAdm: yup.boolean().notRequired(),
     isActive: yup.boolean().notRequired(),
     createdAt: yup.date().notRequired(),

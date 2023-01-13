@@ -12,6 +12,7 @@ const ensureTypeUserMiddleware = async (
 ) => {
   const userRepository = AppDataSource.getRepository(Users);
   const userMedicRepository = AppDataSource.getRepository(UsersMedic);
+
   const reqBody: IUserLogin = request.body;
 
   const userPatient = await userRepository.find({
@@ -31,7 +32,7 @@ const ensureTypeUserMiddleware = async (
   });
 
   if (userPatient.length > 0 || userMedic.length > 0) {
-    throw new AppError("User or password not found redux", 400);
+    throw new AppError("User or password not found", 400);
   }
 
   return next();
