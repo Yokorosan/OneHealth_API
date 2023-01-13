@@ -45,7 +45,7 @@ export const mockedMedic = {
   speciality: "Clinico Geral",
   address: {
     district: "Rua Gavião Pomba",
-    zipCode: "10.1010-101",
+    zipCode: "10101010",
     number: "123",
     city: "Campinas",
     state: "SP",
@@ -66,6 +66,16 @@ export const mockedMedicNoWhats = {
     city: "Campinas",
     state: "SP",
   },
+};
+
+export const mockedUserMedicLogin = {
+  email: "berryl@kenzie.com.br",
+  password: "123t&R456",
+};
+
+export const mockedUserMedicLoginChanged = {
+  email: "berryl@kenzie.com.br",
+  password: "123t&R456",
 };
 
 export const mockedUserLogin = {
