@@ -27,7 +27,10 @@ const retrieveMedicDataController = async (req: Request, res: Response) => {
 };
 
 const updateMedicController = async (req: Request, res: Response) => {
-  const updatedUserMedic = await updateMedicService(req.body.params, req.body);
+  const userMedicId = req.params.id
+  const userMedicData = req.body
+
+  const updatedUserMedic = await updateMedicService(userMedicId, userMedicData);
 
   return res.status(200).json(updatedUserMedic);
 };
