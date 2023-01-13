@@ -67,17 +67,6 @@ export const mockedMedicNoWhats = {
     state: "SP",
   },
 };
-
-export const mockedUserMedicLogin = {
-  email: "berryl@kenzie.com.br",
-  password: "123t&R456",
-};
-
-export const mockedUserMedicLoginChanged = {
-  email: "berryl@kenzie.com.br",
-  password: "123t&R456",
-};
-
 export const mockedUserLogin = {
   email: "astolfo@kenzie.com.br",
   password: "123eE&456",
