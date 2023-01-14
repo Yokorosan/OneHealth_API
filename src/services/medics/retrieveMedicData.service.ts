@@ -7,20 +7,6 @@ import { MedicProfileWhitoutPassSchema, MedicWhitoutPassSchema } from "../../sch
 export const retrieveMedicDataService = async (
   id: string
 ): Promise<IMedicProfileResponse> => {
-  const medicRepository = AppDataSource.getRepository(UsersMedic);
-
-  // const medicData = await medicRepository.findOneBy({
-  //   id: id,
-  // });
-  // console.log(medicData);
-
-  // const queryMedicData = await medicRepository
-  //   .createQueryBuilder("user_medic")
-  //   .where("user_medic.id = :id", { id: id })
-  //   .leftJoinAndSelect("user_medic.address", "address")
-  //   .leftJoin("user_medic.speciality", "speciality")
-  //   .addSelect(["speciality.name"])
-  //   .getMany();
 
   const queryMedicData = await AppDataSource.createQueryBuilder()
   .select("medics")
