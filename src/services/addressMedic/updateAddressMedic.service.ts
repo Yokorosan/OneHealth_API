@@ -1,7 +1,7 @@
 import AppDataSource from "../../data-source";
 import { Address } from "../../entities/address.entity";
 import { AppError } from "../../errors/AppError";
-import { IAddressRequest } from "../../interfaces/address.interface";
+import { IAddressRequest } from "../../interfaces/address/address.interface";
 import { addressRequestSchema } from "../../schemas/address.schema";
 
 const updateAddressMedicService = async (

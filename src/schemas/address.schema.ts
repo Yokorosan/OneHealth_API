@@ -1,6 +1,6 @@
 import * as yup from "yup";
 import { SchemaOf } from "yup";
-import { IAddressRequest } from "../interfaces/address.interface";
+import { IAddressRequest } from "../interfaces/address/address.interface";
 
 export const addressRequestSchema: SchemaOf<IAddressRequest> = yup
   .object()
