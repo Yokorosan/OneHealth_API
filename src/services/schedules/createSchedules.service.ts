@@ -15,6 +15,8 @@ const createSchedulesService = async (
     abortEarly: false,
   });
 
+  console.log(schedulesData);
+
   const schedulesRepository = AppDataSource.getRepository(ScheduledAppointment);
 
   const patientRepository = AppDataSource.getRepository(Users);
@@ -57,21 +59,21 @@ const createSchedulesService = async (
     throw new AppError("Schedule already exists", 409);
   }
 
-  const createSchedules = schedulesRepository.create(validated);
+  const createSchedules = schedulesRepository.create(schedulesData);
 
   await schedulesRepository.save(createSchedules);
 
-  await schedulesRepository.update(
-    {
-      id: createSchedules.id,
-    },
-    {
-      user: patient,
-      medic: medicId,
-    }
-  );
+  // await schedulesRepository.update(
+  //   {
+  //     id: createSchedules.id,
+  //   },
+  //   {
+  //     user: patient,
+  //     medic: medicId,
+  //   }
+  // );
 
-  return { message: "Schedule created" };
+  return createSchedules;
 };
 
 export default createSchedulesService;
