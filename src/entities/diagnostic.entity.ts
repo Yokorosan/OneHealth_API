@@ -40,6 +40,7 @@ class Diagnostic {
   @ManyToOne(() => UsersMedic, (userMedic) => userMedic.diagnostic, {
     nullable: true,
   })
+
   medic: UsersMedic;
 }
 

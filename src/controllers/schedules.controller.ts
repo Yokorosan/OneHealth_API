@@ -8,7 +8,6 @@ export const createSchedulesController = async (
   res: Response
 ) => {
   const schedule: IScheduleRequest = req.body;
-
   const data = await createSchedulesService(schedule);
 
   return res.status(201).json(data);

@@ -18,6 +18,7 @@ export const schedulesRequestSchema: SchemaOf<IScheduleRequest> = yup
 export const schedulesResponseSchema: SchemaOf<IScheduleResponse> = yup
   .object()
   .shape({
+    id: yup.string().notRequired(),
     type: yup.string().notRequired(),
     date: yup.string().notRequired(),
     hour: yup.string().notRequired(),
