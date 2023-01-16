@@ -47,9 +47,6 @@ export const schedulesResponseSchema: SchemaOf<IScheduleResponse> = yup
     type: yup.string().notRequired(),
     date: yup.string().notRequired(),
     hour: yup.string().notRequired(),
-    user: yup.string().required(),
-    medic: yup.string().required(), 
-  
   })
   .strict(true)
   .noUnknown(true);

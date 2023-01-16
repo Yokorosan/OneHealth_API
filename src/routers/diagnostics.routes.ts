@@ -1,8 +1,33 @@
 import { Router } from "express";
-import { createDiagnosticController } from "../controllers/diagnostics.controller";
+import {
+  createDiagnosticController,
+  deletedDiagnosticController,
+  listAllMedicDiagnosticsController,
+} from "../controllers/diagnostics.controller";
+import ensureDiagnosticDataIsValidMiddleware from "../middlewares/diagnostics/ensureDiagnosticDataIsValid.middleware";
+import ensureDiagnosticIsManipulatedOnlyForMedicsMiddleware from "../middlewares/diagnostics/ensureDiagnosticIsCreateOnlyForMedics.middleware";
+import ensureAuthMiddleware from "../middlewares/sessions/esureAuth.middleware";
 
-const diagnosticsRoutes = Router()
+const diagnosticsRoutes = Router();
 
-diagnosticsRoutes.post("", createDiagnosticController)
+diagnosticsRoutes.post(
+  "",
+  ensureAuthMiddleware,
+  ensureDiagnosticDataIsValidMiddleware,
+  ensureDiagnosticIsManipulatedOnlyForMedicsMiddleware,
+  createDiagnosticController
+);
+diagnosticsRoutes.delete(
+  "/:id",
+  ensureAuthMiddleware,
+  ensureDiagnosticIsManipulatedOnlyForMedicsMiddleware,
+  deletedDiagnosticController
+);
+diagnosticsRoutes.get(
+  "/:id",
+  ensureAuthMiddleware,
+  ensureDiagnosticIsManipulatedOnlyForMedicsMiddleware,
+  listAllMedicDiagnosticsController
+);
 
-export default diagnosticsRoutes
+export default diagnosticsRoutes;
