@@ -33,8 +33,7 @@ const verifyScheduleUserMiddleware = async (
       hour: req.body.hour,
     })
     .getOne();
-  console.log(schedulesPatientExists);
-  console.log();
+ 
   if (schedulesPatientExists) {
     throw new AppError("Patient alredy has an Appointment in this date", 409);
   }
