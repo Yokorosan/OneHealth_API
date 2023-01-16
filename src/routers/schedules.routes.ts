@@ -20,6 +20,7 @@ schedulesRoutes.post(
   verifyScheduleMedicMiddleware,
   createSchedulesController
 );
+
 schedulesRoutes.delete(
   "/:id",
   ensureAuthMiddleware,
