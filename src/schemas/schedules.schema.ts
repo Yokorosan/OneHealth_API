@@ -3,6 +3,7 @@ import { SchemaOf } from "yup";
 import {
   IScheduleRequest,
   IScheduleResponse,
+  IScheduleUpdateRequest,
 } from "../interfaces/schedules/schedules.interface";
 
 export const schedulesRequestSchema: SchemaOf<IScheduleRequest> = yup
@@ -18,6 +19,7 @@ export const schedulesRequestSchema: SchemaOf<IScheduleRequest> = yup
 export const schedulesResponseSchema: SchemaOf<IScheduleResponse> = yup
   .object()
   .shape({
+    id: yup.string().notRequired(),
     type: yup.string().notRequired(),
     date: yup.string().notRequired(),
     hour: yup.string().notRequired(),
@@ -36,3 +38,15 @@ export const schedulesResponseSchema: SchemaOf<IScheduleResponse> = yup
       phone: yup.string().notRequired(),
     }),
   });
+
+
+
+  export const UpdateScheduleSchema: SchemaOf<IScheduleUpdateRequest> = yup
+  .object()
+  .shape({
+    type: yup.string().notRequired(),
+    date: yup.string().notRequired(),
+    hour: yup.string().notRequired(),
+  })
+  .strict(true)
+  .noUnknown(true);
