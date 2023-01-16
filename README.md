@@ -2,6 +2,8 @@
 
 Padronizações
 
+Projeto iniciado com Yarn.
+
 Linguagem utilizada: Inglês
 
 Nome dos Bancos de Dados:

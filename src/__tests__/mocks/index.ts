@@ -67,6 +67,15 @@ export const mockedMedicNoWhats = {
     state: "SP",
   },
 };
+export const mockedUserLogin = {
+  email: "astolfo@kenzie.com.br",
+  password: "123eE&456",
+};
+
+export const mockedUserAdminLogin = {
+  email: "mikhail@kenzie.com.br",
+  password: "123eE&456",
+};
 
 export const mockedUserMedicLogin = {
   email: "berryl@kenzie.com.br",
@@ -76,16 +85,6 @@ export const mockedUserMedicLogin = {
 export const mockedUserMedicLoginChanged = {
   email: "vader@kenzie.com.br",
   password: "123t&R456",
-};
-
-export const mockedUserLogin = {
-  email: "astolfo@kenzie.com.br",
-  password: "123eE&456",
-};
-
-export const mockedUserAdminLogin = {
-  email: "mikhail@kenzie.com.br",
-  password: "123eE&456",
 };
 
 export const mockedUserMedicLoginToDelete = {
