@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { IAddressRequest } from "../interfaces/address.interface";
+import { IAddressRequest } from "../interfaces/address/address.interface";
 import updateAddressMedicService from "../services/addressMedic/updateAddressMedic.service";
 
 export const updateAddressMedicController = async (
