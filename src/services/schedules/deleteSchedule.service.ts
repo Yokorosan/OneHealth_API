@@ -8,7 +8,6 @@ export const deleteScheduleService = async (scheduleId: string) => {
     id: scheduleId,
   });
 
-  console.log(schedule);
 
   await schedulesRepository.remove(schedule!);
 };

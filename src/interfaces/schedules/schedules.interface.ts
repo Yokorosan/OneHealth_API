@@ -6,8 +6,15 @@ export interface IScheduleRequest {
   medic: string;
 }
 
+export interface IScheduleUpdateRequest {
+  type?: string;
+  date?: string;
+  hour?: string;
+}
+
+
 export interface IScheduleResponse {
-  id?: string;
+  id?: string
   type?: string;
   date?: string;
   hour?: string;

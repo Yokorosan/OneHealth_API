@@ -19,7 +19,7 @@ const createSchedulesService = async (
     abortEarly: false,
   });
 
-  console.log(schedulesData);
+
 
   const schedulesRepository = AppDataSource.getRepository(ScheduledAppointment);
 
