@@ -8,8 +8,6 @@ const verifyDateHourIsValidMiddleware = (
 ) => {
   const day = new Date(req.body.date);
 
-  console.log(day);
-
   if (day.getDay() === 0 || day.getDay() === 6) {
     throw new AppError("Invalid Data", 400);
   }

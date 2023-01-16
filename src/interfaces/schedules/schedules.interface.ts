@@ -7,6 +7,7 @@ export interface IScheduleRequest {
 }
 
 export interface IScheduleResponse {
+  id?: string;
   type?: string;
   date?: string;
   hour?: string;
