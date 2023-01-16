@@ -4,7 +4,7 @@ import {
   IUserRequest,
   IUserResponse,
 } from "../../interfaces/users/user.interface";
-import { UsersWhitoutPassSchemaResponse } from "../../schemas/users.shemas";
+import { UsersWhitoutPassSchemaResponse } from "../../schemas/users.schema";
 
 export const updateUserService = async (
   body: IUserRequest,

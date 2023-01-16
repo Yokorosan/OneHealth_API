@@ -18,7 +18,7 @@ import { ensureUsersNoRepeatMiddleware } from "../middlewares/users/ensureUserNo
 import {
   UpdateUserSchema,
   UsersWhitoutPassSchema,
-} from "../schemas/users.shemas";
+} from "../schemas/users.schema";
 
 const usersRouter = Router();
 
