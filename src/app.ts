@@ -8,6 +8,7 @@ import medicsRoutes from "./routers/medics.routes";
 import addressRoutes from "./routers/address.routes";
 import sessionRoutes from "./routers/session.routes";
 import addressMedicRoutes from "./routers/addressMedic.routes";
+import diagnosticsRoutes from "./routers/diagnostics.routes";
 import schedulesRoutes from "./routers/schedules.routes";
 
 const app = express();
@@ -18,6 +19,7 @@ app.use("/medics", medicsRoutes);
 app.use("/login", sessionRoutes);
 app.use("/address", addressRoutes);
 app.use("/address_medic", addressMedicRoutes);
+app.use("/diagnostics", diagnosticsRoutes)
 app.use("/schedules", schedulesRoutes);
 
 app.use(handleError);
