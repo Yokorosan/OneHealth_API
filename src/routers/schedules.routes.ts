@@ -1,5 +1,8 @@
 import { Router } from "express";
-import { createSchedulesController } from "../controllers/schedules.controller";
+import {
+  createSchedulesController,
+  deleteScheduleController,
+} from "../controllers/schedules.controller";
 import verifyDateHourIsValidMiddleware from "../middlewares/schedules/verifyDateHourIsValid.middleware";
 import { verifyScheduleMedicMiddleware } from "../middlewares/schedules/verifyScheduleMedic.middleware";
 import { verifyScheduleUserMiddleware } from "../middlewares/schedules/verifyScheduleUser.middleware";
@@ -15,5 +18,6 @@ schedulesRoutes.post(
   verifyScheduleMedicMiddleware,
   createSchedulesController
 );
+schedulesRoutes.delete("/:id", ensureAuthMiddleware, deleteScheduleController);
 
 export default schedulesRoutes;
