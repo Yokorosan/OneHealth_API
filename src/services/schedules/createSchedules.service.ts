@@ -19,6 +19,8 @@ const createSchedulesService = async (
     abortEarly: false,
   });
 
+  console.log(schedulesData);
+
   const schedulesRepository = AppDataSource.getRepository(ScheduledAppointment);
 
   const patientRepository = AppDataSource.getRepository(Users);
@@ -26,7 +28,7 @@ const createSchedulesService = async (
     id: validated.user,
   });
 
-  const medicRepository = await AppDataSource.getRepository(UsersMedic);
+  const medicRepository = AppDataSource.getRepository(UsersMedic);
   const medic = await medicRepository.findOneBy({ id: validated.medic });
 
   const newSchedule = {
