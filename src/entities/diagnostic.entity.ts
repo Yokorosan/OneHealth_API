@@ -34,10 +34,13 @@ class Diagnostic {
   @DeleteDateColumn()
   deletedAt: Date;
 
-  @ManyToOne(() => Users, (user) => user.diagnostic)
+  @ManyToOne(() => Users, (user) => user.diagnostic, { nullable: true })
   user: Users;
 
-  @ManyToOne(() => UsersMedic, (userMedic) => userMedic.diagnostic)
+  @ManyToOne(() => UsersMedic, (userMedic) => userMedic.diagnostic, {
+    nullable: true,
+  })
+
   medic: UsersMedic;
 }
 

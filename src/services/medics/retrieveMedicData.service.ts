@@ -1,8 +1,8 @@
 import AppDataSource from "../../data-source";
 import { UsersMedic } from "../../entities/usermedic.entity";
 import { AppError } from "../../errors/AppError";
-import { IMedicProfileResponse, IMedicResponse } from "../../interfaces/medics/medics.interface";
-import { MedicProfileWhitoutPassSchema, MedicWhitoutPassSchema } from "../../schemas/medics.schema";
+import { IMedicProfileResponse } from "../../interfaces/medics/medics.interface";
+import { MedicProfileWhitoutPassSchema } from "../../schemas/medics.schema";
 
 export const retrieveMedicDataService = async (
   id: string

@@ -1,15 +1,11 @@
-import { IDiagnosticRequest } from "../../interfaces/diagnostics/diagnostics.interface"
+import { IDiagnosticRequest, IDiagnosticResponse } from "../../interfaces/diagnostics/diagnostics.interface"
 import { Diagnostic } from "../../entities/diagnostic.entity"
 import { Users } from "../../entities/user.entity"
 import { UsersMedic } from "../../entities/usermedic.entity"
 import AppDataSource from "../../data-source"
+import { diagnosticResponseSchema } from "../../schemas/diagnostics.schema"
 
-const createDiagnosticService = async (newDiagnosticData:IDiagnosticRequest): Promise<Diagnostic> => {
-
-       // const diagnosticSerializer = await diagnosticRequestSchema.validate(newDiagnosticInstance, {
-    //     stripUnknown: true,
-    //     abortEarly: false,
-    // })
+const createDiagnosticService = async (newDiagnosticData:IDiagnosticRequest): Promise<IDiagnosticResponse> => {
 
     const userRepository = AppDataSource.getRepository(Users)
 
@@ -36,7 +32,12 @@ const createDiagnosticService = async (newDiagnosticData:IDiagnosticRequest): Pr
 
      await diagnosticRepository.save(createDiagnostic)
 
-     return createDiagnostic
+     const correctDiagnosticReturn = await diagnosticResponseSchema.validate(createDiagnostic, {
+        stripUnknown: true,
+        abortEarly: false,
+     })
+
+     return correctDiagnosticReturn
 }
 
 export default createDiagnosticService
