@@ -32,14 +32,14 @@ export interface IUserUpdateRequest {
 }
 
 export interface IUserResponse {
-  id?: string
-  name?: string
-	email?: string
-	phone?: string
-	isAdm?: boolean
-	isActive?: boolean
-	createdAt?: Date
-	updatedAt?: Date
+  id?: string;
+  name?: string;
+  email?: string;
+  phone?: string;
+  isAdm?: boolean;
+  isActive?: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
   address?: {
     id: string;
     district: string;
@@ -48,4 +48,11 @@ export interface IUserResponse {
     city: string;
     state: string;
   };
+}
+
+export interface IUserToken {
+  id: string;
+  isAdm: boolean;
+  isActive: boolean;
+  isMedic: boolean;
 }

@@ -1,4 +1,10 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 import { Users } from "./user.entity";
 import { UsersMedic } from "./usermedic.entity";
 
@@ -17,9 +23,11 @@ class Diagnostic {
   description: string;
 
   @ManyToOne(() => Users, (user) => user.diagnostic)
+  @JoinColumn({ name: "userid" })
   user: Users;
 
-  @ManyToOne(() => UsersMedic, (medic) => medic.diagnostic)
+  @ManyToOne(() => UsersMedic, (userMedic) => userMedic.diagnostic)
+  @JoinColumn({ name: "medicid" })
   medic: UsersMedic;
 }
 

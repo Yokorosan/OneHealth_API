@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { IAddressRequest } from "../interfaces/address.interface";
+import { IAddressRequest } from "../interfaces/address/address.interface";
 import createAddressService from "../services/address/createAddress.service";
 import updateAddressService from "../services/address/updateAddress.service";
 
