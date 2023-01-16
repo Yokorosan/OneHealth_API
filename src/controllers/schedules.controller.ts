@@ -6,11 +6,9 @@ export const createSchedulesController = async (
   req: Request,
   res: Response
 ) => {
-  const medicId = req.user;
-
   const schedule: IScheduleRequest = req.body;
 
-  const data = await createSchedulesService(schedule, medicId);
+  const data = await createSchedulesService(schedule);
 
   return res.status(201).json(data);
 };
