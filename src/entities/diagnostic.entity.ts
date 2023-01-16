@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Users } from "./user.entity";
 import { UsersMedic } from "./usermedic.entity";
 
@@ -19,7 +19,7 @@ class Diagnostic {
   @ManyToOne(() => Users, (user) => user.diagnostic)
   user: Users;
 
-  @ManyToOne(() => UsersMedic, (userMedic) => userMedic.diagnostic)
+  @ManyToOne(() => UsersMedic, (medic) => medic.diagnostic)
   medic: UsersMedic;
 }
 
