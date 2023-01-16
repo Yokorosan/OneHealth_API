@@ -12,13 +12,18 @@ import { verifyScheduleUserMiddleware } from "../middlewares/schedules/verifySch
 import ensureAuthMiddleware from "../middlewares/sessions/esureAuth.middleware";
 import { verifyIfDateHourAlreadyExistMiddleware } from "../middlewares/schedules/verifyIfDateHourAlreadyExist.middleware";
 import { verifyUpdateScheduleDataMiddleware } from "../middlewares/schedules/verifyUpdateScheduleData.middleware";
-import { UpdateScheduleSchema } from "../schemas/schedules.schema";
+import {
+  schedulesRequestSchema,
+  UpdateScheduleSchema,
+} from "../schemas/schedules.schema";
+import { verifyScheduleCreateDataMiddleware } from "../middlewares/schedules/verifyScheduleCreateData.middleware";
 
 const schedulesRoutes = Router();
 
 schedulesRoutes.post(
   "",
   ensureAuthMiddleware,
+  verifyScheduleCreateDataMiddleware(schedulesRequestSchema),
   verifyDateHourIsValidMiddleware,
   verifyScheduleUserMiddleware,
   verifyScheduleMedicMiddleware,
@@ -42,6 +47,5 @@ schedulesRoutes.patch(
   verifyIfDateHourAlreadyExistMiddleware,
   updateScheduleController
 );
-
 
 export default schedulesRoutes;

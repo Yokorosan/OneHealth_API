@@ -39,9 +39,7 @@ export const schedulesResponseSchema: SchemaOf<IScheduleResponse> = yup
     }),
   });
 
-
-
-  export const UpdateScheduleSchema: SchemaOf<IScheduleUpdateRequest> = yup
+export const UpdateScheduleSchema: SchemaOf<IScheduleUpdateRequest> = yup
   .object()
   .shape({
     type: yup.string().notRequired(),
