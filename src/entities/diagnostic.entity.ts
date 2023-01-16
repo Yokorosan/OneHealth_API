@@ -1,9 +1,12 @@
 import {
   Column,
+  CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from "typeorm";
 import { Users } from "./user.entity";
 import { UsersMedic } from "./usermedic.entity";
@@ -22,10 +25,21 @@ class Diagnostic {
   @Column({ type: "text" })
   description: string;
 
-  @ManyToOne(() => Users, (user) => user.diagnostic)
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
+
+  @DeleteDateColumn()
+  deletedAt: Date;
+
+  @ManyToOne(() => Users, (user) => user.diagnostic, { nullable: false })
   user: Users;
 
-  @ManyToOne(() => UsersMedic, (userMedic) => userMedic.diagnostic)
+  @ManyToOne(() => UsersMedic, (userMedic) => userMedic.diagnostic, {
+    nullable: false,
+  })
   medic: UsersMedic;
 }
 

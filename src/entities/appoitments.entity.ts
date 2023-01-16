@@ -33,10 +33,12 @@ class ScheduledAppointment {
   @DeleteDateColumn()
   deletedAt: Date;
 
-  @ManyToOne(() => Users, (user) => user.appointment)
+  @ManyToOne(() => Users, (user) => user.appointment, { nullable: false })
   user: Users;
 
-  @ManyToOne(() => UsersMedic, (usermedic) => usermedic.appointment)
+  @ManyToOne(() => UsersMedic, (usermedic) => usermedic.appointment, {
+    nullable: false,
+  })
   medic: UsersMedic;
 }
 
