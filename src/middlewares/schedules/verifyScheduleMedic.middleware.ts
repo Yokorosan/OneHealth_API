@@ -23,7 +23,7 @@ const verifyScheduleMedicMiddleware = async (
   const schedulesMedicExists = await schedulesRepository
     .createQueryBuilder("scheduled_appointment")
     .innerJoinAndSelect("scheduled_appointment.medic", "medic")
-    .where("scheduled_appointment.userId = :id", {
+    .where("scheduled_appointment.medicId = :id", {
       id: req.body.medic,
     })
     .andWhere("scheduled_appointment.date = :date", {

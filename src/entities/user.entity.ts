@@ -71,7 +71,7 @@ class Users {
   )
   appointment: ScheduledAppointment[];
 
-  @OneToMany(() => Diagnostic, (diagnostic) => diagnostic.id, {
+  @OneToMany(() => Diagnostic, (diagnostic) => diagnostic.user, {
     onDelete: "CASCADE",
   })
   diagnostic: Diagnostic[];
