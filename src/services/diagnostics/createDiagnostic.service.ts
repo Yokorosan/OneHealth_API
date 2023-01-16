@@ -1,29 +1,42 @@
-import { IDiagnosticRequest, IDiagnosticResponse } from "../../interfaces/diagnostics/diagnostics.interface"
-import AppDataSource from "../../data-source"
+import { IDiagnosticRequest } from "../../interfaces/diagnostics/diagnostics.interface"
 import { Diagnostic } from "../../entities/diagnostic.entity"
-import { diagnosticRequestSchema } from "../../schemas/diagnostics.schema"
+import { Users } from "../../entities/user.entity"
+import { UsersMedic } from "../../entities/usermedic.entity"
+import AppDataSource from "../../data-source"
 
-const createDiagnosticService = async (newDiagnosticData:IDiagnosticRequest):Promise<IDiagnosticResponse> => {
+const createDiagnosticService = async (newDiagnosticData:IDiagnosticRequest): Promise<Diagnostic> => {
 
-    const diagnosticRepository = AppDataSource.getRepository(Diagnostic)
+       // const diagnosticSerializer = await diagnosticRequestSchema.validate(newDiagnosticInstance, {
+    //     stripUnknown: true,
+    //     abortEarly: false,
+    // })
 
-    const newDiagnosticInstance = new Diagnostic()
-    newDiagnosticInstance.date = newDiagnosticData.date
-    newDiagnosticInstance.description = newDiagnosticData.description
-    newDiagnosticInstance.medic = newDiagnosticData.medic
-    newDiagnosticInstance.name = newDiagnosticData.name
-    newDiagnosticInstance.user = newDiagnosticData.user
+    const userRepository = AppDataSource.getRepository(Users)
 
-    const diagnosticSerializer = await diagnosticRequestSchema.validate(newDiagnosticInstance, {
-        stripUnknown: true,
-        abortEarly: false,
+    const user = await userRepository.findOneBy({
+        id:newDiagnosticData.user
     })
 
-    const createDiagnostic = diagnosticRepository.create(diagnosticSerializer)
+    const medicRepository = AppDataSource.getRepository(UsersMedic)
 
-    await diagnosticRepository.save(createDiagnostic)
+    const medic = await medicRepository.findOneBy({
+        id:newDiagnosticData.medic
+    })
 
-    return createDiagnostic
+    const newDiagnostic = {
+        name: newDiagnosticData.name,
+        date: newDiagnosticData.date,
+        description: newDiagnosticData.description,
+        user: user!,
+        medic: medic!
+    }
+     const diagnosticRepository = AppDataSource.getRepository(Diagnostic)
+
+     const createDiagnostic = diagnosticRepository.create(newDiagnostic)
+
+     await diagnosticRepository.save(createDiagnostic)
+
+     return createDiagnostic
 }
 
 export default createDiagnosticService

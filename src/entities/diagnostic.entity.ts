@@ -23,11 +23,9 @@ class Diagnostic {
   description: string;
 
   @ManyToOne(() => Users, (user) => user.diagnostic)
-  @JoinColumn({ name: "userid" })
   user: Users;
 
   @ManyToOne(() => UsersMedic, (userMedic) => userMedic.diagnostic)
-  @JoinColumn({ name: "medicid" })
   medic: UsersMedic;
 }
 
