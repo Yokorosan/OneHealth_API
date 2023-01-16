@@ -2,7 +2,6 @@ import AppDataSource from "../../data-source";
 import { ScheduledAppointment } from "../../entities/appoitments.entity";
 import { Users } from "../../entities/user.entity";
 import { UsersMedic } from "../../entities/usermedic.entity";
-import { AppError } from "../../errors/AppError";
 import { IScheduleRequest } from "../../interfaces/schedules/schedules.interface";
 import { schedulesRequestSchema } from "../../schemas/schedules.schema";
 
