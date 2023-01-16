@@ -8,6 +8,6 @@ export const schedulesRequestSchema: SchemaOf<IScheduleRequest> = yup
     type: yup.string().required(),
     date: yup.string().required(),
     hour: yup.string().required(),
-    userId: yup.string().required(),
-    medicId: yup.string().required(),
+    user: yup.string().required(),
+    medic: yup.string().required(),
   });
