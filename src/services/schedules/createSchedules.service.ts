@@ -2,12 +2,18 @@ import AppDataSource from "../../data-source";
 import { ScheduledAppointment } from "../../entities/appoitments.entity";
 import { Users } from "../../entities/user.entity";
 import { UsersMedic } from "../../entities/usermedic.entity";
-import { IScheduleRequest } from "../../interfaces/schedules/schedules.interface";
-import { schedulesRequestSchema } from "../../schemas/schedules.schema";
+import {
+  IScheduleRequest,
+  IScheduleResponse,
+} from "../../interfaces/schedules/schedules.interface";
+import {
+  schedulesRequestSchema,
+  schedulesResponseSchema,
+} from "../../schemas/schedules.schema";
 
 const createSchedulesService = async (
   schedulesData: IScheduleRequest
-): Promise<ScheduledAppointment> => {
+): Promise<IScheduleResponse> => {
   const validated = await schedulesRequestSchema.validate(schedulesData, {
     stripUnknown: true,
     abortEarly: false,
@@ -33,7 +39,14 @@ const createSchedulesService = async (
   const createSchedules = schedulesRepository.create(newSchedule);
   await schedulesRepository.save(createSchedules);
 
-  return createSchedules;
+  const validatedSchedule = await schedulesResponseSchema.validate(
+    createSchedules,
+    {
+      abortEarly: false,
+      stripUnknown: true,
+    }
+  );
+  return validatedSchedule;
 };
 
 export default createSchedulesService;
