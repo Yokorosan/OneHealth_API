@@ -116,7 +116,7 @@ describe("Schedules route tests", () => {
       .set("Authorization", `Bearer ${userMedicLogin.body.token}`);
 
     await request(app)
-      .post(baseUrl)
+      .post("/schedules")
       .set("Authorization", `Bearer ${userMedicLogin.body.token}`)
       .send({
         type: "Consulta",
@@ -141,7 +141,7 @@ describe("Schedules route tests", () => {
     expect(response.status).toBe(409);
   });
 
-  test("PACTH /schedules/:id - Should not be able to update id field value", async () => {
+  test("PATCH /schedules/:id - Should not be able to update id field value", async () => {
     const user = await request(app).post("/users").send(mockedUser);
 
     const userMedicLogin = await request(app)
@@ -170,11 +170,17 @@ describe("Schedules route tests", () => {
         id: "13970660-5dbe-423a-9a9d-5c23b37943cf",
       });
 
-    expect(response.body).toHaveProperty("message");
-    expect(response.status).toBe(403);
+    expect(response.body).toHaveProperty("id");
+    expect(response.body.id).toEqual(`${schedule.body.id}`);
+    expect(response.body).toHaveProperty("type");
+    expect(response.body).toHaveProperty("date");
+    expect(response.body).toHaveProperty("hour");
+    expect(response.body).toHaveProperty("updatedAt");
+    expect(response.body).toHaveProperty("createdAt");
+    expect(response.status).toBe(200);
   });
 
-  test("PACTH /schedules/:id - Should not be able to update schedule without authentication", async () => {
+  test("PATCH/schedules/:id - Should not be able to update schedule without authentication", async () => {
     const user = await request(app).post("/users").send(mockedUser);
 
     const userMedicLogin = await request(app)
@@ -208,7 +214,7 @@ describe("Schedules route tests", () => {
     expect(response.status).toBe(401);
   });
 
-  test("PACTH /schedules/:id - Must not be able to update schedule with invalid id", async () => {
+  test("PATCH /schedules/:id - Must not be able to update schedule with invalid id", async () => {
     const user = await request(app).post("/users").send(mockedUser);
 
     const userMedicLogin = await request(app)
@@ -243,7 +249,7 @@ describe("Schedules route tests", () => {
     expect(response.status).toBe(404);
   });
 
-  test("PACTH /schedules/:id - Should be able to update schedule", async () => {
+  test("PATCH /schedules/:id - Should be able to update schedule", async () => {
     const user = await request(app).post("/users").send(mockedUser);
 
     const userMedicLogin = await request(app)

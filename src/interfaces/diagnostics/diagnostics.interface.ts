@@ -12,7 +12,6 @@ export interface IDiagnosticUpdate {
   description: string;
 }
 
-
 export interface IDiagnosticResponse {
   id?: string;
   name?: string;
@@ -40,7 +39,6 @@ export interface IDiagnosticOfUserResponse {
   description?: string;
   createdAt?: Date;
   updatedAt?: Date;
-  deletedAt?: Date;
 }
 export interface IDiagnosticsByUserResponse {
   id?: string;
