@@ -34,17 +34,19 @@ export const diagnosticResponseSchema: SchemaOf<IDiagnosticResponse> = yup
         phone: yup.string().notRequired(),
       })
       .notRequired(),
-    medic: yup.object().shape({
-      id: yup.string().notRequired(),
-      name: yup.string().notRequired(),
-      email: yup.string().notRequired(),
-      phone: yup.string().notRequired(),
-    }).notRequired(),
+    medic: yup
+      .object()
+      .shape({
+        id: yup.string().notRequired(),
+        name: yup.string().notRequired(),
+        email: yup.string().notRequired(),
+        phone: yup.string().notRequired(),
+      })
+      .notRequired(),
   });
 
-  export const diagnosticResponseListSchema: SchemaOf<IDiagnosticListResponse> = yup
-  .object()
-  .shape({
+export const diagnosticResponseListSchema: SchemaOf<IDiagnosticListResponse> =
+  yup.object().shape({
     id: yup.string().notRequired(),
     name: yup.string().notRequired(),
     date: yup.date().notRequired(),
@@ -58,8 +60,10 @@ export const diagnosticResponseSchema: SchemaOf<IDiagnosticResponse> = yup
         name: yup.string().notRequired(),
         email: yup.string().notRequired(),
         phone: yup.string().notRequired(),
-      }).notRequired()
+      })
+      .notRequired(),
   });
 
-  export const allUsersDiagnosticSchema: SchemaOf<IDiagnosticListResponse[]> = yup.array().of(diagnosticResponseListSchema)
-
+export const allUsersDiagnosticSchema: SchemaOf<IDiagnosticListResponse[]> = yup
+  .array()
+  .of(diagnosticResponseListSchema);
