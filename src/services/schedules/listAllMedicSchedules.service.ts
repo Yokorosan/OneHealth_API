@@ -27,7 +27,6 @@ const listAllMedicSchedulesService = async (
       abortEarly: false,
     });
 
-  console.log(validadedMedicSchedules);
   return validadedMedicSchedules;
 };
 
