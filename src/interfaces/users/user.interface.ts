@@ -64,13 +64,7 @@ export interface ISchedulesUserResponse {
   id?: string;
   name?: string;
   email?: string;
-  password?: string;
   phone?: string;
-  isActive?: boolean;
-  isAdm?: boolean;
-  createdAt?: Date;
-  updatedAt?: Date;
-  deletedAt: Date | null | undefined;
   diagnostic?: IDiagnosticOfUserResponse[];
   appointment?: ISchedulesOfUserResponse[];
 }

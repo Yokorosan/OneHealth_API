@@ -81,13 +81,7 @@ export const schedulesUserResponseSchema: SchemaOf<ISchedulesUserResponse> = yup
     id: yup.string().notRequired(),
     name: yup.string().notRequired(),
     email: yup.string().notRequired(),
-    password: yup.string().notRequired(),
     phone: yup.string().notRequired(),
-    isActive: yup.boolean().notRequired(),
-    isAdm: yup.boolean().notRequired(),
-    createdAt: yup.date().notRequired(),
-    updatedAt: yup.date().notRequired(),
-    deletedAt: yup.date().nullable().notRequired(),
     diagnostic: yup.array(diagnosticOfUserResponseSchema),
     appointment: yup.array(schedulesOfUserResponseSchema),
   });

@@ -23,7 +23,6 @@ export const schedulesOfUserResponseSchema: SchemaOf<any> = yup.object().shape({
   date: yup.date().notRequired(),
   createdAt: yup.date().notRequired(),
   updatedAt: yup.date().notRequired(),
-  deletedAt: yup.date().nullable().notRequired(),
 });
 
 export const schedulesResponseSchema: SchemaOf<IScheduleResponse> = yup

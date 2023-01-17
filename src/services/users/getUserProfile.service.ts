@@ -1,6 +1,5 @@
 import AppDataSource from "../../data-source";
 import { Users } from "../../entities/user.entity";
-import { IUserResponse } from "../../interfaces/users/user.interface";
 import { schedulesUserResponseSchema } from "../../schemas/users.schema";
 
 export const getUserProfileService = async (userId: string): Promise<any> => {
