@@ -104,3 +104,10 @@ export const mockedAddressRequest: IAddressRequest = {
   city: "São Paulo",
   state: "SP",
 };
+
+export const mockedDiagnosticRequest = {
+  name: "Doença",
+	date: "2023/10/10",
+	description: "Doença",
+
+}

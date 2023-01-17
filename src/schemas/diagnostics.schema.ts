@@ -34,7 +34,7 @@ export const diagnosticOfUserResponseSchema: SchemaOf<any> = yup
     description: yup.string().notRequired(),
     createdAt: yup.date().notRequired(),
     updatedAt: yup.date().notRequired(),
-    deletedAt: yup.date().notRequired(),
+
   });
 
 export const diagnosticResponseSchema: SchemaOf<IDiagnosticResponse> = yup
