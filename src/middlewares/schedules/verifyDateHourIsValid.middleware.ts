@@ -6,18 +6,21 @@ const verifyDateHourIsValidMiddleware = (
   res: Response,
   next: NextFunction
 ) => {
-  const day = new Date(req.body.date);
+  if (req.body.date) {
+    const day = new Date(req.body.date);
 
-  if (day.getDay() === 0 || day.getDay() === 6) {
-    throw new AppError("Invalid Data", 400);
+    if (day.getDay() === 0 || day.getDay() === 6) {
+      throw new AppError("Invalid Data", 400);
+    }
   }
-
-  if (
-    req.body.hour.split(":")[0] < 8 ||
-    (req.body.hour.split(":")[0] == 18 && req.body.hour.split(":")[1] > 0) ||
-    req.body.hour.split(":")[0] > 18
-  ) {
-    throw new AppError("Invalid Data", 400);
+  if (req.body.hour) {
+    if (
+      req.body.hour.split(":")[0] < 8 ||
+      (req.body.hour.split(":")[0] == 18 && req.body.hour.split(":")[1] > 0) ||
+      req.body.hour.split(":")[0] > 18
+    ) {
+      throw new AppError("Invalid Data", 400);
+    }
   }
 
   return next();
