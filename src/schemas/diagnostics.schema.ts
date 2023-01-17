@@ -2,8 +2,10 @@ import * as yup from "yup";
 import { SchemaOf } from "yup";
 import {
   IDiagnosticListResponse,
+  IDiagnosticObjectResponse,
   IDiagnosticRequest,
   IDiagnosticResponse,
+  IDiagnosticsByUserResponse,
 } from "../interfaces/diagnostics/diagnostics.interface";
 
 export const diagnosticRequestSchema: SchemaOf<IDiagnosticRequest> = yup
@@ -14,6 +16,17 @@ export const diagnosticRequestSchema: SchemaOf<IDiagnosticRequest> = yup
     description: yup.string().required(),
     user: yup.string().required(),
     medic: yup.string().required(),
+  });
+
+export const diagnosticOfUserResponseSchema: SchemaOf<any> = yup
+  .object()
+  .shape({
+    id: yup.string().notRequired(),
+    name: yup.string().notRequired(),
+    date: yup.string().notRequired(),
+    description: yup.string().notRequired(),
+    createdAt: yup.date().notRequired(),
+    updatedAt: yup.date().notRequired(),
   });
 
 export const diagnosticResponseSchema: SchemaOf<IDiagnosticResponse> = yup
@@ -34,15 +47,18 @@ export const diagnosticResponseSchema: SchemaOf<IDiagnosticResponse> = yup
         phone: yup.string().notRequired(),
       })
       .notRequired(),
-    medic: yup.object().shape({
-      id: yup.string().notRequired(),
-      name: yup.string().notRequired(),
-      email: yup.string().notRequired(),
-      phone: yup.string().notRequired(),
-    }).notRequired(),
+    medic: yup
+      .object()
+      .shape({
+        id: yup.string().notRequired(),
+        name: yup.string().notRequired(),
+        email: yup.string().notRequired(),
+        phone: yup.string().notRequired(),
+      })
+      .notRequired(),
   });
 
-  export const diagnosticResponseListSchema: SchemaOf<IDiagnosticListResponse> = yup
+export const diagnosticObjectResponse: SchemaOf<IDiagnosticObjectResponse> = yup
   .object()
   .shape({
     id: yup.string().notRequired(),
@@ -51,15 +67,13 @@ export const diagnosticResponseSchema: SchemaOf<IDiagnosticResponse> = yup
     description: yup.string().notRequired(),
     createdAt: yup.date().notRequired(),
     updatedAt: yup.date().notRequired(),
-    user: yup
-      .object()
-      .shape({
-        id: yup.string().notRequired(),
-        name: yup.string().notRequired(),
-        email: yup.string().notRequired(),
-        phone: yup.string().notRequired(),
-      }).notRequired()
   });
 
-  export const allUsersDiagnosticSchema: SchemaOf<IDiagnosticListResponse[]> = yup.array().of(diagnosticResponseListSchema)
-
+export const diagnosticsByUserResponse: SchemaOf<IDiagnosticsByUserResponse> =
+  yup.object().shape({
+    id: yup.string().notRequired(),
+    name: yup.string().notRequired(),
+    email: yup.string().notRequired(),
+    phone: yup.string().notRequired(),
+    diagnostic: yup.array().of(diagnosticObjectResponse).notRequired(),
+  });

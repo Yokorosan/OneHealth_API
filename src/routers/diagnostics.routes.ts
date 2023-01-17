@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
   createDiagnosticController,
   deletedDiagnosticController,
+  listAllUserDiagnosticsController,
   listAllMedicDiagnosticsController,
 } from "../controllers/diagnostics.controller";
 import ensureDiagnosticDataIsValidMiddleware from "../middlewares/diagnostics/ensureDiagnosticDataIsValid.middleware";
@@ -24,10 +25,16 @@ diagnosticsRoutes.delete(
   deletedDiagnosticController
 );
 diagnosticsRoutes.get(
-  "/:id",
+  "/medics",
   ensureAuthMiddleware,
   ensureDiagnosticIsManipulatedOnlyForMedicsMiddleware,
   listAllMedicDiagnosticsController
+);
+diagnosticsRoutes.get(
+  "/:id",
+  ensureAuthMiddleware,
+  ensureDiagnosticIsManipulatedOnlyForMedicsMiddleware,
+  listAllUserDiagnosticsController
 );
 
 export default diagnosticsRoutes;
