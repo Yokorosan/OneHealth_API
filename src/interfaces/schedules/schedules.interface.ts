@@ -41,3 +41,21 @@ export interface ISchedulesOfUserResponse {
   updatedAt?: Date;
   deletedAt?: Date | null | undefined;
 }
+
+export interface IScheduleListMedicResponse {
+  id?: string;
+  name?: string;
+  appointment?: {
+    id?: string;
+    type?: string;
+    date?: Date;
+    hour?: string;
+    createdAt?: Date;
+    updatedAt?: Date;
+    user?: {
+      name?: string;
+      email?: string;
+      phone?: string;
+    };
+  }[];
+}

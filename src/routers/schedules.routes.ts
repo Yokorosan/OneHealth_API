@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
   createSchedulesController,
   deleteScheduleController,
+  listAllMedicSchedulesController,
   updateScheduleController,
 } from "../controllers/schedules.controller";
 import verifyDateHourIsValidMiddleware from "../middlewares/schedules/verifyDateHourIsValid.middleware";
@@ -28,6 +29,12 @@ schedulesRoutes.post(
   verifyScheduleUserMiddleware,
   verifyScheduleMedicMiddleware,
   createSchedulesController
+);
+
+schedulesRoutes.get(
+  "/medics",
+  ensureAuthMiddleware,
+  listAllMedicSchedulesController
 );
 
 schedulesRoutes.delete(

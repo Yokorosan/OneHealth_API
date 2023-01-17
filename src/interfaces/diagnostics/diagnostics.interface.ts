@@ -1,6 +1,3 @@
-import { IMedicResponse } from "../medics/medics.interface";
-import { IUserResponse } from "../users/user.interface";
-
 export interface IDiagnosticRequest {
   name: string;
   date: Date;
@@ -8,6 +5,13 @@ export interface IDiagnosticRequest {
   user: string;
   medic: string;
 }
+
+export interface IDiagnosticUpdate {
+  name: string;
+  date: Date;
+  description: string;
+}
+
 
 export interface IDiagnosticResponse {
   id?: string;
@@ -29,22 +33,6 @@ export interface IDiagnosticResponse {
     phone?: string;
   };
 }
-
-export interface IDiagnosticListResponse {
-  id?: string;
-  name?: string;
-  date?: Date;
-  description?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-  user: {
-    id?: string;
-    name?: string;
-    email?: string;
-    phone?: string;
-  };
-}
-
 export interface IDiagnosticOfUserResponse {
   id?: string;
   name?: string;
@@ -54,4 +42,18 @@ export interface IDiagnosticOfUserResponse {
   updatedAt?: Date;
   deletedAt?: Date;
 }
-
+export interface IDiagnosticsByUserResponse {
+  id?: string;
+  name?: string;
+  email?: string;
+  phone?: string;
+  diagnostic?: IDiagnosticObjectResponse[];
+}
+export interface IDiagnosticObjectResponse {
+  id?: string;
+  name?: string;
+  date?: Date;
+  description?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
