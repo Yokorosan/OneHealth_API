@@ -5,18 +5,19 @@ import { diagnosticRequestSchema } from "../../schemas/diagnostics.schema";
 const ensureDiagnosticDataIsValidMiddleware = async (req: Request, res: Response, next: NextFunction) => {
 
     try {
-        const newDiagnostic = req.body
-
-        const diagnosticSerializer = await diagnosticRequestSchema.validate(newDiagnostic, {
+        const diagnosticSerializer = await diagnosticRequestSchema.validate(req.body, {
             stripUnknown: true,
             abortEarly: false,
         })
 
+        req.body = diagnosticSerializer
+
         return next()
         
     } catch (error:any) {
+
         console.log(error)
-        throw new AppError("Invalid diagnostic data!", 400)
+       return res.status(400).json({ error: error.errors });
     }
 
 }

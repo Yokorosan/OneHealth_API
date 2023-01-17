@@ -4,9 +4,14 @@ import {
   deletedDiagnosticController,
   listAllDiagnosticsController,
   listAllMedicDiagnosticsController,
+  updateDiagnosticController,
 } from "../controllers/diagnostics.controller";
+import ensureCantUpdateMedicFieldMiddleware from "../middlewares/diagnostics/ensureCantUpdateMedicField.middleware";
+import ensureCantUpdateUserFieldMiddleware from "../middlewares/diagnostics/ensureCantUpdateUserField.middleware";
 import ensureDiagnosticDataIsValidMiddleware from "../middlewares/diagnostics/ensureDiagnosticDataIsValid.middleware";
-import ensureDiagnosticIsManipulatedOnlyForMedicsMiddleware from "../middlewares/diagnostics/ensureDiagnosticIsCreateOnlyForMedics.middleware";
+import ensureDiagnosticDataUpdateIsValidMiddleware from "../middlewares/diagnostics/ensureDiagnosticDataUpdateIsValid.middleware";
+import ensureDiagnosticIsCreatedOnlyForMedicsMiddleware from "../middlewares/diagnostics/ensureDiagnosticIsCreatedOnlyForMedics.middleware";
+import ensureOnlyOneMedicCanEditOrDeleteDiagnosticMiddleware from "../middlewares/diagnostics/ensureOnlyOneMedicCanEditOrDeleteDiagnostic.middleware";
 import ensureAuthMiddleware from "../middlewares/sessions/esureAuth.middleware";
 
 const diagnosticsRoutes = Router();
@@ -15,26 +20,33 @@ diagnosticsRoutes.post(
   "",
   ensureAuthMiddleware,
   ensureDiagnosticDataIsValidMiddleware,
-  ensureDiagnosticIsManipulatedOnlyForMedicsMiddleware,
+  ensureDiagnosticIsCreatedOnlyForMedicsMiddleware,
   createDiagnosticController
 );
 diagnosticsRoutes.delete(
   "/:id",
   ensureAuthMiddleware,
-  ensureDiagnosticIsManipulatedOnlyForMedicsMiddleware,
+  ensureOnlyOneMedicCanEditOrDeleteDiagnosticMiddleware,
   deletedDiagnosticController
 );
 diagnosticsRoutes.get(
   "/medics",
   ensureAuthMiddleware,
-  ensureDiagnosticIsManipulatedOnlyForMedicsMiddleware,
   listAllDiagnosticsController
 );
 diagnosticsRoutes.get(
   "/:id",
   ensureAuthMiddleware,
-  ensureDiagnosticIsManipulatedOnlyForMedicsMiddleware,
   listAllMedicDiagnosticsController
+);
+diagnosticsRoutes.patch(
+  "/:id",
+  ensureAuthMiddleware,
+  ensureOnlyOneMedicCanEditOrDeleteDiagnosticMiddleware,
+  ensureCantUpdateUserFieldMiddleware,
+  ensureCantUpdateMedicFieldMiddleware,
+  ensureDiagnosticDataUpdateIsValidMiddleware,
+  updateDiagnosticController
 );
 
 export default diagnosticsRoutes;
