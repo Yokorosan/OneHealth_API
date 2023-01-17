@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { AppError } from "../../errors/AppError";
 
-const ensureDiagnosticIsManipulatedOnlyForMedicsMiddleware = async (
+const ensureDiagnosticIsCreatedOnlyForMedicsMiddleware = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -15,4 +15,4 @@ const ensureDiagnosticIsManipulatedOnlyForMedicsMiddleware = async (
   return next();
 };
 
-export default ensureDiagnosticIsManipulatedOnlyForMedicsMiddleware;
+export default ensureDiagnosticIsCreatedOnlyForMedicsMiddleware;

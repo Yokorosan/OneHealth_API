@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import createDiagnosticService from "../services/diagnostics/createDiagnostic.service";
 import deleteDiagnosticService from "../services/diagnostics/deleteDiagnostic.service";
+import updateDiagnosticService from "../services/diagnostics/updateDiagnostic.service";
 import { listAllMedicDiagnosticsService } from "../services/diagnostics/listAllMedicDiagnostics.service";
 import { listAllUserDiagnosticsService } from "../services/diagnostics/listAllUserDiagnostics.service";
 
@@ -40,9 +41,17 @@ const listAllMedicDiagnosticsController = async (
   return res.status(200).json(allMedicDiagnostics);
 };
 
+const updateDiagnosticController = async (req: Request, res: Response) => {
+    const diagnosticId = req.params.id
+    const diagnosticNewData = req.body
+    const diagnosticUpdated = await updateDiagnosticService(diagnosticId, diagnosticNewData) 
+    return res.status(200).json(diagnosticUpdated)
+}
+
 export {
   createDiagnosticController,
   deletedDiagnosticController,
   listAllUserDiagnosticsController,
   listAllMedicDiagnosticsController,
+  updateDiagnosticController
 };

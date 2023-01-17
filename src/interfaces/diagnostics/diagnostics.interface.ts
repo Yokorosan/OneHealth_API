@@ -1,6 +1,3 @@
-import { IMedicResponse } from "../medics/medics.interface";
-import { IUserResponse } from "../users/user.interface";
-
 export interface IDiagnosticRequest {
   name: string;
   date: Date;
@@ -8,6 +5,13 @@ export interface IDiagnosticRequest {
   user: string;
   medic: string;
 }
+
+export interface IDiagnosticUpdate {
+  name: string;
+  date: Date;
+  description: string;
+}
+
 
 export interface IDiagnosticResponse {
   id?: string;
