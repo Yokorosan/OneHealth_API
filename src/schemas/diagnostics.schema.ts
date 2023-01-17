@@ -1,7 +1,6 @@
 import * as yup from "yup";
 import { SchemaOf } from "yup";
 import {
-  IDiagnosticListResponse,
   IDiagnosticObjectResponse,
   IDiagnosticRequest,
   IDiagnosticResponse,
