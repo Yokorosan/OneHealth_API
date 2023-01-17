@@ -18,6 +18,7 @@ import {
   UpdateScheduleSchema,
 } from "../schemas/schedules.schema";
 import { verifyScheduleCreateDataMiddleware } from "../middlewares/schedules/verifyScheduleCreateData.middleware";
+import ensureDiagnosticIsCreatedOnlyForMedicsMiddleware from "../middlewares/diagnostics/ensureDiagnosticIsCreatedOnlyForMedics.middleware";
 
 const schedulesRoutes = Router();
 
@@ -34,6 +35,7 @@ schedulesRoutes.post(
 schedulesRoutes.get(
   "/medics",
   ensureAuthMiddleware,
+  ensureDiagnosticIsCreatedOnlyForMedicsMiddleware,
   listAllMedicSchedulesController
 );
 
@@ -52,6 +54,7 @@ schedulesRoutes.patch(
   verifyDateHourIsValidMiddleware,
   verifyScheduleOwnershipOrAdminMiddleware,
   verifyIfDateHourAlreadyExistMiddleware,
+  verifyScheduleExistsMiddleware,
   updateScheduleController
 );
 

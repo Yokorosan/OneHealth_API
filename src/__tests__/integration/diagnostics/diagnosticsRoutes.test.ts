@@ -74,29 +74,41 @@ describe("/diagnostics", () => {
     .post("/login")
     .send(mockedUserLogin);
       
+    const getToBeDeletedMedicDiagnostic = await request(app)
+    .get("/diagnostics/medics")
+    .set("Authorization", `Bearer ${createMedicLogin.body.token}`);
+
+
+    const  getToBeDeletedUserDiagnostic = await request(app)
+    .get(`/users/profile`)
+    .set("Authorization", `Bearer ${createUserLogin.body.token}`);
+
+
+
+    const response = await request(app)
+    .delete(`/diagnostics/${getToBeDeletedMedicDiagnostic.body.diagnostic[0].id}`)
+    .set("Authorization", `Bearer ${createMedicLogin.body.token}`);
+
+
+    
     const getMedicDiagnostic = await request(app)
     .get("/diagnostics/medics")
     .set("Authorization", `Bearer ${createMedicLogin.body.token}`);
 
 
-    const getUserDiagnostic = await request(app)
+    const  getUserDiagnostic = await request(app)
     .get(`/users/profile`)
     .set("Authorization", `Bearer ${createUserLogin.body.token}`);
 
-console.log( getUserDiagnostic.body)
+    
 
-// console.log(getUserDiagnostic)
+    expect(response.status).toBe(204);
+    expect(getMedicDiagnostic.body).toHaveProperty("message");
+    expect( getUserDiagnostic.body.diagnostic).toHaveLength(0);
 
 
-    // const createDiagnostic = await request(app)
-    //   .post("/diagnostics")
-    //   .send(diagnosticRequest)
-    //   .set("Authorization", `Bearer ${createLogin.body.token}`);
+   
 
-    //   console.log(createDiagnostic.body.user)
-    // const response = await request(app)
-    //   .delete(`diagnostics/${createDiagnostic.body.id}`)
-    //   .send(diagnosticRequest)
-    //   .set("Authorization", `Bearer ${createLogin.body.token}`);
+ 
   });
 });

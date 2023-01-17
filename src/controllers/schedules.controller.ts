@@ -27,7 +27,7 @@ export const listAllMedicSchedulesController = async (
 ) => {
   const data = await listAllMedicSchedulesService(req.user.id);
 
-  return res.status(201).json(data);
+  return res.status(200).json(data);
 };
 
 export const updateScheduleController = async (req: Request, res: Response) => {
