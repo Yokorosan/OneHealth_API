@@ -2,7 +2,7 @@ import { Router } from "express";
 import {
   createDiagnosticController,
   deletedDiagnosticController,
-  listAllDiagnosticsController,
+  listAllUserDiagnosticsController,
   listAllMedicDiagnosticsController,
   updateDiagnosticController,
 } from "../controllers/diagnostics.controller";
@@ -32,12 +32,24 @@ diagnosticsRoutes.delete(
 diagnosticsRoutes.get(
   "/medics",
   ensureAuthMiddleware,
-  listAllDiagnosticsController
+  ensureDiagnosticIsCreatedOnlyForMedicsMiddleware,
+  listAllMedicDiagnosticsController
 );
 diagnosticsRoutes.get(
   "/:id",
   ensureAuthMiddleware,
-  listAllMedicDiagnosticsController
+  listAllMedicDiagnosticsController,
+  ensureDiagnosticIsCreatedOnlyForMedicsMiddleware,
+  listAllUserDiagnosticsController
+);
+diagnosticsRoutes.patch(
+  "/:id",
+  ensureAuthMiddleware,
+  ensureOnlyOneMedicCanEditOrDeleteDiagnosticMiddleware,
+  ensureCantUpdateUserFieldMiddleware,
+  ensureCantUpdateMedicFieldMiddleware,
+  ensureDiagnosticDataUpdateIsValidMiddleware,
+  updateDiagnosticController
 );
 diagnosticsRoutes.patch(
   "/:id",
