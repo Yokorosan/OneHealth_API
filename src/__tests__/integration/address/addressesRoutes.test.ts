@@ -115,7 +115,7 @@ describe("Address route tests", () => {
       .send(mockedUserAdminLogin);
 
     const response = await request(app)
-      .patch(`${baseUrl}/:13970660-5dbe-423a-9a9d-5c23b37943cf`)
+      .patch(`${baseUrl}/13970660-5dbe-423a-9a9d-5c23b37943cf`)
       .set("Authorization", `Bearer ${userLoginResponse.body.token}`)
       .send({
         district: "Rua José Vicente",
