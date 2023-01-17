@@ -12,9 +12,8 @@ export interface IScheduleUpdateRequest {
   hour?: string;
 }
 
-
 export interface IScheduleResponse {
-  id?: string
+  id?: string;
   type?: string;
   date?: string;
   hour?: string;
@@ -32,4 +31,13 @@ export interface IScheduleResponse {
     email?: string;
     phone?: string;
   };
+}
+
+export interface ISchedulesOfUserResponse {
+  id?: string;
+  type?: string;
+  date?: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
+  deletedAt?: Date | null | undefined;
 }

@@ -1,3 +1,6 @@
+import { IDiagnosticOfUserResponse } from "../diagnostics/diagnostics.interface";
+import { ISchedulesOfUserResponse } from "../schedules/schedules.interface";
+
 export interface IUserLogin {
   email: string;
   password: string;
@@ -55,4 +58,19 @@ export interface IUserToken {
   isAdm: boolean;
   isActive: boolean;
   isMedic: boolean;
+}
+
+export interface ISchedulesUserResponse {
+  id?: string;
+  name?: string;
+  email?: string;
+  password?: string;
+  phone?: string;
+  isActive?: boolean;
+  isAdm?: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
+  deletedAt: Date | null | undefined;
+  diagnostic?: IDiagnosticOfUserResponse[];
+  appointment?: ISchedulesOfUserResponse[];
 }

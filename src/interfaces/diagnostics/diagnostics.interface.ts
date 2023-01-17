@@ -44,3 +44,14 @@ export interface IDiagnosticListResponse {
     phone?: string;
   };
 }
+
+export interface IDiagnosticOfUserResponse {
+  id?: string;
+  name?: string;
+  date?: Date;
+  description?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+  deletedAt?: Date;
+}
+
