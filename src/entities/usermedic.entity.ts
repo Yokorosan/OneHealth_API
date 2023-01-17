@@ -78,7 +78,7 @@ class UsersMedic {
   )
   appointment: ScheduledAppointment[];
 
-  @OneToMany(() => Diagnostic, (diagnostic) => diagnostic.id, {
+  @OneToMany(() => Diagnostic, (diagnostic) => diagnostic.medic, {
     cascade: ["insert"],
   })
   diagnostic: Diagnostic[];

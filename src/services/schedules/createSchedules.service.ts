@@ -6,35 +6,25 @@ import {
   IScheduleRequest,
   IScheduleResponse,
 } from "../../interfaces/schedules/schedules.interface";
-import {
-  schedulesRequestSchema,
-  schedulesResponseSchema,
-} from "../../schemas/schedules.schema";
+import { schedulesResponseSchema } from "../../schemas/schedules.schema";
 
 const createSchedulesService = async (
   schedulesData: IScheduleRequest
 ): Promise<IScheduleResponse> => {
-  const validated = await schedulesRequestSchema.validate(schedulesData, {
-    stripUnknown: true,
-    abortEarly: false,
-  });
-
-
-
   const schedulesRepository = AppDataSource.getRepository(ScheduledAppointment);
 
   const patientRepository = AppDataSource.getRepository(Users);
   const patient = await patientRepository.findOneBy({
-    id: validated.user,
+    id: schedulesData.user,
   });
 
   const medicRepository = AppDataSource.getRepository(UsersMedic);
-  const medic = await medicRepository.findOneBy({ id: validated.medic });
+  const medic = await medicRepository.findOneBy({ id: schedulesData.medic });
 
   const newSchedule = {
-    type: validated.type,
-    date: validated.date,
-    hour: validated.hour,
+    type: schedulesData.type,
+    date: schedulesData.date,
+    hour: schedulesData.hour,
     user: patient!,
     medic: medic!,
   };

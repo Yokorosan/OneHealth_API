@@ -54,3 +54,4 @@ export interface IDiagnosticOfUserResponse {
   updatedAt?: Date;
   deletedAt?: Date;
 }
+
