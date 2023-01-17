@@ -1,10 +1,13 @@
 import * as yup from "yup";
 import { SchemaOf } from "yup";
 import {
+  ISchedulesUserResponse,
   IUserRequest,
   IUserResponse,
   IUserUpdateRequest,
 } from "../interfaces/users/user.interface";
+import { diagnosticOfUserResponseSchema } from "./diagnostics.schema";
+import { schedulesOfUserResponseSchema } from "./schedules.schema";
 
 export const UsersWhitoutPassSchema: SchemaOf<IUserRequest> = yup
   .object()
@@ -71,6 +74,23 @@ export const UpdateUserSchema: SchemaOf<IUserUpdateRequest> = yup
   })
   .strict(true)
   .noUnknown(true);
+
+export const schedulesUserResponseSchema: SchemaOf<ISchedulesUserResponse> = yup
+  .object()
+  .shape({
+    id: yup.string().notRequired(),
+    name: yup.string().notRequired(),
+    email: yup.string().notRequired(),
+    password: yup.string().notRequired(),
+    phone: yup.string().notRequired(),
+    isActive: yup.boolean().notRequired(),
+    isAdm: yup.boolean().notRequired(),
+    createdAt: yup.date().notRequired(),
+    updatedAt: yup.date().notRequired(),
+    deletedAt: yup.date().nullable().notRequired(),
+    diagnostic: yup.array(diagnosticOfUserResponseSchema),
+    appointment: yup.array(schedulesOfUserResponseSchema),
+  });
 
 export const GetUsersSchema: SchemaOf<IUserResponse[]> = yup
   .array()
