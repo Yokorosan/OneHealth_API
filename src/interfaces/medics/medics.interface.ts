@@ -81,7 +81,6 @@ export interface IMedicUpdate {
 export interface IMedicUpdateCorrect {
   name?: string;
   email?: string;
-  password?: string;
   phone?: string;
   isWhatsApp?: boolean;
   address?: {

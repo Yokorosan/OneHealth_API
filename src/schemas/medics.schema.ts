@@ -31,7 +31,6 @@ export const MedicsRequestSchema: SchemaOf<IMedicRequest> = yup.object().shape({
 export const UpdateMedicSchema: SchemaOf<IMedicUpdateCorrect> = yup.object().shape({
   name: yup.string().notRequired(),
     email: yup.string().email().notRequired(),
-    password: yup.string().notRequired(),
     phone: yup.string().notRequired(),
     isWhatsApp: yup.boolean().notRequired(),
     address: yup
