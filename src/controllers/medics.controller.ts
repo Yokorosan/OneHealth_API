@@ -1,8 +1,9 @@
 import { Request, Response } from "express";
-import { IMedicRequest } from "../interfaces/medics/medics.interface";
+import { IGetUserProfile, IMedicRequest } from "../interfaces/medics/medics.interface";
 import { createMedicService } from "../services/medics/createMedic.service";
 import { deleteMedicService } from "../services/medics/deleteMedic.service";
 import { listMedicsService } from "../services/medics/listMedic.service";
+import { listUserForEmailService } from "../services/medics/listUserForEmail.service";
 import { retrieveMedicDataService } from "../services/medics/retrieveMedicData.service";
 import { updateMedicService } from "../services/medics/updateMedic.service";
 
@@ -41,10 +42,21 @@ const deleteMedicController = async (req: Request, res: Response) => {
   return res.status(204).json(deletedUserMedic);
 };
 
+const listUserForEmailController = async (req: Request, res: Response) => {
+
+  const reqUser: string = req.params.id
+
+  const user = await listUserForEmailService(reqUser)
+
+  return res.status(200).json(user)
+
+}
+
 export {
   createMedicController,
   listMedicsController,
   retrieveMedicDataController,
   updateMedicController,
   deleteMedicController,
+  listUserForEmailController
 };

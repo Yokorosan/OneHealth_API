@@ -38,7 +38,6 @@ diagnosticsRoutes.get(
 diagnosticsRoutes.get(
   "/:id",
   ensureAuthMiddleware,
-  listAllMedicDiagnosticsController,
   ensureDiagnosticIsCreatedOnlyForMedicsMiddleware,
   listAllUserDiagnosticsController
 );
