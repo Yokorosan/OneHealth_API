@@ -1,6 +1,5 @@
 import request from "supertest";
 import { DataSource } from "typeorm";
-import { textSpanEnd } from "typescript";
 import app from "../../../app";
 import AppDataSource from "../../../data-source";
 import {
@@ -11,6 +10,7 @@ import {
   mockedUserAdminLogin,
   mockedUserLogin,
   mockedUserMedicLogin,
+  mockedUserMedicLoginChanged,
 } from "../../mocks";
 describe("/diagnostics", () => {
   let connection: DataSource;
@@ -162,7 +162,123 @@ describe("/diagnostics", () => {
     expect(response.status).toBe(401);
   });
 
-  test("DELETE /diagnostics/:id - must be able to delete a diagnostic", async () => {
+  test("PATCH /diagnostics/:id - Should not be able to edit without authorization", async () => {
+    const response = await request(app).patch(
+      "/diagnostics/72b36ef1-d2b7-4c7d-ba5c-4fe4c6281b03"
+    );
+
+    expect(response.body).toHaveProperty("message");
+    expect(response.status).toBe(401);
+  });
+
+  test("PATCH /diagnostics/:id - Should not be able to edit the diagnostic without being the medic diagnostic owner", async () => {
+
+    const medicLoginResponse = await request(app)
+      .post("/login")
+      .send(mockedUserMedicLogin);
+
+    const medicChagedResponse = await request(app)
+    .post("/login")
+    .send(mockedUserMedicLoginChanged);
+
+      const responselistAllDiagnostics = await request(app)
+      .get("/diagnostics/medics")
+      .set("Authorization", `Bearer ${medicLoginResponse.body.token}`);
+
+    const response = await request(app)
+      .patch(`/diagnostics/${responselistAllDiagnostics.body.diagnostic[0].id}`)
+      .send({ name: "Catapora" })
+      .set("Authorization", `Bearer ${medicChagedResponse.body.token}`);
+
+    expect(response.status).toBe(401);
+    expect(response.body).toHaveProperty("message");
+  });
+
+  test("PATCH /diagnostics/:id - Should not be able to edit fields of user", async () => {
+
+    const medicLoginResponse = await request(app)
+      .post("/login")
+      .send(mockedUserMedicLogin);
+
+    const responselistAllDiagnostics = await request(app)
+    .get("/diagnostics/medics")
+    .set("Authorization", `Bearer ${medicLoginResponse.body.token}`);
+
+
+    const response = await request(app)
+      .patch(`/diagnostics/${responselistAllDiagnostics.body.diagnostic[0].id}`)
+      .send({ user: "90a8caa9-668d-4f7f-b1d8-e404aab16631" })
+      .set("Authorization", `Bearer ${medicLoginResponse.body.token}`);
+
+    expect(response.status).toBe(401);
+    expect(response.body).toHaveProperty("message");
+  });
+
+  test("PATCH /diagnostics/:id - Should not be able to edit fields of medic", async () => {
+
+    const medicLoginResponse = await request(app)
+      .post("/login")
+      .send(mockedUserMedicLogin);
+
+    const responselistAllDiagnostics = await request(app)
+    .get("/diagnostics/medics")
+    .set("Authorization", `Bearer ${medicLoginResponse.body.token}`);
+
+
+    const response = await request(app)
+      .patch(`/diagnostics/${responselistAllDiagnostics.body.diagnostic[0].id}`)
+      .send({ medic: "90a8caa9-668d-4f7f-b1d8-e404aab16631" })
+      .set("Authorization", `Bearer ${medicLoginResponse.body.token}`);
+
+    expect(response.status).toBe(401);
+    expect(response.body).toHaveProperty("message");
+  });
+
+  test("PATCH /diagnostics/:id - Should not be able to accept invalid fields", async () => {
+
+    const medicLoginResponse = await request(app)
+      .post("/login")
+      .send(mockedUserMedicLogin);
+
+    const responselistAllDiagnostics = await request(app)
+    .get("/diagnostics/medics")
+    .set("Authorization", `Bearer ${medicLoginResponse.body.token}`);
+
+
+    const response = await request(app)
+      .patch(`/diagnostics/${responselistAllDiagnostics.body.diagnostic[0].id}`)
+      .send({ batata: "doce" })
+      .set("Authorization", `Bearer ${medicLoginResponse.body.token}`);
+
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty("error");
+    expect(response.body).toHaveProperty("error");
+    expect(response.body.error[0]).toEqual("name is a required field");
+    expect(response.body.error[1]).toEqual("date is a required field");
+    expect(response.body.error[2]).toEqual("description is a required field");
+  });
+
+  test("PATCH /diagnostics/:id - Must be able to edit diagnostic", async () => {
+
+    const medicLoginResponse = await request(app)
+      .post("/login")
+      .send(mockedUserMedicLogin);
+
+    const responselistAllDiagnostics = await request(app)
+    .get("/diagnostics/medics")
+    .set("Authorization", `Bearer ${medicLoginResponse.body.token}`);
+
+
+    const response = await request(app)
+      .patch(`/diagnostics/${responselistAllDiagnostics.body.diagnostic[0].id}`)
+      .send({ name: "Tosse seca", date: "2023/10/11", description: "tosse seca incomodante" })
+      .set("Authorization", `Bearer ${medicLoginResponse.body.token}`);
+
+    expect(response.status).toBe(200);
+    expect(response.body.name).toEqual("Tosse seca");
+  });
+
+  test("DELETE /diagnostics/:id - Must be able to delete a diagnostic", async () => {
     const createMedicLogin = await request(app)
       .post("/login")
       .send(mockedUserMedicLogin);
