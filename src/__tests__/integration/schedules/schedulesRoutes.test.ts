@@ -120,18 +120,18 @@ describe("Schedules route tests", () => {
       .set("Authorization", `Bearer ${userMedicLogin.body.token}`)
       .send({
         type: "Consulta",
-        date: "10/03/2023",
+        date: "2023/03/10",
         hour: "16:30",
         user: user.body.id,
         medic: medic.body.id,
       });
 
     const response = await request(app)
-      .post(baseUrl)
+      .post("/schedules")
       .set("Authorization", `Bearer ${userMedicLogin.body.token}`)
       .send({
         type: "Consulta",
-        date: "10/03/2023",
+        date: "2023/03/10",
         hour: "16:30",
         user: user.body.id,
         medic: medic.body.id,

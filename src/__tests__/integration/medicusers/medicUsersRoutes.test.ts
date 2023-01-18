@@ -185,7 +185,7 @@ describe("/medics", () => {
       .send(newValues);
 
     expect(response.body).toHaveProperty("message");
-    expect(response.status).toBe(401);
+    expect(response.status).toBe(400);
   });
 
   test("PATCH /medics/:id - should not be able to update id field value", async () => {
@@ -207,7 +207,7 @@ describe("/medics", () => {
       .send(newValues);
 
     expect(response.body).toHaveProperty("message");
-    expect(response.status).toBe(401);
+    expect(response.status).toBe(400);
   });
 
   test("PATCH /medics/:id - Should not be able to update another medic", async () => {

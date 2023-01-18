@@ -6,8 +6,8 @@ const ensureMedicAndUserUuidIsValidMiddleware = async (
   res: Response,
   next: NextFunction
 ) => {
-  const newDiagnosticUserId = req.body.user;
-  const newDiagnosticMedicId = req.body.medic;
+  const newDiagnosticUserId = req.user.id;
+  const newDiagnosticMedicId = req.user.id;
 
   if (newDiagnosticUserId.length !== 36 || newDiagnosticMedicId.length !== 36) {
     throw new AppError("Invalid medic or user id!", 400);

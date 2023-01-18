@@ -9,24 +9,24 @@ export const updateMedicService = async (
   userMedicData: any
 ): Promise<IMedicResponse> => {
   const medicRepository = AppDataSource.getRepository(UsersMedic);
-  const addressRepository = AppDataSource.getRepository(Address)
+  const addressRepository = AppDataSource.getRepository(Address);
 
   const newMedicData = {
-  name: userMedicData?.name,
-  email: userMedicData?.email,
-  password:userMedicData?.password,
-  phone: userMedicData?.phone,
-  isWhatsApp: userMedicData?.isWhatsApp,
-  speciality: userMedicData?.speciality
-  }
+    name: userMedicData?.name,
+    email: userMedicData?.email,
+    password: userMedicData?.password,
+    phone: userMedicData?.phone,
+    isWhatsApp: userMedicData?.isWhatsApp,
+    speciality: userMedicData?.speciality,
+  };
 
   const newMedicAddress = {
     district: userMedicData.address?.district,
     zipCode: userMedicData.address?.zipCode,
     number: userMedicData.address?.number,
     city: userMedicData.address?.city,
-    state: userMedicData.address?.state
-  }
+    state: userMedicData.address?.state,
+  };
 
   const foundMedic = await medicRepository.findOneBy({
     id: userMedicId,
@@ -38,19 +38,19 @@ export const updateMedicService = async (
   });
 
   await medicRepository.update(userMedicId, newMedicData);
-  
-  const medicAddressId:any = foundMedic?.address
+
+  const medicAddressId: any = foundMedic?.address;
 
   const foundAddress = await addressRepository.findOneBy({
-    id:medicAddressId
-  })
+    id: medicAddressId,
+  });
 
   const updateAddress = medicRepository.create({
     ...foundAddress,
     ...newMedicAddress,
   });
 
-  await addressRepository.update(foundAddress!.id, newMedicAddress)
+  await addressRepository.update(foundAddress!.id, updateAddress);
 
   const medicWhitoutPass = await MedicWhitoutPassSchema.validate(updateMedic, {
     stripUnknown: true,
