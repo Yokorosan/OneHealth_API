@@ -3,7 +3,7 @@ import {
   createMedicController,
   deleteMedicController,
   listMedicsController,
-  listUserForEmailController,
+  listUserByEmailController,
   retrieveMedicDataController,
   updateMedicController,
 } from "../controllers/medics.controller";
@@ -35,7 +35,7 @@ medicsRoutes.post(
 
 medicsRoutes.get("", ensureAuthMiddleware, listMedicsController);
 medicsRoutes.get("/profile", ensureAuthMiddleware, retrieveMedicDataController);
-medicsRoutes.get("/user/:id", ensureAuthMiddleware, listUserForEmailController);
+medicsRoutes.get("/user/:id", ensureAuthMiddleware, listUserByEmailController);
 medicsRoutes.patch(
   "/:id",
   ensureAuthMiddleware,
