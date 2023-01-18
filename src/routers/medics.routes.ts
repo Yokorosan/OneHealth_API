@@ -35,7 +35,7 @@ medicsRoutes.post(
 
 medicsRoutes.get("", ensureAuthMiddleware, listMedicsController);
 medicsRoutes.get("/profile", ensureAuthMiddleware, retrieveMedicDataController);
-medicsRoutes.get("/user/:id", listUserForEmailController)
+medicsRoutes.get("/user/:id", ensureAuthMiddleware, listUserForEmailController);
 medicsRoutes.patch(
   "/:id",
   ensureAuthMiddleware,

@@ -286,6 +286,8 @@ describe("Schedules route tests", () => {
     expect(response.body).toHaveProperty("hour");
     expect(response.body).toHaveProperty("updatedAt");
     expect(response.body).toHaveProperty("createdAt");
+    expect(response.body).toHaveProperty("user");
+    expect(response.body).toHaveProperty("medic");
     expect(response.status).toBe(200);
   });
 

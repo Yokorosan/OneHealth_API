@@ -23,7 +23,6 @@ const createAddressService = async (
   const userRepository = AppDataSource.getRepository(Users);
 
   const createAddress = addressRepository.create(addressData);
-
   await addressRepository.save(createAddress);
 
   await userRepository.update(

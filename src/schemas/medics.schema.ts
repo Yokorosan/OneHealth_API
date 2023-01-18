@@ -46,15 +46,13 @@ export const MedicWhitoutPassSchema: SchemaOf<IMedicResponse> = yup
       })
       .notRequired(),
     speciality: yup.string().notRequired(),
-    // isAdm: yup.boolean().notRequired(),
     isActive: yup.boolean().notRequired(),
     createdAt: yup.date().notRequired(),
-    updatedAt: yup.date().notRequired()
+    updatedAt: yup.date().notRequired(),
   });
 
-  export const MedicProfileWhitoutPassSchema: SchemaOf<IMedicProfileResponse> = yup
-  .object()
-  .shape({
+export const MedicProfileWhitoutPassSchema: SchemaOf<IMedicProfileResponse> =
+  yup.object().shape({
     id: yup.string().notRequired(),
     name: yup.string().notRequired(),
     email: yup.string().notRequired(),
@@ -71,12 +69,18 @@ export const MedicWhitoutPassSchema: SchemaOf<IMedicResponse> = yup
         state: yup.string().notRequired(),
       })
       .notRequired(),
-    speciality: yup.object().shape({
-      id:yup.string().notRequired(),
-      name:yup.string().notRequired()
-    }).notRequired(),
-    // isAdm: yup.boolean().notRequired(),
+    speciality: yup
+      .object()
+      .shape({
+        id: yup.string().notRequired(),
+        name: yup.string().notRequired(),
+      })
+      .notRequired(),
     isActive: yup.boolean().notRequired(),
     createdAt: yup.date().notRequired(),
     updatedAt: yup.date().notRequired(),
   });
+
+export const GetMedicsSchema: SchemaOf<IMedicProfileResponse[]> = yup
+  .array()
+  .of(MedicProfileWhitoutPassSchema);
