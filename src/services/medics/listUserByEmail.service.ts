@@ -1,9 +1,10 @@
 import AppDataSource from "../../data-source";
 import { Users } from "../../entities/user.entity";
 import { IGetUserProfile } from "../../interfaces/medics/medics.interface";
+import { listUserByEmailReturned } from "../../schemas/medics.schema";
 
 
-export const listUserForEmailService = async (emailUser: string) => {
+export const listUserByEmailService = async (emailUser: string) => {
 
 
     const userRepository = AppDataSource.getRepository(Users)
@@ -12,7 +13,12 @@ export const listUserForEmailService = async (emailUser: string) => {
         email: emailUser
     })
 
-    return findUser
+    const returnedUserValidate = listUserByEmailReturned.validate(findUser, {
+        stripUnknown: true,
+        abortEarly: false
+    })
+
+    return returnedUserValidate
 
 }
 

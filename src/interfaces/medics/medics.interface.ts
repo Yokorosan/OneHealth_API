@@ -81,3 +81,9 @@ export interface IMedicUpdate {
 export interface IGetUserProfile {
   email?: string
 }
+
+
+export interface IReturnedUserByEmail {
+  id?: string
+  name?: string
+}
