@@ -5,7 +5,9 @@ import updateAddressService from "../services/address/updateAddress.service";
 
 export const createAddressController = async (req: Request, res: Response) => {
   const addressData: IAddressRequest = req.body;
-  const newAddress = await createAddressService(addressData);
+
+  const userId = req.user.id;
+  const newAddress = await createAddressService(addressData, userId);
 
   return res.status(201).json(newAddress);
 };
