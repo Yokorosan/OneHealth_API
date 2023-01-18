@@ -344,7 +344,7 @@ describe("Schedules route tests", () => {
       .set("Authorization", `Bearer ${userLogin.body.token}`);
 
     expect(response.body).toHaveProperty("message");
-    expect(response.status).toBe(401);
+    expect(response.status).toBe(403);
   });
 
   test("GET /schedules/medics - It should be possible to list all of a doctor's schedules", async () => {

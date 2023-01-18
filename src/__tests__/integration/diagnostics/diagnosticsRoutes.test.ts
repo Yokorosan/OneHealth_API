@@ -93,6 +93,35 @@ describe("/diagnostics", () => {
      expect(response.status).toBe(403);
   });
 
+  test("POST /diagnostics - must not be able to create a diagnostic if data is incomplete", async () => {
+    const userLogin = await request(app).post("/login").send(mockedUserLogin);
+
+    const medicLogin = await request(app)
+      .post("/login")
+      .send(mockedUserMedicLogin);
+
+    const findMedic = await request(app)
+      .get("/diagnostics/medics")
+      .set("Authorization", `Bearer ${medicLogin.body.token}`);
+
+    const findUser = await request(app)
+      .get("/users/profile")
+      .set("Authorization", `Bearer ${userLogin.body.token}`);
+
+    const diagnosticRequest = {
+      ...mockedDiagnosticRequest,
+      medic: findMedic.body.id,
+    };
+
+    const response = await request(app)
+      .post("/diagnostics")
+      .send(diagnosticRequest)
+      .set("Authorization", `Bearer ${userLogin.body.token}`);
+
+     expect(response.body).toHaveProperty("error");
+     expect(response.status).toBe(400);
+  });
+
   test("POST /diagnostics - must not be able to create a diagnostic if user is not authenticated", async () => {
     const userLogin = await request(app).post("/login").send(mockedUserLogin);
 
