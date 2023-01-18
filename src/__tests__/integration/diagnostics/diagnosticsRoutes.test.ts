@@ -1,5 +1,6 @@
 import request from "supertest";
 import { DataSource } from "typeorm";
+import { textSpanEnd } from "typescript";
 import app from "../../../app";
 import AppDataSource from "../../../data-source";
 import {
@@ -65,7 +66,7 @@ describe("/diagnostics", () => {
     expect(response.status).toBe(201);
   });
 
-  test("GET /diagnostics/medics - Should be able to list all diagnostics of medic", async () => {
+  test("GET /diagnostics/medics - Should be able to list all diagnostics of Medic", async () => {
     const userMedciLoginResponse = await request(app)
       .post("/login")
       .send(mockedUserMedicLogin);
@@ -89,6 +90,35 @@ describe("/diagnostics", () => {
     expect(responselistAllDiagnostics.body.diagnostic[0]).toHaveProperty("updatedAt");
     expect(responselistAllDiagnostics.body.diagnostic[0]).not.toHaveProperty("password");
   });
+
+  test("GET /diagnostics/:id - Should be able to list all diagnostics of User", async () => {
+
+    const userMedciLoginResponse = await request(app)
+    .post("/login")
+    .send(mockedUserMedicLogin);
+
+    const getUserForEmail = await request(app).get(`/medics/user/${mockedUser.email}`)
+    .set("Authorization", `Bearer ${userMedciLoginResponse.body.token}`);
+
+    const responselistAllDiagnostics = await request(app)
+    .get(`/diagnostics/${getUserForEmail.body.id}`)
+    .set("Authorization", `Bearer ${userMedciLoginResponse.body.token}`);
+
+    expect(responselistAllDiagnostics.body.diagnostic).toHaveLength(1);
+    expect(responselistAllDiagnostics.body).toHaveProperty("id");
+    expect(responselistAllDiagnostics.body).toHaveProperty("name");
+    expect(responselistAllDiagnostics.body).toHaveProperty("email");
+    expect(responselistAllDiagnostics.body).toHaveProperty("phone");
+    expect(responselistAllDiagnostics.body).toHaveProperty("diagnostic");
+    expect(responselistAllDiagnostics.body.diagnostic[0]).toHaveProperty("id");
+    expect(responselistAllDiagnostics.body.diagnostic[0]).toHaveProperty("name");
+    expect(responselistAllDiagnostics.body.diagnostic[0]).toHaveProperty("description");
+    expect(responselistAllDiagnostics.body.diagnostic[0]).toHaveProperty("date");
+    expect(responselistAllDiagnostics.body.diagnostic[0]).toHaveProperty("description");
+    expect(responselistAllDiagnostics.body.diagnostic[0]).toHaveProperty("createdAt");
+    expect(responselistAllDiagnostics.body.diagnostic[0]).toHaveProperty("updatedAt");
+    expect(responselistAllDiagnostics.body.diagnostic[0]).not.toHaveProperty("password");
+  })
 
   test("DELETE /diagnostics/:id - must be able to delete a diagnostic", async () => {
     const createMedicLogin = await request(app)
