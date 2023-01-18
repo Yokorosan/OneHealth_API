@@ -12,11 +12,11 @@ const ensureOnlyOneMedicCanEditOrDeleteDiagnosticMiddleware = async (req: Reques
     const findTheDiagnostic = await diagnosticRepository.createQueryBuilder("diagnosticMedic")
     .where("diagnosticMedic.id = :id",{id:diagnosticId})
     .innerJoinAndSelect("diagnosticMedic.medic","medic")
-    .where("medic.id = :id", {id:userMedicThatMakesTheDiagnosticId})
+    .where("medic.id = diagnosticMedic.medicId ")
     .getOne()
 
-    if(!findTheDiagnostic){
-        throw new AppError("Missing authorization!", 401)
+    if(findTheDiagnostic?.medic.id !== userMedicThatMakesTheDiagnosticId){
+        throw new AppError("You can only update you own diagnostics!", 403)
     }
 
     return next()

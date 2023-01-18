@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
-import AppDataSource from "../../data-source";
 import { UsersMedic } from "../../entities/usermedic.entity";
 import { AppError } from "../../errors/AppError";
+import AppDataSource from "../../data-source";
 
 export const ensureMedicNoRepeatMiddleware = async (
   req: Request,
