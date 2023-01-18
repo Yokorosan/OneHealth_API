@@ -1,24 +1,44 @@
 import AppDataSource from "../../data-source";
 import { UsersMedic } from "../../entities/usermedic.entity";
 import { AppError } from "../../errors/AppError";
+import { IMedicProfileResponse } from "../../interfaces/medics/medics.interface";
+import { GetMedicsSchema } from "../../schemas/medics.schema";
 
 export const listMedicsService = async (isAdm: boolean, isMedic: boolean) => {
-  const medicRepository = AppDataSource.getRepository(UsersMedic);
-
-  let allMedics = [];
+  let allMedics: IMedicProfileResponse[] = [];
 
   if (isAdm) {
-    allMedics = await medicRepository.find({
-      withDeleted: true,
+    allMedics = await AppDataSource.createQueryBuilder()
+      .withDeleted()
+      .select("medics")
+      .from(UsersMedic, "medics")
+      .leftJoinAndSelect("medics.speciality", "speciality")
+      .leftJoinAndSelect("medics.address", "address")
+      .getMany();
+
+    const medicsWithoutPassword = await GetMedicsSchema.validate(allMedics, {
+      abortEarly: false,
+      stripUnknown: true,
     });
-    return allMedics
+
+    return medicsWithoutPassword;
   }
 
   if (!isMedic) {
-    allMedics = await medicRepository.find();
+    allMedics = await AppDataSource.createQueryBuilder()
+      .select("medics")
+      .from(UsersMedic, "medics")
+      .leftJoinAndSelect("medics.speciality", "speciality")
+      .leftJoinAndSelect("medics.address", "address")
+      .getMany();
+
+    const medicsWithoutPassword = await GetMedicsSchema.validate(allMedics, {
+      abortEarly: false,
+      stripUnknown: true,
+    });
+
+    return medicsWithoutPassword;
   } else {
     throw new AppError("Access denied!", 403);
   }
-
-  return allMedics;
 };
