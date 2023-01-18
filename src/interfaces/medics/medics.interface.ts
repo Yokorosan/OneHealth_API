@@ -77,3 +77,7 @@ export interface IMedicUpdate {
   };
   speciality?: ISpeciality;
 }
+
+export interface IGetUserProfile {
+  email?: string
+}
