@@ -32,7 +32,7 @@ describe("/diagnostics", () => {
   test("POST /diagnostics - must be able to create a diagnostic", async () => {
     const createUser = await request(app).post("/users").send(mockedUser);
     const createMedic = await request(app).post("/medics").send(mockedMedic);
-    const createLogin = await request(app)
+    const Login = await request(app)
       .post("/login")
       .send(mockedUserMedicLogin);
 
@@ -46,7 +46,7 @@ describe("/diagnostics", () => {
     const response = await request(app)
       .post("/diagnostics")
       .send(diagnosticRequest)
-      .set("Authorization", `Bearer ${createLogin.body.token}`);
+      .set("Authorization", `Bearer ${Login.body.token}`);
 
     expect(response.body).toHaveProperty("id");
     expect(response.body).toHaveProperty("name");
@@ -66,6 +66,45 @@ describe("/diagnostics", () => {
     expect(response.status).toBe(201);
   });
 
+  test("POST /diagnostics - must not be able to create a diagnostic if user is not medic", async () => {
+
+    const userLogin = await request(app)
+    .post("/login")
+    .send(mockedUserLogin);
+
+    const medicLogin = await request(app)
+    .post("/login")
+    .send(mockedUserMedicLogin);
+
+
+    const findMedic =await request(app)
+    .get("/diagnostics/medics")
+    .set("Authorization", `Bearer ${medicLogin.body.token}`);
+
+
+    const findUser =await request(app)
+    .get("/users/profile")
+    .set("Authorization", `Bearer ${userLogin.body.token}`);
+
+
+  const UserMedicData = {
+    user: findUser.body.id,
+    medic: findMedic.body.id,
+  };
+
+  
+
+  const diagnosticRequest = { ...mockedDiagnosticRequest, ...UserMedicData };
+
+  const response = await request(app)
+    .post("/diagnostics")
+    .send(diagnosticRequest)
+    .set("Authorization", `Bearer ${userLogin.body.token}`);
+    expect(response.body).toHaveProperty("message");
+   
+
+  })
+
   test("GET /diagnostics/medics - Should be able to list all diagnostics of Medic", async () => {
     const userMedciLoginResponse = await request(app)
       .post("/login")
@@ -82,27 +121,41 @@ describe("/diagnostics", () => {
     expect(responselistAllDiagnostics.body).toHaveProperty("phone");
     expect(responselistAllDiagnostics.body).toHaveProperty("diagnostic");
     expect(responselistAllDiagnostics.body.diagnostic[0]).toHaveProperty("id");
-    expect(responselistAllDiagnostics.body.diagnostic[0]).toHaveProperty("name");
-    expect(responselistAllDiagnostics.body.diagnostic[0]).toHaveProperty("description");
-    expect(responselistAllDiagnostics.body.diagnostic[0]).toHaveProperty("date");
-    expect(responselistAllDiagnostics.body.diagnostic[0]).toHaveProperty("description");
-    expect(responselistAllDiagnostics.body.diagnostic[0]).toHaveProperty("createdAt");
-    expect(responselistAllDiagnostics.body.diagnostic[0]).toHaveProperty("updatedAt");
-    expect(responselistAllDiagnostics.body.diagnostic[0]).not.toHaveProperty("password");
+    expect(responselistAllDiagnostics.body.diagnostic[0]).toHaveProperty(
+      "name"
+    );
+    expect(responselistAllDiagnostics.body.diagnostic[0]).toHaveProperty(
+      "description"
+    );
+    expect(responselistAllDiagnostics.body.diagnostic[0]).toHaveProperty(
+      "date"
+    );
+    expect(responselistAllDiagnostics.body.diagnostic[0]).toHaveProperty(
+      "description"
+    );
+    expect(responselistAllDiagnostics.body.diagnostic[0]).toHaveProperty(
+      "createdAt"
+    );
+    expect(responselistAllDiagnostics.body.diagnostic[0]).toHaveProperty(
+      "updatedAt"
+    );
+    expect(responselistAllDiagnostics.body.diagnostic[0]).not.toHaveProperty(
+      "password"
+    );
   });
 
   test("GET /diagnostics/:id - Should be able to list all diagnostics of User", async () => {
-
     const userMedciLoginResponse = await request(app)
-    .post("/login")
-    .send(mockedUserMedicLogin);
+      .post("/login")
+      .send(mockedUserMedicLogin);
 
-    const getUserForEmail = await request(app).get(`/medics/user/${mockedUser.email}`)
-    .set("Authorization", `Bearer ${userMedciLoginResponse.body.token}`);
+    const getUserForEmail = await request(app)
+      .get(`/medics/user/${mockedUser.email}`)
+      .set("Authorization", `Bearer ${userMedciLoginResponse.body.token}`);
 
     const responselistAllDiagnostics = await request(app)
-    .get(`/diagnostics/${getUserForEmail.body.id}`)
-    .set("Authorization", `Bearer ${userMedciLoginResponse.body.token}`);
+      .get(`/diagnostics/${getUserForEmail.body.id}`)
+      .set("Authorization", `Bearer ${userMedciLoginResponse.body.token}`);
 
     expect(responselistAllDiagnostics.body.diagnostic).toHaveLength(1);
     expect(responselistAllDiagnostics.body).toHaveProperty("id");
@@ -111,14 +164,28 @@ describe("/diagnostics", () => {
     expect(responselistAllDiagnostics.body).toHaveProperty("phone");
     expect(responselistAllDiagnostics.body).toHaveProperty("diagnostic");
     expect(responselistAllDiagnostics.body.diagnostic[0]).toHaveProperty("id");
-    expect(responselistAllDiagnostics.body.diagnostic[0]).toHaveProperty("name");
-    expect(responselistAllDiagnostics.body.diagnostic[0]).toHaveProperty("description");
-    expect(responselistAllDiagnostics.body.diagnostic[0]).toHaveProperty("date");
-    expect(responselistAllDiagnostics.body.diagnostic[0]).toHaveProperty("description");
-    expect(responselistAllDiagnostics.body.diagnostic[0]).toHaveProperty("createdAt");
-    expect(responselistAllDiagnostics.body.diagnostic[0]).toHaveProperty("updatedAt");
-    expect(responselistAllDiagnostics.body.diagnostic[0]).not.toHaveProperty("password");
-  })
+    expect(responselistAllDiagnostics.body.diagnostic[0]).toHaveProperty(
+      "name"
+    );
+    expect(responselistAllDiagnostics.body.diagnostic[0]).toHaveProperty(
+      "description"
+    );
+    expect(responselistAllDiagnostics.body.diagnostic[0]).toHaveProperty(
+      "date"
+    );
+    expect(responselistAllDiagnostics.body.diagnostic[0]).toHaveProperty(
+      "description"
+    );
+    expect(responselistAllDiagnostics.body.diagnostic[0]).toHaveProperty(
+      "createdAt"
+    );
+    expect(responselistAllDiagnostics.body.diagnostic[0]).toHaveProperty(
+      "updatedAt"
+    );
+    expect(responselistAllDiagnostics.body.diagnostic[0]).not.toHaveProperty(
+      "password"
+    );
+  });
 
   test("DELETE /diagnostics/:id - must be able to delete a diagnostic", async () => {
     const createMedicLogin = await request(app)
