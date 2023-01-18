@@ -23,34 +23,28 @@ diagnosticsRoutes.post(
   ensureDiagnosticIsCreatedOnlyForMedicsMiddleware,
   createDiagnosticController
 );
+
 diagnosticsRoutes.delete(
   "/:id",
   ensureAuthMiddleware,
   ensureOnlyOneMedicCanEditOrDeleteDiagnosticMiddleware,
   deletedDiagnosticController
 );
+
 diagnosticsRoutes.get(
   "/medics",
   ensureAuthMiddleware,
   ensureDiagnosticIsCreatedOnlyForMedicsMiddleware,
   listAllMedicDiagnosticsController
 );
+
 diagnosticsRoutes.get(
   "/:id",
   ensureAuthMiddleware,
-  listAllMedicDiagnosticsController,
   ensureDiagnosticIsCreatedOnlyForMedicsMiddleware,
   listAllUserDiagnosticsController
 );
-diagnosticsRoutes.patch(
-  "/:id",
-  ensureAuthMiddleware,
-  ensureOnlyOneMedicCanEditOrDeleteDiagnosticMiddleware,
-  ensureCantUpdateUserFieldMiddleware,
-  ensureCantUpdateMedicFieldMiddleware,
-  ensureDiagnosticDataUpdateIsValidMiddleware,
-  updateDiagnosticController
-);
+
 diagnosticsRoutes.patch(
   "/:id",
   ensureAuthMiddleware,
