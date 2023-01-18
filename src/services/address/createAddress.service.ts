@@ -15,9 +15,7 @@ const createAddressService = async (addressData: IAddressRequest) => {
   }
 
   const addressRepository = AppDataSource.getRepository(UserAddress);
-
   const createAddress = addressRepository.create(addressData);
-
   await addressRepository.save(createAddress);
 
   return createAddress;
