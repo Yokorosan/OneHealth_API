@@ -19,6 +19,9 @@ import {
 } from "../schemas/schedules.schema";
 import { verifyScheduleCreateDataMiddleware } from "../middlewares/schedules/verifyScheduleCreateData.middleware";
 import ensureDiagnosticIsCreatedOnlyForMedicsMiddleware from "../middlewares/diagnostics/ensureDiagnosticIsCreatedOnlyForMedics.middleware";
+import ensureUuidIsValidMiddleware from "../middlewares/sessions/ensureUuidIsValid.middleware";
+import ensureCantUpdateMedicFieldMiddleware from "../middlewares/diagnostics/ensureCantUpdateMedicField.middleware";
+import ensureCantUpdateUserFieldMiddleware from "../middlewares/diagnostics/ensureCantUpdateUserField.middleware";
 
 const schedulesRoutes = Router();
 
@@ -42,6 +45,7 @@ schedulesRoutes.get(
 schedulesRoutes.delete(
   "/:id",
   ensureAuthMiddleware,
+  ensureUuidIsValidMiddleware,
   verifyScheduleExistsMiddleware,
   verifyScheduleOwnershipOrAdminMiddleware,
   deleteScheduleController
@@ -50,6 +54,9 @@ schedulesRoutes.delete(
 schedulesRoutes.patch(
   "/:id",
   ensureAuthMiddleware,
+  ensureUuidIsValidMiddleware,
+  ensureCantUpdateMedicFieldMiddleware,
+  ensureCantUpdateUserFieldMiddleware,
   verifyUpdateScheduleDataMiddleware(UpdateScheduleSchema),
   verifyDateHourIsValidMiddleware,
   verifyScheduleOwnershipOrAdminMiddleware,
