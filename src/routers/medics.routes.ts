@@ -16,8 +16,8 @@ import { verifySpecialityMiddleware } from "../middlewares/medics/verifySpeciali
 import ensureUserIsAdmOrIsYourOwnIdMiddlware from "../middlewares/sessions/ensureUserIsAdmOrIsYourOwnId.middleware";
 import ensureAuthMiddleware from "../middlewares/sessions/esureAuth.middleware";
 import { ensureUsersNoRepeatMiddleware } from "../middlewares/users/ensureUserNoRepeatMiddleware";
-
-import { MedicsRequestSchema } from "../schemas/medics.schema";
+import ensureUserMedicCorrectDataForUpdateMiddleware from "../middlewares/medics/ensureUserMedicCorrectDataForUpdate.middleware";
+import { MedicsRequestSchema, UpdateMedicSchema } from "../schemas/medics.schema";
 import ensureCantUpdateIdFieldMiddleware from "../middlewares/sessions/ensureCantUpdateIdField.middleware";
 import ensureUserMedicIsActiveMiddleware from "../middlewares/medics/ensureUserMedicIsActive.middleware";
 
@@ -39,6 +39,7 @@ medicsRoutes.get("/user/:id", ensureAuthMiddleware, listUserByEmailController);
 medicsRoutes.patch(
   "/:id",
   ensureAuthMiddleware,
+  ensureUserMedicCorrectDataForUpdateMiddleware(UpdateMedicSchema),
   ensureUserIsAdmOrIsYourOwnIdMiddlware,
   ensureUserMedicExistMiddleware,
   ensureCantUpdateIdFieldMiddleware,
