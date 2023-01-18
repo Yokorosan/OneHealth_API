@@ -4,6 +4,7 @@ import { textSpanEnd } from "typescript";
 import app from "../../../app";
 import AppDataSource from "../../../data-source";
 import {
+  mockedDeletedUserMedic,
   mockedDiagnosticRequest,
   mockedMedic,
   mockedUser,
@@ -11,6 +12,7 @@ import {
   mockedUserAdminLogin,
   mockedUserLogin,
   mockedUserMedicLogin,
+  mockedUserMedicLoginToDelete,
 } from "../../mocks";
 describe("/diagnostics", () => {
   let connection: DataSource;
@@ -208,7 +210,7 @@ describe("/diagnostics", () => {
 
 
     expect(response.body).toHaveProperty("message");
-    expect(response.status).toBe(401);
+    expect(response.status).toBe(403);
   });
 
   test("GET /diagnostics/:id - Should be able to list all diagnostics of User", async () => {
@@ -254,6 +256,35 @@ describe("/diagnostics", () => {
     );
   });
 
+ 
+
+
+
+
+  test("GET /diagnostics/:id - Must not be able to list diagnostics of a user without authentication", async () => {
+    const response = await request(app).get("/diagnostics/:id");
+
+    expect(response.body).toHaveProperty("message");
+    expect(response.status).toBe(401);
+  });
+
+  test("GET /diagnostics/:id - Must not be able to list a diagnostics without being a medic", async () => {
+    const userLoginResponse = await request(app)
+      .post("/login")
+      .send(mockedUser);
+
+    const response = await request(app)
+      .get(`/diagnostics/:id`)
+      .set("Authorization", `Bearer ${userLoginResponse.body.token}`);
+
+
+    expect(response.body).toHaveProperty("message");
+    expect(response.status).toBe(403);
+  });
+
+
+
+
   test("DELETE /diagnostics/:id - must not be able to delete a diagnostic if user is not authenticated", async () => {
     const createMedicLogin = await request(app)
       .post("/login")
@@ -280,10 +311,14 @@ describe("/diagnostics", () => {
 
 
 
-  test("DELETE /diagnostics/:id - must not be able to delete a diagnostic if user is not the medic who created th diagnostic ", async () => {
+  test("DELETE /diagnostics/:id - must not be able to delete a diagnostic if user is not a medic", async () => {
     const createMedicLogin = await request(app)
       .post("/login")
       .send(mockedUserMedicLogin);
+
+      const createUserLogin = await request(app)
+      .post("/login")
+      .send(mockedUser);
 
   
     
@@ -296,10 +331,10 @@ describe("/diagnostics", () => {
       .delete(
         `/diagnostics/${getToBeDeletedMedicDiagnostic.body.diagnostic[0].id}`
       )
-      .set("Authorization", `Bearer eeeeee`);
+      .set("Authorization", `Bearer ${createUserLogin.body.token}`);
 
 
-    expect(response.status).toBe(401);
+    expect(response.status).toBe(403);
     expect(response.body).toHaveProperty("message");
  
   });
@@ -307,26 +342,35 @@ describe("/diagnostics", () => {
 
 
 
-  test("GET /diagnostics/:id - Must not be able to list diagnostics of a user without authentication", async () => {
-    const response = await request(app).get("/diagnostics/:id");
-
-    expect(response.body).toHaveProperty("message");
-    expect(response.status).toBe(401);
-  });
-
-  test("GET /diagnostics/:id - Must not be able to list a diagnostics without being a medic", async () => {
-    const userLoginResponse = await request(app)
+  test("DELETE /diagnostics/:id - must not be able to delete a diagnostic if user is not the medic who created the diagnostic", async () => {
+  
+     await request(app).post("/medics").send(mockedDeletedUserMedic);
+  
+    const createMedicLogin = await request(app)
       .post("/login")
-      .send(mockedUser);
+      .send(mockedUserMedicLogin);
+
+      const createOtherMedicLogin = await request(app)
+      .post("/login")
+      .send(mockedUserMedicLoginToDelete);
+
+    const getToBeDeletedMedicDiagnostic = await request(app)
+      .get("/diagnostics/medics")
+      .set("Authorization", `Bearer ${createMedicLogin.body.token}`);
+
 
     const response = await request(app)
-      .get(`/diagnostics/:id`)
-      .set("Authorization", `Bearer ${userLoginResponse.body.token}`);
+      .delete(
+        `/diagnostics/${getToBeDeletedMedicDiagnostic.body.diagnostic[0].id}`
+      )
+      .set("Authorization", `Bearer ${createOtherMedicLogin.body.token}`);
 
 
+    expect(response.status).toBe(403);
     expect(response.body).toHaveProperty("message");
-    expect(response.status).toBe(401);
+ 
   });
+
 
   test("DELETE /diagnostics/:id - must be able to delete a diagnostic", async () => {
     const createMedicLogin = await request(app)
