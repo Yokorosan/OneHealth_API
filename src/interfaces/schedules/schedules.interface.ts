@@ -1,6 +1,6 @@
 export interface IScheduleRequest {
   type: string;
-  date: Date;
+  date: string;
   hour: string;
   user: string;
   medic: string;
