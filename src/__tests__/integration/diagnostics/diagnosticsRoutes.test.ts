@@ -32,16 +32,13 @@ describe("/diagnostics", () => {
   test("POST /diagnostics - must be able to create a diagnostic", async () => {
     const createUser = await request(app).post("/users").send(mockedUser);
     const createMedic = await request(app).post("/medics").send(mockedMedic);
-    const Login = await request(app)
-      .post("/login")
-      .send(mockedUserMedicLogin);
+    const Login = await request(app).post("/login").send(mockedUserMedicLogin);
 
-    const UserMedicData = {
+    const diagnosticRequest = {
+      ...mockedDiagnosticRequest,
       user: createUser.body.id,
       medic: createMedic.body.id,
     };
-
-    const diagnosticRequest = { ...mockedDiagnosticRequest, ...UserMedicData };
 
     const response = await request(app)
       .post("/diagnostics")
@@ -67,43 +64,63 @@ describe("/diagnostics", () => {
   });
 
   test("POST /diagnostics - must not be able to create a diagnostic if user is not medic", async () => {
-
-    const userLogin = await request(app)
-    .post("/login")
-    .send(mockedUserLogin);
+    const userLogin = await request(app).post("/login").send(mockedUserLogin);
 
     const medicLogin = await request(app)
-    .post("/login")
-    .send(mockedUserMedicLogin);
+      .post("/login")
+      .send(mockedUserMedicLogin);
 
+    const findMedic = await request(app)
+      .get("/diagnostics/medics")
+      .set("Authorization", `Bearer ${medicLogin.body.token}`);
 
-    const findMedic =await request(app)
-    .get("/diagnostics/medics")
-    .set("Authorization", `Bearer ${medicLogin.body.token}`);
+    const findUser = await request(app)
+      .get("/users/profile")
+      .set("Authorization", `Bearer ${userLogin.body.token}`);
 
+    const diagnosticRequest = {
+      ...mockedDiagnosticRequest,
+      user: findUser.body.id,
+      medic: findMedic.body.id,
+    };
 
-    const findUser =await request(app)
-    .get("/users/profile")
-    .set("Authorization", `Bearer ${userLogin.body.token}`);
+    const response = await request(app)
+      .post("/diagnostics")
+      .send(diagnosticRequest)
+      .set("Authorization", `Bearer ${userLogin.body.token}`);
 
+     expect(response.body).toHaveProperty("message");
+     expect(response.status).toBe(403);
+  });
 
-  const UserMedicData = {
-    user: findUser.body.id,
-    medic: findMedic.body.id,
-  };
+  test("POST /diagnostics - must not be able to create a diagnostic if user is not authenticated", async () => {
+    const userLogin = await request(app).post("/login").send(mockedUserLogin);
 
-  
+    const medicLogin = await request(app)
+      .post("/login")
+      .send(mockedUserMedicLogin);
 
-  const diagnosticRequest = { ...mockedDiagnosticRequest, ...UserMedicData };
+    const findMedic = await request(app)
+      .get("/diagnostics/medics")
+      .set("Authorization", `Bearer ${medicLogin.body.token}`);
 
-  const response = await request(app)
-    .post("/diagnostics")
-    .send(diagnosticRequest)
-    .set("Authorization", `Bearer ${userLogin.body.token}`);
+    const findUser = await request(app)
+      .get("/users/profile")
+      .set("Authorization", `Bearer ${userLogin.body.token}`);
+
+    const diagnosticRequest = {
+      ...mockedDiagnosticRequest,
+      user: findUser.body.id,
+      medic: findMedic.body.id,
+    };
+
+    const response = await request(app)
+      .post("/diagnostics")
+      .send(diagnosticRequest)
+      .set("Authorization", `Bearer e`);
+    expect(response.status).toBe(401);
     expect(response.body).toHaveProperty("message");
-   
-
-  })
+  });
 
   test("GET /diagnostics/medics - Should be able to list all diagnostics of Medic", async () => {
     const userMedciLoginResponse = await request(app)
