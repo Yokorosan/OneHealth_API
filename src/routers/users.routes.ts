@@ -6,7 +6,6 @@ import {
   softDeleteUserController,
   updateUserController,
 } from "../controllers/users.controller";
-import { ensureMedicNoRepeatMiddleware } from "../middlewares/medics/ensureMedicsNoRepeat.middleware";
 import { ensureEmailIsUniqueMiddleware } from "../middlewares/sessions/ensureEmailIsUnique.middleware";
 import ensureUserIsAdmOrIsYourOwnIdMiddlware from "../middlewares/sessions/ensureUserIsAdmOrIsYourOwnId.middleware";
 import ensureUuidIsValidMiddleware from "../middlewares/sessions/ensureUuidIsValid.middleware";

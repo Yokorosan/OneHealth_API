@@ -5,6 +5,7 @@ import {
   IMedicRequest,
   IMedicProfileResponse,
   IReturnedUserByEmail,
+  IMedicUpdateCorrect,
 } from "../interfaces/medics/medics.interface";
 
 export const MedicsRequestSchema: SchemaOf<IMedicRequest> = yup.object().shape({
@@ -26,6 +27,26 @@ export const MedicsRequestSchema: SchemaOf<IMedicRequest> = yup.object().shape({
   speciality: yup.string().required(),
   // isAdm: yup.boolean().notRequired(),
 });
+
+export const UpdateMedicSchema: SchemaOf<IMedicUpdateCorrect> = yup.object().shape({
+  name: yup.string().notRequired(),
+    email: yup.string().email().notRequired(),
+    password: yup.string().notRequired(),
+    phone: yup.string().notRequired(),
+    isWhatsApp: yup.boolean().notRequired(),
+    address: yup
+      .object()
+      .shape({
+        district: yup.string().notRequired(),
+        zipCode: yup.string().notRequired(),
+        number: yup.string().notRequired(),
+        city: yup.string().notRequired(),
+        state: yup.string().notRequired(),
+      }).notRequired(),
+      speciality: yup.string()
+      .notRequired(),
+}).strict(true)
+.noUnknown(true);
 
 export const MedicWhitoutPassSchema: SchemaOf<IMedicResponse> = yup
   .object()
