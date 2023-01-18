@@ -91,6 +91,27 @@ describe("/diagnostics", () => {
     expect(responselistAllDiagnostics.body.diagnostic[0]).not.toHaveProperty("password");
   });
 
+  test("GET /diagnostics/medics - Must not be able to list a doctor's diagnoses without authentication", async () => {
+    const response = await request(app).get("/diagnostics/medics");
+
+    expect(response.body).toHaveProperty("message");
+    expect(response.status).toBe(401);
+  });
+
+  test("GET /diagnostics/medics - Must not be able to list a diagnostics without being a medic", async () => {
+    const userLoginResponse = await request(app)
+      .post("/login")
+      .send(mockedUser);
+
+    const response = await request(app)
+      .get("/diagnostics/medics")
+      .set("Authorization", `Bearer ${userLoginResponse.body.token}`);
+
+
+    expect(response.body).toHaveProperty("message");
+    expect(response.status).toBe(401);
+  });
+
   test("GET /diagnostics/:id - Should be able to list all diagnostics of User", async () => {
 
     const userMedciLoginResponse = await request(app)
@@ -119,6 +140,27 @@ describe("/diagnostics", () => {
     expect(responselistAllDiagnostics.body.diagnostic[0]).toHaveProperty("updatedAt");
     expect(responselistAllDiagnostics.body.diagnostic[0]).not.toHaveProperty("password");
   })
+
+  test("GET /diagnostics/:id - Must not be able to list diagnostics of a user without authentication", async () => {
+    const response = await request(app).get("/diagnostics/:id");
+
+    expect(response.body).toHaveProperty("message");
+    expect(response.status).toBe(401);
+  });
+
+  test("GET /diagnostics/:id - Must not be able to list a diagnostics without being a medic", async () => {
+    const userLoginResponse = await request(app)
+      .post("/login")
+      .send(mockedUser);
+
+    const response = await request(app)
+      .get(`/diagnostics/:id`)
+      .set("Authorization", `Bearer ${userLoginResponse.body.token}`);
+
+
+    expect(response.body).toHaveProperty("message");
+    expect(response.status).toBe(401);
+  });
 
   test("DELETE /diagnostics/:id - must be able to delete a diagnostic", async () => {
     const createMedicLogin = await request(app)

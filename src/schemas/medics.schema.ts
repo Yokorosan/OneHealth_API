@@ -4,6 +4,7 @@ import {
   IMedicResponse,
   IMedicRequest,
   IMedicProfileResponse,
+  IReturnedUserByEmail,
 } from "../interfaces/medics/medics.interface";
 
 export const MedicsRequestSchema: SchemaOf<IMedicRequest> = yup.object().shape({
@@ -84,3 +85,9 @@ export const MedicProfileWhitoutPassSchema: SchemaOf<IMedicProfileResponse> =
 export const GetMedicsSchema: SchemaOf<IMedicProfileResponse[]> = yup
   .array()
   .of(MedicProfileWhitoutPassSchema);
+
+
+export const listUserByEmailReturned: SchemaOf<IReturnedUserByEmail> = yup.object().shape({
+  id: yup.string().notRequired(),
+  name: yup.string().notRequired()
+})
