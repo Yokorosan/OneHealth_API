@@ -233,6 +233,59 @@ describe("/diagnostics", () => {
     );
   });
 
+  test("DELETE /diagnostics/:id - must not be able to delete a diagnostic if user is not authenticated", async () => {
+    const createMedicLogin = await request(app)
+      .post("/login")
+      .send(mockedUserMedicLogin);
+
+  
+    
+    const getToBeDeletedMedicDiagnostic = await request(app)
+      .get("/diagnostics/medics")
+      .set("Authorization", `Bearer ${createMedicLogin.body.token}`);
+
+
+    const response = await request(app)
+      .delete(
+        `/diagnostics/${getToBeDeletedMedicDiagnostic.body.diagnostic[0].id}`
+      )
+      .set("Authorization", `Bearer eeeeee`);
+
+
+    expect(response.status).toBe(401);
+    expect(response.body).toHaveProperty("message");
+ 
+  });
+
+
+
+  test("DELETE /diagnostics/:id - must not be able to delete a diagnostic if user is not the medic who created th diagnostic ", async () => {
+    const createMedicLogin = await request(app)
+      .post("/login")
+      .send(mockedUserMedicLogin);
+
+  
+    
+    const getToBeDeletedMedicDiagnostic = await request(app)
+      .get("/diagnostics/medics")
+      .set("Authorization", `Bearer ${createMedicLogin.body.token}`);
+
+
+    const response = await request(app)
+      .delete(
+        `/diagnostics/${getToBeDeletedMedicDiagnostic.body.diagnostic[0].id}`
+      )
+      .set("Authorization", `Bearer eeeeee`);
+
+
+    expect(response.status).toBe(401);
+    expect(response.body).toHaveProperty("message");
+ 
+  });
+
+
+
+
   test("DELETE /diagnostics/:id - must be able to delete a diagnostic", async () => {
     const createMedicLogin = await request(app)
       .post("/login")
@@ -246,9 +299,6 @@ describe("/diagnostics", () => {
       .get("/diagnostics/medics")
       .set("Authorization", `Bearer ${createMedicLogin.body.token}`);
 
-    const getToBeDeletedUserDiagnostic = await request(app)
-      .get(`/users/profile`)
-      .set("Authorization", `Bearer ${createUserLogin.body.token}`);
 
     const response = await request(app)
       .delete(
@@ -268,4 +318,10 @@ describe("/diagnostics", () => {
     expect(getMedicDiagnostic.body).toHaveProperty("message");
     expect(getUserDiagnostic.body.diagnostic).toHaveLength(0);
   });
+
+  
 });
+
+
+
+

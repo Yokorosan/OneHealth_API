@@ -16,7 +16,7 @@ const ensureOnlyOneMedicCanEditOrDeleteDiagnosticMiddleware = async (req: Reques
     .getOne()
 
     if(!findTheDiagnostic){
-        throw new AppError("Missing authorization!", 401)
+        throw new AppError("Missing authorization!", 403)
     }
 
     return next()
