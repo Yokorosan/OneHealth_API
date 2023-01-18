@@ -52,6 +52,7 @@ export const mockedMedic = {
   },
 };
 
+
 export const mockedMedicNoWhats = {
   name: "Cardinal",
   email: "card@kenzie.com.br",

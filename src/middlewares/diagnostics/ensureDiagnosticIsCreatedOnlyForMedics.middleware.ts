@@ -9,7 +9,7 @@ const ensureDiagnosticIsCreatedOnlyForMedicsMiddleware = async (
   const userRequestId = req.user.isMedic;
 
   if (userRequestId === false) {
-    throw new AppError("Access denied, medic permission required!", 401);
+    throw new AppError("Access denied, medic permission required!", 403);
   }
 
   return next();
