@@ -13,8 +13,14 @@ export const schedulesRequestSchema: SchemaOf<IScheduleRequest> = yup
   .object()
   .shape({
     type: yup.string().required(),
-    date: yup.date().required(),
-    hour: yup.string().required().max(5).min(5).matches(/(\d)|_/, "Deve conter numeros").matches(/(\W)|_/, "Deve conter carcteres especiais ex: @"),
+    date: yup.string().required(),
+    hour: yup
+      .string()
+      .required()
+      .max(5)
+      .min(5)
+      .matches(/(\d)|_/, "Deve conter numeros")
+      .matches(/(\W)|_/, "Deve conter carcteres especiais ex: @"),
     user: yup.string().required(),
     medic: yup.string().required(),
   });

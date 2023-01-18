@@ -118,7 +118,7 @@ describe("/medics", () => {
       .patch(`/medics/${findUserMedicToBeEdited.body.id}`)
       .send(newValues)
       .set("Authorization", `Bearer ${userMedicLoginResponse.body.token}`);
-
+    console.log(response.body);
     expect(response.status).toBe(200);
     expect(response.body.name).toEqual("Darth Vader");
     expect(response.body.email).toEqual("vader@kenzie.com.br");

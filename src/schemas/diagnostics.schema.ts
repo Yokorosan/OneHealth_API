@@ -19,11 +19,13 @@ export const diagnosticRequestSchema: SchemaOf<IDiagnosticRequest> = yup
     medic: yup.string().required(),
   });
 
-  export const diagnosticUpdateSchema: SchemaOf<IDiagnosticUpdate> = yup.object().shape({
+export const diagnosticUpdateSchema: SchemaOf<IDiagnosticUpdate> = yup
+  .object()
+  .shape({
     name: yup.string().required(),
     date: yup.date().required(),
     description: yup.string().required(),
-  })
+  });
 
 export const diagnosticOfUserResponseSchema: SchemaOf<any> = yup
   .object()
@@ -34,7 +36,6 @@ export const diagnosticOfUserResponseSchema: SchemaOf<any> = yup
     description: yup.string().notRequired(),
     createdAt: yup.date().notRequired(),
     updatedAt: yup.date().notRequired(),
-
   });
 
 export const diagnosticResponseSchema: SchemaOf<IDiagnosticResponse> = yup

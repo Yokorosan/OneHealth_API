@@ -115,12 +115,12 @@ describe("Schedules route tests", () => {
       .get("/medics/profile")
       .set("Authorization", `Bearer ${userMedicLogin.body.token}`);
 
-    await request(app)
+    const info = await request(app)
       .post("/schedules")
       .set("Authorization", `Bearer ${userMedicLogin.body.token}`)
       .send({
         type: "Consulta",
-        date: "10/03/2023",
+        date: "2023/03/10",
         hour: "16:30",
         user: user.body.id,
         medic: medic.body.id,
@@ -131,7 +131,7 @@ describe("Schedules route tests", () => {
       .set("Authorization", `Bearer ${userMedicLogin.body.token}`)
       .send({
         type: "Consulta",
-        date: "10/03/2023",
+        date: "2023/03/10",
         hour: "16:30",
         user: user.body.id,
         medic: medic.body.id,
