@@ -8,9 +8,7 @@ export const updateScheduleService = async (
   scheduleId: string
 ) => {
   const schedulesRepo = AppDataSource.getRepository(ScheduledAppointment);
-  const schedule = await schedulesRepo.findOneBy({
-    id: scheduleId,
-  });
+
   await schedulesRepo.update(scheduleId, body);
 
   const newSchedule = await schedulesRepo
