@@ -3,7 +3,7 @@ import { SchemaOf } from "yup";
 import { AppError } from "../../errors/AppError";
 import { IMedicUpdateCorrect } from "../../interfaces/medics/medics.interface";
 
- const ensureUserMedicCorrectDataForUpdateMiddleware =
+const ensureUserMedicCorrectDataForUpdateMiddleware =
   (serializer: SchemaOf<IMedicUpdateCorrect>) =>
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -18,4 +18,4 @@ import { IMedicUpdateCorrect } from "../../interfaces/medics/medics.interface";
     return next();
   };
 
-  export default ensureUserMedicCorrectDataForUpdateMiddleware
+export default ensureUserMedicCorrectDataForUpdateMiddleware;

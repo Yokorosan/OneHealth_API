@@ -127,7 +127,7 @@ describe("Schedules route tests", () => {
       });
 
     const response = await request(app)
-      .post(baseUrl)
+      .post("/schedules")
       .set("Authorization", `Bearer ${userMedicLogin.body.token}`)
       .send({
         type: "Consulta",
