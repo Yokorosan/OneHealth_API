@@ -77,3 +77,28 @@ export interface IMedicUpdate {
   };
   speciality?: ISpeciality;
 }
+
+export interface IMedicUpdateCorrect {
+  name?: string;
+  email?: string;
+  phone?: string;
+  isWhatsApp?: boolean;
+  address?: {
+    district?: string;
+    zipCode?: string;
+    number?: string;
+    city?: string;
+    state?: string;
+  };
+  speciality?: string;
+}
+
+export interface IGetUserProfile {
+  email?: string
+}
+
+
+export interface IReturnedUserByEmail {
+  id?: string
+  name?: string
+}

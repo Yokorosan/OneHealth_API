@@ -1,4 +1,13 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from "typeorm";
 import { Users } from "./user.entity";
 import { UsersMedic } from "./usermedic.entity";
 
@@ -16,10 +25,22 @@ class Diagnostic {
   @Column({ type: "text" })
   description: string;
 
-  @ManyToOne(() => Users, (user) => user.diagnostic)
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
+
+  @DeleteDateColumn()
+  deletedAt: Date;
+
+  @ManyToOne(() => Users, (user) => user.diagnostic, { nullable: true })
   user: Users;
 
-  @ManyToOne(() => UsersMedic, (userMedic) => userMedic.diagnostic)
+  @ManyToOne(() => UsersMedic, (userMedic) => userMedic.diagnostic, {
+    nullable: true,
+  })
+
   medic: UsersMedic;
 }
 

@@ -30,9 +30,6 @@ class ScheduledAppointment {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @DeleteDateColumn()
-  deletedAt: Date;
-
   @ManyToOne(() => Users, (user) => user.appointment)
   user: Users;
 
