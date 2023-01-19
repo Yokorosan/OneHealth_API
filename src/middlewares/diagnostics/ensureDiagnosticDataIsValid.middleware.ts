@@ -2,24 +2,26 @@ import { NextFunction, Request, Response } from "express";
 import { AppError } from "../../errors/AppError";
 import { diagnosticRequestSchema } from "../../schemas/diagnostics.schema";
 
-const ensureDiagnosticDataIsValidMiddleware = async (req: Request, res: Response, next: NextFunction) => {
+const ensureDiagnosticDataIsValidMiddleware = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const diagnosticSerializer = await diagnosticRequestSchema.validate(
+      req.body,
+      {
+        stripUnknown: true,
+        abortEarly: false,
+      }
+    );
 
-    try {
-        const diagnosticSerializer = await diagnosticRequestSchema.validate(req.body, {
-            stripUnknown: true,
-            abortEarly: false,
-        })
+    req.body = diagnosticSerializer;
 
-        req.body = diagnosticSerializer
+    return next();
+  } catch (error: any) {
+    return res.status(400).json({ error: error.errors });
+  }
+};
 
-        return next()
-        
-    } catch (error:any) {
-
-        console.log(error)
-       return res.status(400).json({ error: error.errors });
-    }
-
-}
-
-export default ensureDiagnosticDataIsValidMiddleware
+export default ensureDiagnosticDataIsValidMiddleware;

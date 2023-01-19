@@ -91,8 +91,8 @@ describe("/diagnostics", () => {
       .send(diagnosticRequest)
       .set("Authorization", `Bearer ${userLogin.body.token}`);
 
-     expect(response.body).toHaveProperty("message");
-     expect(response.status).toBe(403);
+    expect(response.body).toHaveProperty("message");
+    expect(response.status).toBe(403);
   });
 
   test("POST /diagnostics - must not be able to create a diagnostic if data is incomplete", async () => {
@@ -118,10 +118,10 @@ describe("/diagnostics", () => {
     const response = await request(app)
       .post("/diagnostics")
       .send(diagnosticRequest)
-      .set("Authorization", `Bearer ${userLogin.body.token}`);
+      .set("Authorization", `Bearer ${medicLogin.body.token}`);
 
-     expect(response.body).toHaveProperty("error");
-     expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty("error");
+    expect(response.status).toBe(400);
   });
 
   test("POST /diagnostics - must not be able to create a diagnostic if user is not authenticated", async () => {
@@ -208,7 +208,6 @@ describe("/diagnostics", () => {
       .get("/diagnostics/medics")
       .set("Authorization", `Bearer ${userLoginResponse.body.token}`);
 
-
     expect(response.body).toHaveProperty("message");
     expect(response.status).toBe(403);
   });
@@ -256,11 +255,6 @@ describe("/diagnostics", () => {
     );
   });
 
- 
-
-
-
-
   test("GET /diagnostics/:id - Must not be able to list diagnostics of a user without authentication", async () => {
     const response = await request(app).get("/diagnostics/:id");
 
@@ -277,25 +271,18 @@ describe("/diagnostics", () => {
       .get(`/diagnostics/:id`)
       .set("Authorization", `Bearer ${userLoginResponse.body.token}`);
 
-
     expect(response.body).toHaveProperty("message");
     expect(response.status).toBe(403);
   });
-
-
-
 
   test("DELETE /diagnostics/:id - must not be able to delete a diagnostic if user is not authenticated", async () => {
     const createMedicLogin = await request(app)
       .post("/login")
       .send(mockedUserMedicLogin);
 
-  
-    
     const getToBeDeletedMedicDiagnostic = await request(app)
       .get("/diagnostics/medics")
       .set("Authorization", `Bearer ${createMedicLogin.body.token}`);
-
 
     const response = await request(app)
       .delete(
@@ -303,29 +290,20 @@ describe("/diagnostics", () => {
       )
       .set("Authorization", `Bearer eeeeee`);
 
-
     expect(response.status).toBe(401);
     expect(response.body).toHaveProperty("message");
- 
   });
-
-
 
   test("DELETE /diagnostics/:id - must not be able to delete a diagnostic if user is not a medic", async () => {
     const createMedicLogin = await request(app)
       .post("/login")
       .send(mockedUserMedicLogin);
 
-      const createUserLogin = await request(app)
-      .post("/login")
-      .send(mockedUser);
+    const createUserLogin = await request(app).post("/login").send(mockedUser);
 
-  
-    
     const getToBeDeletedMedicDiagnostic = await request(app)
       .get("/diagnostics/medics")
       .set("Authorization", `Bearer ${createMedicLogin.body.token}`);
-
 
     const response = await request(app)
       .delete(
@@ -333,24 +311,18 @@ describe("/diagnostics", () => {
       )
       .set("Authorization", `Bearer ${createUserLogin.body.token}`);
 
-
     expect(response.status).toBe(403);
     expect(response.body).toHaveProperty("message");
- 
   });
 
-
-
-
   test("DELETE /diagnostics/:id - must not be able to delete a diagnostic if user is not the medic who created the diagnostic", async () => {
-  
-     await request(app).post("/medics").send(mockedDeletedUserMedic);
-  
+    await request(app).post("/medics").send(mockedDeletedUserMedic);
+
     const createMedicLogin = await request(app)
       .post("/login")
       .send(mockedUserMedicLogin);
 
-      const createOtherMedicLogin = await request(app)
+    const createOtherMedicLogin = await request(app)
       .post("/login")
       .send(mockedUserMedicLoginToDelete);
 
@@ -358,19 +330,15 @@ describe("/diagnostics", () => {
       .get("/diagnostics/medics")
       .set("Authorization", `Bearer ${createMedicLogin.body.token}`);
 
-
     const response = await request(app)
       .delete(
         `/diagnostics/${getToBeDeletedMedicDiagnostic.body.diagnostic[0].id}`
       )
       .set("Authorization", `Bearer ${createOtherMedicLogin.body.token}`);
 
-
     expect(response.status).toBe(403);
     expect(response.body).toHaveProperty("message");
- 
   });
-
 
   test("PATCH /diagnostics/:id - Should not be able to edit without authorization", async () => {
     const response = await request(app).patch(
@@ -382,16 +350,15 @@ describe("/diagnostics", () => {
   });
 
   test("PATCH /diagnostics/:id - Should not be able to edit the diagnostic without being the medic diagnostic owner", async () => {
-
     const medicLoginResponse = await request(app)
       .post("/login")
       .send(mockedUserMedicLogin);
 
     const medicChagedResponse = await request(app)
-    .post("/login")
-    .send(mockedUserMedicLoginChanged);
+      .post("/login")
+      .send(mockedUserMedicLoginChanged);
 
-      const responselistAllDiagnostics = await request(app)
+    const responselistAllDiagnostics = await request(app)
       .get("/diagnostics/medics")
       .set("Authorization", `Bearer ${medicLoginResponse.body.token}`);
 
@@ -405,15 +372,13 @@ describe("/diagnostics", () => {
   });
 
   test("PATCH /diagnostics/:id - Should not be able to edit fields of user", async () => {
-
     const medicLoginResponse = await request(app)
       .post("/login")
       .send(mockedUserMedicLogin);
 
     const responselistAllDiagnostics = await request(app)
-    .get("/diagnostics/medics")
-    .set("Authorization", `Bearer ${medicLoginResponse.body.token}`);
-
+      .get("/diagnostics/medics")
+      .set("Authorization", `Bearer ${medicLoginResponse.body.token}`);
 
     const response = await request(app)
       .patch(`/diagnostics/${responselistAllDiagnostics.body.diagnostic[0].id}`)
@@ -425,15 +390,13 @@ describe("/diagnostics", () => {
   });
 
   test("PATCH /diagnostics/:id - Should not be able to edit fields of medic", async () => {
-
     const medicLoginResponse = await request(app)
       .post("/login")
       .send(mockedUserMedicLogin);
 
     const responselistAllDiagnostics = await request(app)
-    .get("/diagnostics/medics")
-    .set("Authorization", `Bearer ${medicLoginResponse.body.token}`);
-
+      .get("/diagnostics/medics")
+      .set("Authorization", `Bearer ${medicLoginResponse.body.token}`);
 
     const response = await request(app)
       .patch(`/diagnostics/${responselistAllDiagnostics.body.diagnostic[0].id}`)
@@ -445,15 +408,13 @@ describe("/diagnostics", () => {
   });
 
   test("PATCH /diagnostics/:id - Should not be able to accept invalid fields", async () => {
-
     const medicLoginResponse = await request(app)
       .post("/login")
       .send(mockedUserMedicLogin);
 
     const responselistAllDiagnostics = await request(app)
-    .get("/diagnostics/medics")
-    .set("Authorization", `Bearer ${medicLoginResponse.body.token}`);
-
+      .get("/diagnostics/medics")
+      .set("Authorization", `Bearer ${medicLoginResponse.body.token}`);
 
     const response = await request(app)
       .patch(`/diagnostics/${responselistAllDiagnostics.body.diagnostic[0].id}`)
@@ -469,19 +430,21 @@ describe("/diagnostics", () => {
   });
 
   test("PATCH /diagnostics/:id - Must be able to edit diagnostic", async () => {
-
     const medicLoginResponse = await request(app)
       .post("/login")
       .send(mockedUserMedicLogin);
 
     const responselistAllDiagnostics = await request(app)
-    .get("/diagnostics/medics")
-    .set("Authorization", `Bearer ${medicLoginResponse.body.token}`);
-
+      .get("/diagnostics/medics")
+      .set("Authorization", `Bearer ${medicLoginResponse.body.token}`);
 
     const response = await request(app)
       .patch(`/diagnostics/${responselistAllDiagnostics.body.diagnostic[0].id}`)
-      .send({ name: "Tosse seca", date: "2023/10/11", description: "tosse seca incomodante" })
+      .send({
+        name: "Tosse seca",
+        date: "2023/10/11",
+        description: "tosse seca incomodante",
+      })
       .set("Authorization", `Bearer ${medicLoginResponse.body.token}`);
 
     expect(response.status).toBe(200);
@@ -501,7 +464,6 @@ describe("/diagnostics", () => {
       .get("/diagnostics/medics")
       .set("Authorization", `Bearer ${createMedicLogin.body.token}`);
 
-
     const response = await request(app)
       .delete(
         `/diagnostics/${getToBeDeletedMedicDiagnostic.body.diagnostic[0].id}`
@@ -520,10 +482,4 @@ describe("/diagnostics", () => {
     expect(getMedicDiagnostic.body).toHaveProperty("message");
     expect(getUserDiagnostic.body.diagnostic).toHaveLength(0);
   });
-
-  
 });
-
-
-
-

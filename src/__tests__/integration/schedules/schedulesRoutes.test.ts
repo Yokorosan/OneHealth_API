@@ -115,7 +115,7 @@ describe("Schedules route tests", () => {
       .get("/medics/profile")
       .set("Authorization", `Bearer ${userMedicLogin.body.token}`);
 
-    await request(app)
+    const info = await request(app)
       .post("/schedules")
       .set("Authorization", `Bearer ${userMedicLogin.body.token}`)
       .send({
