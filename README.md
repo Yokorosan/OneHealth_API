@@ -1,4 +1,7 @@
-# OneHealth_M4
+# OneHealth_API
+
+Tecnologias Utilizadas
+Express.js, TypeOrm, Typescript, Jest, bycrpytJS, JsonWebToken, PostgreSQL
 
 Padronizações
 
